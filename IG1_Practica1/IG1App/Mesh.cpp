@@ -106,3 +106,44 @@ Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
 }
 //-------------------------------------------------------------------------
 
+Mesh* Mesh::generaTrianguloRGB(GLdouble rd) {
+	Mesh* mesh = generaPoligono(3, rd);
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+
+	return mesh;
+}
+//-------------------------------------------------------------------------
+
+Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h) {
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 4;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vVertices.emplace_back(-w / 2.0, h / 2.0, 0.0); // v0 arriba izquierda
+	mesh->vVertices.emplace_back(-w / 2.0, -h / 2.0, 0.0); // v1 abajo izquierda
+	mesh->vVertices.emplace_back(w / 2.0, h / 2.0, 0.0); // v2 arriba derecha
+	mesh->vVertices.emplace_back(w / 2.0, -h / 2.0, 0.0); // v3 abajo derecha
+
+	return mesh;
+}
+//-------------------------------------------------------------------------
+
+Mesh* Mesh::generaRectanguloRGB(GLdouble w, GLdouble h) {
+	Mesh* mesh = generaRectangulo(w, h);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+	mesh->vColors.emplace_back(1.0, 0.0, 0.75, 1.0); // rosa
+	mesh->vColors.emplace_back(0.5, 1.0, 0.25, 1.0); // azul claro
+	mesh->vColors.emplace_back(0.25, 0.5, 1.0, 1.0); // verde muy claro
+	mesh->vColors.emplace_back(1.0, 0.8, 0.0, 1.0);  // dorado
+
+	return mesh;
+}

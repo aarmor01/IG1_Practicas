@@ -74,3 +74,41 @@ void Sierpinski::render(dmat4 const& modelViewMat) const
 	}
 }
 //-------------------------------------------------------------------------
+
+TrianguloRGB::TrianguloRGB(GLdouble rd) : Abs_Entity()
+{
+	mMesh = Mesh::generaTrianguloRGB(rd);
+}
+//-------------------------------------------------------------------------
+
+void TrianguloRGB::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+//-------------------------------------------------------------------------
+
+RectanguloRGB::RectanguloRGB(GLdouble w, GLdouble h) : Abs_Entity()
+{
+	mMesh = Mesh::generaRectanguloRGB(w, h);
+}
+//-------------------------------------------------------------------------
+
+void RectanguloRGB::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+//-------------------------------------------------------------------------
