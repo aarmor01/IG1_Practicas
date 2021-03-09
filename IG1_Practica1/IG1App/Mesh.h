@@ -15,6 +15,7 @@ public:
 
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
 	static Mesh* generaPoligono(GLuint numL, GLdouble rd); // creates a polygon of 'x' vertices
+	static Mesh* generaSierpinski(GLuint numP, GLdouble rd); // creates a Sierpinski polygon
 
 	Mesh() {};
 	virtual ~Mesh() {};

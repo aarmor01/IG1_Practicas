@@ -82,3 +82,27 @@ Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd) {
 	return mesh;
 }
 //-------------------------------------------------------------------------
+
+Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
+	Mesh* triangle = generaPoligono(3, rd);
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_POINTS;
+
+	mesh->mNumVertices = numP;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	mesh->vVertices.emplace_back(triangle->vVertices[rand() % 3]);
+	glm::dvec3 pAux;
+
+	for (GLuint counter = 1; counter != numP; counter++) {
+		pAux = triangle->vVertices[rand() % 3];
+		mesh->vVertices.emplace_back((mesh->vVertices.back() + pAux) / 2.0);
+	}
+
+	delete triangle; triangle = nullptr;
+
+	return mesh;
+}
+//-------------------------------------------------------------------------
+
