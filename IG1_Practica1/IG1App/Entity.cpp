@@ -81,6 +81,15 @@ TrianguloRGB::TrianguloRGB(GLdouble rd) : Abs_Entity()
 }
 //-------------------------------------------------------------------------
 
+void TrianguloRGB::update() {
+	localAngle += 2;
+	globalAngle++;
+
+	setModelMat(translate(dmat4(1.0), dvec3(rad * cos(radians(globalAngle)), rad * sin(radians(globalAngle)), 0.0)));
+	setModelMat(rotate(mModelMat, -radians(localAngle), dvec3(0.0, 0.0, 1.0)));
+}
+//-------------------------------------------------------------------------
+
 void TrianguloRGB::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
