@@ -22,8 +22,9 @@ public:
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
 		
 	void init();
-
-    void render(Camera const& cam) const;
+	void update();
+	void render(Camera const& cam) const;
+	void changeScene(int const id);
 	
 protected:
 	void free();
@@ -31,6 +32,8 @@ protected:
 	void resetGL();
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
+	int mId = 0;
+
 };
 //-------------------------------------------------------------------------
 

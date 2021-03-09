@@ -26,7 +26,6 @@ public:
 	void setColor(glm::dvec4 const& aColor) { mColor = aColor; };
 	virtual void update() {};
 
-
 protected:
 
 	Mesh* mMesh = nullptr;   // the mesh
@@ -67,7 +66,12 @@ class TrianguloRGB : public Abs_Entity {
 public:
 	explicit TrianguloRGB(GLdouble rd);
 	virtual ~TrianguloRGB() {};
+	virtual void update();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+private:
+	GLdouble rad = 260.0;
+	GLdouble localAngle = 0.0, globalAngle = 90.0;
 };
 //-------------------------------------------------------------------------
 
