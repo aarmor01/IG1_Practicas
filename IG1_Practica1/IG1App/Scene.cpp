@@ -17,6 +17,11 @@ void Scene::init()
     // Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
 	
+	gObjects.push_back(new Poligono(3, 260)); //triangulo de tres lineas solo, sin relleno
+	gObjects.back()->setColor(glm::dvec4(1.0, 1.0, 0.0, 1.0));
+
+	gObjects.push_back(new Poligono(260, 260)); //circulo
+	gObjects.back()->setColor(glm::dvec4(1.0, 0.07, 0.57, 1.0));
 }
 //-------------------------------------------------------------------------
 void Scene::free() 
@@ -26,6 +31,8 @@ void Scene::free()
 	{
 		delete el;  el = nullptr;
 	}
+
+	gObjects.clear();
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 

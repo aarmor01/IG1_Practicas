@@ -21,12 +21,6 @@ EjesRGB::EjesRGB(GLdouble l): Abs_Entity()
 }
 //-------------------------------------------------------------------------
 
-EjesRGB::~EjesRGB() 
-{ 
-	delete mMesh; mMesh = nullptr; 
-};
-//-------------------------------------------------------------------------
-
 void EjesRGB::render(dmat4 const& modelViewMat) const 
 {
 	if (mMesh != nullptr) {
@@ -39,3 +33,24 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 }
 //-------------------------------------------------------------------------
  
+Poligono::Poligono(GLuint numL, GLdouble rd) : Abs_Entity()
+{
+	mMesh = Mesh::generaPoligono(numL, rd);
+}
+//-------------------------------------------------------------------------
+
+void Poligono::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glLineWidth(2);
+		glColor3d(mColor.r, mColor.g, mColor.b);
+		mMesh->render();
+
+		glColor3d(1.0, 1.0, 1.0);
+		glLineWidth(1);
+	}
+}
+//-------------------------------------------------------------------------
