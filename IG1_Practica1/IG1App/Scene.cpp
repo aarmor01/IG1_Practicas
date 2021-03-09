@@ -22,6 +22,9 @@ void Scene::init()
 
 	gObjects.push_back(new Poligono(260, 260)); //circulo
 	gObjects.back()->setColor(glm::dvec4(1.0, 0.07, 0.57, 1.0));
+
+	gObjects.push_back(new Sierpinski(10000, 260)); //sierpinski
+	gObjects.back()->setColor(dvec4(1.0, 1.0, 0.0, 1.0));
 }
 //-------------------------------------------------------------------------
 void Scene::free() 

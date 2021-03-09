@@ -54,3 +54,23 @@ void Poligono::render(dmat4 const& modelViewMat) const
 	}
 }
 //-------------------------------------------------------------------------
+
+Sierpinski::Sierpinski(GLuint numP, GLdouble rd) : Abs_Entity()
+{
+	mMesh = Mesh::generaSierpinski(numP, rd);
+}
+//-------------------------------------------------------------------------
+
+void Sierpinski::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPointSize(2);
+		glColor4dv(value_ptr(mColor)); //le pasa el puntero al atributo para no poner [r, g, b]
+		mMesh->render();
+		glColor4dv(value_ptr(dvec4(1)));
+		glPointSize(1);
+	}
+}
+//-------------------------------------------------------------------------
