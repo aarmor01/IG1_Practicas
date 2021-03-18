@@ -44,12 +44,14 @@ void Scene::init()
 		gObjects.back()->setTexture(t);
 
 		// caja
-		Caja* c = new Caja(200);
+		// Caja* c = new Caja(200);
+		CajaConFondo* c = new CajaConFondo(200);
 		t = new Texture();
 		t->load("..\\Bmps\\container.bmp");
 		gTextures.push_back(t);
 		Texture* t1 = new Texture();
-		t1->load("..\\Bmps\\papelE.bmp");
+		// t1->load("..\\Bmps\\papelE.bmp");
+		t1->load("..\\Bmps\\papelC.bmp");
 		gTextures.push_back(t1);
 		c->setTexture(t, t1);
 		gObjects.push_back(c);
