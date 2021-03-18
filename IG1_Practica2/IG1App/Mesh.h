@@ -20,7 +20,7 @@ public:
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h); // creates a rectangle
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h); // creates an RBG rectangle
 	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h); // creates a 3d star
-
+	static Mesh* generaContCubo(GLdouble ld); // creates a 3d cube
 
 	Mesh() {};
 	virtual ~Mesh() {};
