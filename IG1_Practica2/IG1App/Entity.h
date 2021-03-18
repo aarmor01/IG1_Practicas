@@ -108,4 +108,15 @@ protected:
 };
 //-------------------------------------------------------------------------
 
+class CajaConFondo : public Caja {
+public:
+	explicit CajaConFondo(GLdouble ld);
+	virtual ~CajaConFondo() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+private:
+	Mesh* rectangulo = nullptr;
+	glm::dmat4 modelMatRect;
+};
+//-------------------------------------------------------------------------
+
 #endif //_H_Entities_H_

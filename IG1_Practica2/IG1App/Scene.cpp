@@ -38,7 +38,8 @@ void Scene::init()
 	else {
 		gObjects.push_back(new Estrella3D(150, 7, 300)); //estrella 3d
 
-		gObjects.push_back(new Caja(200));
+		//gObjects.push_back(new Caja(200));
+		gObjects.push_back(new CajaConFondo(200));
 	};
 }
 //-------------------------------------------------------------------------
