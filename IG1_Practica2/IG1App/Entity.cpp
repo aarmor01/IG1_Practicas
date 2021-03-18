@@ -194,3 +194,24 @@ void CajaConFondo::render(dmat4 const& modelViewMat) const
 	}
 }
 //-------------------------------------------------------------------------
+
+Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh) : Abs_Entity()
+{
+	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
+}
+//-------------------------------------------------------------------------
+
+void Suelo::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		mTexture->setWrap(GL_REPEAT);
+		//mTexture->bind(GL_REPLACE);
+		mTexture->bind(GL_MODULATE);
+		glColor4dv(value_ptr(mColor));
+		mMesh->render();
+		mTexture->unbind();
+		glColor3dv(value_ptr(dvec3(1)));
+	}
+}

@@ -205,3 +205,17 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	return mesh;
 }
 //-------------------------------------------------------------------------
+
+Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh) {
+	Mesh* mesh = generaRectangulo(w, h);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+	mesh->vTexCoords.emplace_back(0.0, rh); // v0
+	mesh->vTexCoords.emplace_back(0.0, 0.0); // v1
+	mesh->vTexCoords.emplace_back(rw, rh); // v2
+	mesh->vTexCoords.emplace_back(rw, 0.0);  // v3
+
+	return mesh;
+}
+//-------------------------------------------------------------------------
+

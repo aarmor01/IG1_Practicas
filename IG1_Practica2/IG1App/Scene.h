@@ -37,8 +37,7 @@ protected:
 	vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	vector<Texture*> gTextures;  // Textures for the gObjs
 
-	int mId = 0;
-
+	int mId = 1;
 };
 //-------------------------------------------------------------------------
 
