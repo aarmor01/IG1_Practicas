@@ -35,7 +35,10 @@ void Scene::init()
 		gObjects.push_back(new RectanguloRGB(900, 600)); //rectangulo RGB
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 0.0, -100.0)));
 	}
-	else {};
+	else {
+		gObjects.push_back(new Estrella3D(150, 7, 300)); //estrella 3d
+
+	};
 }
 //-------------------------------------------------------------------------
 
