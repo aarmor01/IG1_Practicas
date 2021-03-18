@@ -173,3 +173,26 @@ void Caja::render(dmat4 const& modelViewMat) const
 	}
 }
 //-------------------------------------------------------------------------
+
+CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld)
+{
+	rectangulo = Mesh::generaRectangulo(ld, ld);
+	modelMatRect = translate(dmat4(1), dvec3(0.0, -ld / 2, 0.0));
+	modelMatRect = rotate(modelMatRect, radians(90.0), dvec3(1.0, 0.0, 0.0));
+}
+//-------------------------------------------------------------------------
+
+void CajaConFondo::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr && rectangulo != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		upload(aMat);
+		mMesh->render();
+		upload(modelViewMat * modelMatRect);
+		rectangulo->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+//-------------------------------------------------------------------------
