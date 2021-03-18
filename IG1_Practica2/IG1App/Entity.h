@@ -94,6 +94,18 @@ private:
 };
 //-------------------------------------------------------------------------
 
-
+class Caja : public Abs_Entity {
+public:
+	explicit Caja(GLdouble ld);
+	virtual ~Caja() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+	/*virtual void setTexture(Texture* const& t, Texture* const& t2) {
+		Abs_Entity::setTexture(t);
+		text2 = t2;
+	}*/
+protected:
+	//Texture* text2 = nullptr;
+};
+//-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

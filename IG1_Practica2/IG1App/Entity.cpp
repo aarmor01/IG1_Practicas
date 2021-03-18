@@ -155,3 +155,21 @@ void Estrella3D::update() {
 	setModelMat(rotate(mModelMat, -radians(zAngle), dvec3(0.0, 0.0, 1.0)));
 }
 //-------------------------------------------------------------------------
+
+Caja::Caja(GLdouble ld) : Abs_Entity()
+{
+	mMesh = Mesh::generaContCubo(ld);
+}
+//-------------------------------------------------------------------------
+
+void Caja::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+//-------------------------------------------------------------------------

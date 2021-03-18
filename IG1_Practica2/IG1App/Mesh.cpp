@@ -161,7 +161,7 @@ Mesh* Mesh::generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
 
 	GLdouble angle = 90.0;
 
-	for (int i = 1; i < 2 * np + 1; i++) {
+	for (int i = 0; i < mesh->mNumVertices - 1; i++) {
 		if (i % 2 == 0)
 			mesh->vVertices.emplace_back(re * cos(radians(angle)), re * sin(radians(angle)), h);
 		else
@@ -170,7 +170,32 @@ Mesh* Mesh::generaEstrella3D(GLdouble re, GLuint np, GLdouble h) {
 		angle += 360.0 / (np * 2.0);
 	}
 
-	mesh->vVertices.emplace_back(mesh->vVertices[1]);
+	return mesh;
+}
+//-------------------------------------------------------------------------
+
+Mesh* Mesh::generaContCubo(GLdouble ld) {
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 10;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	GLdouble x, y, z;
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		if (i > 1 && i < 6) x = ld / 2;
+		else x = -ld / 2;
+
+		if (i % 2 == 0) y = ld / 2;
+		else y = -ld / 2;
+
+		if (i > 3 && i < 8) z = -ld / 2;
+		else z = ld / 2;
+
+		mesh->vVertices.emplace_back(x, y, z);
+	}
 
 	return mesh;
 }
