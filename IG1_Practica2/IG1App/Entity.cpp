@@ -154,7 +154,14 @@ void Estrella3D::update() {
 
 Caja::Caja(GLdouble ld) : Abs_Entity()
 {
-	mMesh = Mesh::generaContCubo(ld);
+	mMesh = Mesh::generaContCuboTexCor(ld);
+}
+//-------------------------------------------------------------------------
+
+void Caja::setTexture(Texture* const& t, Texture* const& t2)
+{
+	Abs_Entity::setTexture(t);
+	mText2 = t2;
 }
 //-------------------------------------------------------------------------
 
@@ -163,9 +170,20 @@ void Caja::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		glEnable(GL_CULL_FACE);
+
+		glCullFace(GL_BACK);
+		mTexture->bind(GL_REPLACE);
 		mMesh->render();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mTexture->unbind();
+
+		glCullFace(GL_FRONT);
+		mText2->bind(GL_REPLACE);
+		mMesh->render();
+		mText2->unbind();
+
+		glDisable(GL_CULL_FACE);
 	}
 }
 //-------------------------------------------------------------------------
