@@ -7,12 +7,12 @@
 
 //-------------------------------------------------------------------------
 
-class Viewport 
-{  
+class Viewport
+{
 public:
-	Viewport(GLsizei xw, GLsizei yh): xWidth(xw), yHeight(yh) {};
+	Viewport(GLsizei xw, GLsizei yh) : xWidth(xw), yHeight(yh) {};
 	~Viewport() {};
-	
+
 	GLsizei left() const { return xLeft; };  // viewport left position
 	GLsizei bot() const { return yBot; };    // viewport bottom position
 	GLsizei width() const { return xWidth; };     // viewport width 
@@ -20,7 +20,7 @@ public:
 
 	void setPos(GLsizei xl, GLsizei yb);    // sets viewport position (left and bottom)
 	void setSize(GLsizei xw, GLsizei yh);   // sets viewport size (width and height)
-	
+
 	void upload() const;   // transfers viewport to the GPU
 
 protected:

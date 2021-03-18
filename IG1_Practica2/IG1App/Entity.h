@@ -6,6 +6,9 @@
 #include <glm.hpp>
 
 #include "Mesh.h"
+#include "Texture.h"
+
+using namespace glm;
 
 //-------------------------------------------------------------------------
 
@@ -18,22 +21,24 @@ public:
 	Abs_Entity(const Abs_Entity& e) = delete;  // no copy constructor
 	Abs_Entity& operator=(const Abs_Entity& e) = delete;  // no copy assignment
 
-	virtual void render(glm::dmat4 const& modelViewMat) const = 0;  // abstract method
+	virtual void render(dmat4 const& modelViewMat) const = 0;  // abstract method
 
 	// modeling matrix
-	glm::dmat4 const& modelMat() const { return mModelMat; };
-	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
-	void setColor(glm::dvec4 const& aColor) { mColor = aColor; };
+	dmat4 const& modelMat() const { return mModelMat; };
+	void setModelMat(dmat4 const& aMat) { mModelMat = aMat; };
+	void setColor(dvec4 const& aColor) { mColor = aColor; };
+	void setTexture(Texture* const& text) { mTexture = text; };
 	virtual void update() {};
 
 protected:
 
 	Mesh* mMesh = nullptr;   // the mesh
-	glm::dmat4 mModelMat;    // modeling matrix
-	glm::dvec4 mColor;		 // color vector
+	Texture* mTexture = nullptr; // texture
+	dmat4 mModelMat;    // modeling matrix
+	dvec4 mColor;		 // color vector
 
 	// transfers modelViewMat to the GPU
-	virtual void upload(glm::dmat4 const& mModelViewMat) const;
+	virtual void upload(dmat4 const& mModelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
@@ -42,7 +47,7 @@ class EjesRGB : public Abs_Entity
 public:
 	explicit EjesRGB(GLdouble l);
 	virtual ~EjesRGB() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
@@ -50,7 +55,7 @@ class Poligono : public Abs_Entity {
 public:
 	explicit Poligono(GLuint numL, GLdouble rd);
 	virtual ~Poligono() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
@@ -58,7 +63,7 @@ class Sierpinski : public Abs_Entity {
 public:
 	explicit Sierpinski(GLuint numP, GLdouble rd);
 	virtual ~Sierpinski() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
@@ -67,7 +72,7 @@ public:
 	explicit TrianguloRGB(GLdouble rd);
 	virtual ~TrianguloRGB() {};
 	virtual void update();
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 
 private:
 	GLdouble rad = 260.0;
@@ -79,7 +84,7 @@ class RectanguloRGB : public Abs_Entity {
 public:
 	explicit RectanguloRGB(GLdouble w, GLdouble h);
 	virtual ~RectanguloRGB() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
@@ -87,7 +92,7 @@ class Estrella3D : public Abs_Entity {
 public:
 	explicit Estrella3D(GLdouble re, GLuint np, GLdouble h);
 	virtual ~Estrella3D() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 	virtual void update();
 private:
 	GLdouble zAngle = 0.0, yAngle = 0.0;
@@ -98,7 +103,7 @@ class Caja : public Abs_Entity {
 public:
 	explicit Caja(GLdouble ld);
 	virtual ~Caja() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 	/*virtual void setTexture(Texture* const& t, Texture* const& t2) {
 		Abs_Entity::setTexture(t);
 		text2 = t2;
@@ -112,10 +117,10 @@ class CajaConFondo : public Caja {
 public:
 	explicit CajaConFondo(GLdouble ld);
 	virtual ~CajaConFondo() {};
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void render(dmat4 const& modelViewMat) const;
 private:
 	Mesh* rectangulo = nullptr;
-	glm::dmat4 modelMatRect;
+	dmat4 modelMatRect;
 };
 //-------------------------------------------------------------------------
 

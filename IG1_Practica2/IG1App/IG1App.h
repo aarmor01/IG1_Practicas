@@ -18,13 +18,13 @@
 
 class IG1App
 {
-public:  
+public:
 	// static single instance (singleton pattern)
 	static IG1App s_ig1app;
 
-	IG1App(IG1App const & J) = delete; // no copy constructor
-	void operator =(IG1App const & J) = delete; // no copy assignment
-	
+	IG1App(IG1App const& J) = delete; // no copy constructor
+	void operator =(IG1App const& J) = delete; // no copy assignment
+
 	// Viewport position and size
 	Viewport const& viewPort() { return *mViewPort; };
 	// Camera position, view volume and projection
@@ -34,7 +34,7 @@ public:
 
 	void run();    // the main event processing loop
 	void close();  // the application
-	
+
 protected:
 
 	IG1App() {};
@@ -42,8 +42,8 @@ protected:
 
 	void init();
 	void iniWinOpenGL();
-	void free();   
- 
+	void free();
+
 	void display() const;   // the scene
 	void resize(int newWidth, int newHeight);   // the viewport (without changing the scale) 
 	void key(unsigned char key, int x, int y);  // keypress event
@@ -58,12 +58,12 @@ protected:
 	static void s_update() { s_ig1app.update(); };
 
 	// Viewport position and size
-	Viewport *mViewPort = nullptr;
+	Viewport* mViewPort = nullptr;
 	// Camera position, view volume and projection
-	Camera *mCamera = nullptr;
+	Camera* mCamera = nullptr;
 	// Graphics objects of the scene
-	Scene *mScene = nullptr;
-	
+	Scene* mScene = nullptr;
+
 	bool mStop = false; // main event processing loop
 	int mWinId = 0;	    // window's identifier
 	int mWinW = 800;    // window's width 

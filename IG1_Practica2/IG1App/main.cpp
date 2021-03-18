@@ -14,27 +14,27 @@ int ctrl_handler(int event)   // callback
 }
 //-------------------------------------------------------------------------
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Check Memory Leaks
 	SetConsoleCtrlHandler((PHANDLER_ROUTINE)(ctrl_handler), 1);   // callback registration
 	system("chcp 1252"); // Change Code Page (identifier)  
-	
+
 	try {
 		std::cout << "Starting application...\n";
 		IG1App::s_ig1app.run();
 		std::cout << "Closing application...\n";
 	}
-	catch (std::exception & e) {
+	catch (std::exception& e) {
 		std::cout << e.what() << '\n';
-		std::cin.ignore(INT_MAX, '\n');    
+		std::cin.ignore(INT_MAX, '\n');
 	}
-	catch (...) { 
-		std::cout << "ERROR: Closing application...\n"; 
-	    std::cin.ignore(INT_MAX, '\n');    
+	catch (...) {
+		std::cout << "ERROR: Closing application...\n";
+		std::cin.ignore(INT_MAX, '\n');
 	};
 
-    return 0;
+	return 0;
 }
 //-------------------------------------------------------------------------
 

@@ -19,27 +19,27 @@ public:
 
 	// view matrix 
 	glm::dmat4 const& viewMat() const { return mViewMat; };
-	
+
 	void set2D();
 	void set3D();
-	
+
 	void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	void roll(GLdouble a);  // rotates a degrees on the Z axis
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
-	
+
 	// sets scene visible area size 
 	void setSize(GLdouble xw, GLdouble yh);
 	// updates the scale factor 
 	void setScale(GLdouble s);
 
 	// transfers its viewport, the view matrix and projection matrix to the GPU
-	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); }; 
+	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); };
 
 protected:
-	
+
 	glm::dvec3 mEye = { 0.0, 0.0, 500.0 };  // camera's position
 	glm::dvec3 mLook = { 0.0, 0.0, 0.0 };   // target's position
 	glm::dvec3 mUp = { 0.0, 1.0, 0.0 };     // the up vector 
