@@ -219,3 +219,20 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 }
 //-------------------------------------------------------------------------
 
+Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h) {
+	Mesh* mesh = generaEstrella3D(re, np, h);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+	mesh->vTexCoords.emplace_back(0.5, 0.5);
+
+	GLdouble angle = 90.0;
+
+	for (int i = 0; i < mesh->mNumVertices - 1; i++) {
+		mesh->vTexCoords.emplace_back(0.5 + 0.5 * cos(radians(angle)), 0.5 + 0.5 * sin(radians(angle)));
+		angle += 360.0 / (np * 2.0);
+	}
+
+	return mesh;
+}
+//-------------------------------------------------------------------------
+

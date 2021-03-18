@@ -22,6 +22,7 @@ public:
 	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h); // creates a 3d star
 	static Mesh* generaContCubo(GLdouble ld); // creates a 3d cube
 	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh); // creates a rectangle with texture vertices
+	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h); // creates a 3d star with texture
 
 	Mesh() {};
 	virtual ~Mesh() {};
