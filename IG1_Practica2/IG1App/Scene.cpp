@@ -36,18 +36,28 @@ void Scene::init()
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 0.0, -100.0)));
 	}
 	else {
+		// estrella
 		Texture* t = new Texture();
 		t->load("..\\Bmps\\baldosaP.bmp");
 		gTextures.push_back(t);
 		gObjects.push_back(new Estrella3D(150, 8, 300)); //estrella 3d
 		gObjects.back()->setTexture(t);
 
-		//gObjects.push_back(new Caja(200));
-		gObjects.push_back(new CajaConFondo(200));
-
+		// caja
+		Caja* c = new Caja(200);
 		t = new Texture();
+		t->load("..\\Bmps\\container.bmp");
 		gTextures.push_back(t);
+		Texture* t1 = new Texture();
+		t1->load("..\\Bmps\\papelE.bmp");
+		gTextures.push_back(t1);
+		c->setTexture(t, t1);
+		gObjects.push_back(c);
+
+		// suelo
+		t = new Texture();
 		t->load("..\\Bmps\\baldosaC.bmp");
+		gTextures.push_back(t);
 		gObjects.push_back(new Suelo(600, 400, 15, 10));
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, -100.0, 0.0)));
 		gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(1.0, 0.0, 0.0)));

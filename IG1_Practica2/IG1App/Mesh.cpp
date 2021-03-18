@@ -236,3 +236,15 @@ Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h) {
 }
 //-------------------------------------------------------------------------
 
+Mesh* Mesh::generaContCuboTexCor(GLdouble ld) {
+	Mesh* mesh = generaContCubo(ld);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vTexCoords.emplace_back(GLdouble(i / 2), i % 2 == 0 ? 1.0 : 0.0);
+	}
+
+	return mesh;
+}
+//-------------------------------------------------------------------------
