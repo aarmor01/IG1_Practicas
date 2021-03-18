@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 
+
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -129,5 +130,13 @@ public:
 };
 //-------------------------------------------------------------------------
 
+class Foto : public Abs_Entity {
+public:
+	explicit Foto(GLdouble w, GLdouble h);
+	virtual ~Foto() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update();
+};
+//-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

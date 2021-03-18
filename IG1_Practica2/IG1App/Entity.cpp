@@ -2,6 +2,7 @@
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include "IG1App.h"
 
 //-------------------------------------------------------------------------
 
@@ -243,8 +244,35 @@ void Suelo::render(dmat4 const& modelViewMat) const
 		mTexture->bind(GL_MODULATE);
 		glColor4dv(value_ptr(mColor));
 		mMesh->render();
-		glColor3dv(value_ptr(dvec3(1)));
+		glColor4dv(value_ptr(dvec4(1)));
 		mTexture->unbind();
 	}
+}
+//-------------------------------------------------------------------------
+
+Foto::Foto(GLdouble w, GLdouble h) : Abs_Entity()
+{
+	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
+}
+//-------------------------------------------------------------------------
+
+void Foto::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		mTexture->setWrap(GL_REPEAT);
+		//mTexture->bind(GL_REPLACE);
+		mTexture->bind(GL_MODULATE);
+		glColor4dv(value_ptr(mColor));
+		mMesh->render();
+		glColor4dv(value_ptr(dvec4(1)));
+		mTexture->unbind();
+	}
+}
+//-------------------------------------------------------------------------
+
+void Foto::update() {
+	mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
 }
 //-------------------------------------------------------------------------

@@ -54,6 +54,25 @@ void Texture::load(const std::string& BMP_Name, GLubyte alpha)
 }
 //-------------------------------------------------------------------------
 
+void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
+{
+	if (mId == 0) init();
+
+	glReadBuffer(buffer);
+
+	mWidth = width;
+	mHeight = height;
+
+	GLint level = 0;   //Base image level
+	GLint border = 0;  //No border
+
+	glBindTexture(GL_TEXTURE_2D, mId);
+	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, mWidth, mHeight, border, GL_RGBA, GL_UNSIGNED_BYTE);
+	glReadBuffer(buffer);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+//-------------------------------------------------------------------------
+
 void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
 {
 	glBindTexture(GL_TEXTURE_2D, mId);
