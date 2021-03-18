@@ -36,18 +36,22 @@ void Scene::init()
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 0.0, -100.0)));
 	}
 	else {
-		gObjects.push_back(new Estrella3D(150, 7, 300)); //estrella 3d
+		Texture* t = new Texture();
+		t->load("..\\Bmps\\baldosaP.bmp");
+		gTextures.push_back(t);
+		gObjects.push_back(new Estrella3D(150, 8, 300)); //estrella 3d
+		gObjects.back()->setTexture(t);
 
 		//gObjects.push_back(new Caja(200));
 		gObjects.push_back(new CajaConFondo(200));
 
+		t = new Texture();
+		gTextures.push_back(t);
+		t->load("..\\Bmps\\baldosaC.bmp");
 		gObjects.push_back(new Suelo(600, 400, 15, 10));
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, -100.0, 0.0)));
 		gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(1.0, 0.0, 0.0)));
 		gObjects.back()->setColor(dvec4(0.75, 1.0, 0.75, 1.0));
-		Texture* t = new Texture();
-		gTextures.push_back(t);
-		t->load("..\\Bmps\\baldosaC.bmp");
 		gObjects.back()->setTexture(t);
 	};
 }
