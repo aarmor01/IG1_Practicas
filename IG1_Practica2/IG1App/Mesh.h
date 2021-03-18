@@ -19,6 +19,8 @@ public:
 	static Mesh* generaTrianguloRGB(GLdouble rd); // creates an RBG triangle
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h); // creates a rectangle
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h); // creates an RBG rectangle
+	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h); // creates a 3d star
+
 
 	Mesh() {};
 	virtual ~Mesh() {};

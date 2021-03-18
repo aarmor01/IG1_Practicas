@@ -13,7 +13,6 @@ void Abs_Entity::upload(dmat4 const& modelViewMat) const
 	glLoadMatrixd(value_ptr(modelViewMat));  // transfers modelView matrix to the GPU
 }
 //-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
 
 EjesRGB::EjesRGB(GLdouble l): Abs_Entity()
 {
@@ -119,5 +118,40 @@ void RectanguloRGB::render(dmat4 const& modelViewMat) const
 		mMesh->render();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+//-------------------------------------------------------------------------
+
+Estrella3D::Estrella3D(GLdouble re, GLuint np, GLdouble h) : Abs_Entity()
+{
+	mMesh = Mesh::generaEstrella3D(re, np, h);
+}
+//-------------------------------------------------------------------------
+
+void Estrella3D::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		/*mTexture->bind(GL_REPLACE);*/
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+
+		aMat = rotate(aMat, radians(180.0), dvec3(0.0, 1.0, 0.0)); // rotamos la matriz
+		upload(aMat);
+		mMesh->render();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//mTexture->unbind();
+	}
+}
+//-------------------------------------------------------------------------
+
+void Estrella3D::update() {
+	zAngle++;
+	yAngle++;
+
+	//primero giramos en la 'y' y luego en la 'z' para obtener la rotacion deseada
+	setModelMat(rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0)));
+	setModelMat(rotate(mModelMat, -radians(zAngle), dvec3(0.0, 0.0, 1.0)));
 }
 //-------------------------------------------------------------------------
