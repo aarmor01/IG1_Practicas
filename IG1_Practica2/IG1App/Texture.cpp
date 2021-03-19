@@ -1,5 +1,5 @@
 #include "Texture.h"
-
+#include "IG1App.h"
 //-------------------------------------------------------------------------
 
 Texture::~Texture()
@@ -77,8 +77,12 @@ void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
 void Texture::save(const std::string& BMP_Name)
 {
 	PixMap32RGBA pixMap;
-	pixMap.reserve(800, 600);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	int w = IG1App::s_ig1app.winWidth();
+	int h = IG1App::s_ig1app.winHeight();
+
+	pixMap.reserve(w, h);
+	glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
 	pixMap.save_bmp24BGR(BMP_Name);
 }
 //-------------------------------------------------------------------------
