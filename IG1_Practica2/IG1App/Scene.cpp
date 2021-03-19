@@ -72,6 +72,14 @@ void Scene::init()
 		gObjects.push_back(new Foto(200, 100));
 		gObjects.back()->setTexture(t);
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 200.0, 0.0)));
+
+		//Cristalera translucida
+		t = new Texture();
+		t->load("..\\Bmps\\windowV.bmp", 120);
+		gTextures.push_back(t);
+		Caja* caja = new Caja(600);
+		gObjects.push_back(caja);
+		caja->setTexture(t, t);
 	};
 }
 //-------------------------------------------------------------------------

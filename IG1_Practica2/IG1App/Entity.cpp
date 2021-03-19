@@ -174,16 +174,19 @@ void Caja::render(dmat4 const& modelViewMat) const
 
 		glEnable(GL_CULL_FACE);
 
-		glCullFace(GL_BACK);
-		mTexture->bind(GL_REPLACE);
-		mMesh->render();
-		mTexture->unbind();
-
+		//Renderizamos primero las caras traseras para
+		//evitar problemas con el blending, es decir, tenemos
+		//que renderizar los objetos transparentes de más lejanos a más cercanos.
 		glCullFace(GL_FRONT);
 		mText2->bind(GL_REPLACE);
 		mMesh->render();
 		mText2->unbind();
 
+		glCullFace(GL_BACK);
+		mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+	
 		glDisable(GL_CULL_FACE);
 	}
 }
@@ -200,28 +203,28 @@ CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld)
 void CajaConFondo::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr && rectangulo != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);
 
 		glEnable(GL_CULL_FACE);
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 
-		glCullFace(GL_BACK);
-		mTexture->bind(GL_REPLACE);
-		mMesh->render();
-
-		upload(modelViewMat * modelMatRect);
-
-		rectangulo->render();
-		mTexture->unbind();
-
+		//Renderizamos primero las caras traseras para
+		//evitar problemas con el blending, es decir, tenemos
+		//que renderizar los objetos transparentes de más lejanos a más cercanos.
 		upload(aMat);
 		glCullFace(GL_FRONT);
 		mText2->bind(GL_REPLACE);
 		mMesh->render();
-
 		upload(modelViewMat * modelMatRect);
 		rectangulo->render();
 		mText2->unbind();
+
+		upload(aMat);
+		glCullFace(GL_BACK);
+		mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		upload(modelViewMat * modelMatRect);
+		rectangulo->render();
+		mTexture->unbind();
 
 		glDisable(GL_CULL_FACE);
 	}
