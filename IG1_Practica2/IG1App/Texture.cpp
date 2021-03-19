@@ -74,6 +74,14 @@ void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
 }
 //-------------------------------------------------------------------------
 
+void Texture::save(const std::string& BMP_Name)
+{
+	PixMap32RGBA pixMap;
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	pixMap.save_bmp24BGR(BMP_Name);
+}
+//-------------------------------------------------------------------------
+
 void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
 {
 	glBindTexture(GL_TEXTURE_2D, mId);

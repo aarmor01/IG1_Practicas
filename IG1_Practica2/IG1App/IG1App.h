@@ -13,6 +13,7 @@
 #include "Viewport.h"
 #include "Camera.h"
 #include "Scene.h"
+#include "Texture.h"
 
 //-------------------------------------------------------------------------
 
@@ -52,6 +53,7 @@ protected:
 	void key(unsigned char key, int x, int y);  // keypress event
 	void specialKey(int key, int x, int y);     // keypress event for special characters
 	void update();							    // update of entities
+	void save();
 
 	// static callbacks 
 	static void s_display() { s_ig1app.display(); };

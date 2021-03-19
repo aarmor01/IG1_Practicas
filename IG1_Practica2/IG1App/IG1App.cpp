@@ -132,6 +132,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'u':
 		idleAnim = !idleAnim;
 		break;
+	case 'f':
+		save();
+		break;
 	case '0':
 		mCamera->set2D();
 		mScene->changeScene(0);
@@ -191,5 +194,14 @@ void IG1App::update()
 		mScene->update();
 		glutPostRedisplay();
 	}
+}
+//-------------------------------------------------------------------------
+void IG1App::save()
+{
+	Texture* t = new Texture();
+	t->loadColorBuffer(mWinW, mWinH, GL_FRONT);
+	t->save("..\\Bmps\\foto.png");
+	cout << "hey";
+	delete t;
 }
 //-------------------------------------------------------------------------
