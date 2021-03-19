@@ -67,7 +67,8 @@ void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
 	GLint border = 0;  //No border
 
 	glBindTexture(GL_TEXTURE_2D, mId);
-	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, mWidth, mHeight, border, GL_RGBA, GL_UNSIGNED_BYTE);
+				   //target         level  intForm  x  y  width   height   border
+	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, 0, 0, mWidth, mHeight, border);
 	glReadBuffer(buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
