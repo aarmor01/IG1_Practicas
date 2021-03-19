@@ -200,8 +200,7 @@ void IG1App::save()
 {
 	Texture* t = new Texture();
 	t->loadColorBuffer(mWinW, mWinH, GL_FRONT);
-	t->save("..\\Bmps\\foto.png");
-	cout << "hey";
+	t->save("..\\Bmps\\foto.bmp");
 	delete t;
 }
 //-------------------------------------------------------------------------
