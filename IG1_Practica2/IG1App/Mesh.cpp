@@ -16,6 +16,10 @@ void Mesh::render() const
 {
 	if (vVertices.size() > 0) {  // transfer data
 	  // transfer the coordinates of the vertices
+
+		glEnable(GL_BLEND); //Activar blending
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
 		if (vColors.size() > 0) { // transfer colors
@@ -32,6 +36,7 @@ void Mesh::render() const
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisable(GL_BLEND);
 	}
 }
 //-------------------------------------------------------------------------
