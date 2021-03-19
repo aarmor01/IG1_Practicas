@@ -69,8 +69,9 @@ void Scene::init()
 		// foto
 		t = new Texture();
 		gTextures.push_back(t);
-		gObjects.push_back(new Foto(600, 400));
+		gObjects.push_back(new Foto(200, 100));
 		gObjects.back()->setTexture(t);
+		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 200.0, 0.0)));
 	};
 }
 //-------------------------------------------------------------------------
