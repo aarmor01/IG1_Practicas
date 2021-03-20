@@ -79,11 +79,14 @@ void Texture::save(const std::string& BMP_Name)
 	PixMap32RGBA pixMap;
 	int w = IG1App::s_ig1app.winWidth();
 	int h = IG1App::s_ig1app.winHeight();
-
 	pixMap.reserve(w, h);
-	glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
-	//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+
+	glBindTexture(GL_TEXTURE_2D, this->mId);
+
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
 	pixMap.save_bmp24BGR(BMP_Name);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 //-------------------------------------------------------------------------
 
