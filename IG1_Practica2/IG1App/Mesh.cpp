@@ -17,8 +17,6 @@ void Mesh::render() const
 	if (vVertices.size() > 0) {  // transfer data
 	  // transfer the coordinates of the vertices
 
-		glEnable(GL_BLEND); //Activar blending
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
@@ -29,6 +27,9 @@ void Mesh::render() const
 		if (vTexCoords.size() > 0) { // transfer texture
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+
+			glEnable(GL_BLEND); //Activar blending
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		draw();
