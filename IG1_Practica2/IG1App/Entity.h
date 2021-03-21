@@ -137,6 +137,15 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update();
 };
+
+class Planta : public Abs_Entity
+{
+public:
+	explicit Planta(GLdouble w, GLdouble h);
+	virtual ~Planta() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update() {};
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

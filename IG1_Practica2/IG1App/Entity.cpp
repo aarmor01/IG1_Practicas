@@ -279,3 +279,29 @@ void Foto::update() {
 	mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_FRONT);
 }
 //-------------------------------------------------------------------------
+
+Planta::Planta(GLdouble w, GLdouble h)
+{
+	mMesh = Mesh::generaRectanguloTexCor(w,h,1,1);
+}
+
+void Planta::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+		mMesh->render();
+
+		aMat = rotate(aMat, radians(60.0), dvec3(0.0, 1.0, 0.0)); // rotamos la matriz
+		upload(aMat);
+		mMesh->render();
+
+		aMat = rotate(aMat, radians(60.0), dvec3(0.0, 1.0, 0.0)); // rotamos la matriz
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+	}
+}
