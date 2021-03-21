@@ -105,7 +105,7 @@ public:
 	explicit Caja(GLdouble ld);
 	virtual ~Caja() {};
 	virtual void render(dmat4 const& modelViewMat) const;
-	virtual void setTexture(Texture* const& t, Texture* const& t2);
+	void setTexture(Texture* const& t, Texture* const& t2);
 protected:
 	Texture* mText2 = nullptr;
 };
