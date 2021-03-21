@@ -15,6 +15,8 @@ void Scene::init()
 	// Lights
 	// Textures
 
+	//Objetos con opacos
+
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
 
@@ -36,27 +38,27 @@ void Scene::init()
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 0.0, -100.0)));
 	}
 	else {
-		// estrella
+		/* Objetos opacos */
 		Texture* t = new Texture();
-		t->load("..\\Bmps\\baldosaP.bmp");
-		gTextures.push_back(t);
-		gObjects.push_back(new Estrella3D(150, 8, 300)); //estrella 3d
-		gObjects.back()->setTexture(t);
 
-		// caja
-		// Caja* c = new Caja(200);
-		CajaConFondo* c = new CajaConFondo(200);
+		// Estrella
+		//t->load("..\\Bmps\\baldosaP.bmp");
+		//gTextures.push_back(t);
+		//gObjects.push_back(new Estrella3D(150, 8, 300)); //estrella 3d
+		//gObjects.back()->setTexture(t);
+
+		// Caja
+	/*	CajaConFondo* c = new CajaConFondo(200);
 		t = new Texture();
 		t->load("..\\Bmps\\container.bmp");
 		gTextures.push_back(t);
 		Texture* t1 = new Texture();
-		// t1->load("..\\Bmps\\papelE.bmp");
 		t1->load("..\\Bmps\\papelC.bmp");
 		gTextures.push_back(t1);
 		c->setTexture(t, t1);
-		gObjects.push_back(c);
+		gObjects.push_back(c);*/
 
-		// suelo
+		// Suelo
 		t = new Texture();
 		t->load("..\\Bmps\\baldosaC.bmp");
 		gTextures.push_back(t);
@@ -73,7 +75,17 @@ void Scene::init()
 		gObjects.back()->setTexture(t);
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 200.0, 0.0)));
 
-		//Cristalera translucida
+		/* Objetos con transparencia */
+
+		// Planta
+		t = new Texture();
+		t->load("..\\Bmps\\grass.bmp", u8vec3(0.0, 0.0, 0.0));
+		gTextures.push_back(t);
+		Planta* planta = new Planta(600, 200);
+		gObjects.push_back(planta);
+		planta->setTexture(t);
+
+		// Cristalera translucida
 		t = new Texture();
 		t->load("..\\Bmps\\windowV.bmp", 120);
 		gTextures.push_back(t);
