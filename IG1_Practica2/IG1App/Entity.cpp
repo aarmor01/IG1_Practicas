@@ -2,6 +2,7 @@
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+
 #include "IG1App.h"
 
 //-------------------------------------------------------------------------
@@ -197,7 +198,7 @@ void Caja::render(dmat4 const& modelViewMat) const
 }
 //-------------------------------------------------------------------------
 
-CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld), ld_(ld), angle(0), position(1)
+CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld), ld_(ld), angle(0), position(1), modelMatFloor(1)
 {
 	meshFloor = Mesh::generaRectanguloTexCor(ld, ld, 1, 1);
 }
@@ -232,16 +233,21 @@ void CajaConFondo::render(dmat4 const& modelViewMat) const
 		glDisable(GL_CULL_FACE);
 	}
 }
+//-------------------------------------------------------------------------
+
 void CajaConFondo::update()
 {
 	this->translateAll();
 	angle++;
 	angle = std::fmod(angle, 360.0);
 }
+//-------------------------------------------------------------------------
+
 void CajaConFondo::setPosition(const dvec3& position)
 {
 	this->position = position;
 }
+//-------------------------------------------------------------------------
 
 void CajaConFondo::translateAll()
 {
@@ -286,11 +292,8 @@ void Foto::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		mTexture->setWrap(GL_REPEAT);
-		//mTexture->bind(GL_REPLACE);
-		mTexture->bind(GL_MODULATE);
-		glColor4dv(value_ptr(mColor));
+		mTexture->bind(GL_REPLACE);
 		mMesh->render();
-		glColor4dv(value_ptr(dvec4(1)));
 		mTexture->unbind();
 	}
 }
@@ -305,6 +308,7 @@ Planta::Planta(GLdouble w, GLdouble h)
 {
 	mMesh = Mesh::generaRectanguloTexCor(w,h,1,1);
 }
+//-------------------------------------------------------------------------
 
 void Planta::render(glm::dmat4 const& modelViewMat) const
 {
@@ -331,3 +335,4 @@ void Planta::render(glm::dmat4 const& modelViewMat) const
 		glDisable(GL_ALPHA_TEST);
 	}
 }
+//-------------------------------------------------------------------------

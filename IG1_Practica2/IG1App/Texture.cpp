@@ -50,8 +50,11 @@ void Texture::load(const std::string& BMP_Name, GLubyte alpha)
 	glBindTexture(GL_TEXTURE_2D, mId);
 	glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, mWidth, mHeight, border, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
 
+	glReadBuffer(GL_BACK);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+//-------------------------------------------------------------------------
+
 void Texture::load(const std::string& BMP_Name, u8vec3 color, GLubyte alpha)
 {
 	if (mId == 0) init();
@@ -71,6 +74,7 @@ void Texture::load(const std::string& BMP_Name, u8vec3 color, GLubyte alpha)
 	glBindTexture(GL_TEXTURE_2D, mId);
 	glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, mWidth, mHeight, border, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
 
+	glReadBuffer(GL_BACK);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 //-------------------------------------------------------------------------
@@ -90,7 +94,8 @@ void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
 	glBindTexture(GL_TEXTURE_2D, mId);
 	//target         level  intForm  x  y  width   height   border
 	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, 0, 0, mWidth, mHeight, border);
-	glReadBuffer(buffer);
+	
+	glReadBuffer(GL_BACK);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 //-------------------------------------------------------------------------

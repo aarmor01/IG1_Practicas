@@ -8,7 +8,6 @@
 #include "Mesh.h"
 #include "Texture.h"
 
-
 using namespace glm;
 
 //-------------------------------------------------------------------------
