@@ -42,13 +42,20 @@ void Scene::init()
 		Texture* t = new Texture();
 
 		// Estrella
-		//t->load("..\\Bmps\\baldosaP.bmp");
-		//gTextures.push_back(t);
-		//gObjects.push_back(new Estrella3D(150, 8, 300)); //estrella 3d
-		//gObjects.back()->setTexture(t);
+		t->load("..\\Bmps\\baldosaP.bmp");
+		Estrella3D* estrella = new Estrella3D(30, 8, 55);
+		gTextures.push_back(t);
+		gObjects.push_back(estrella); //estrella 3d
+		dvec3 position = dvec3(-125.0, 150.0, -125.0);
+		estrella->setModelMat(translate(dmat4(1), position));
+		estrella->setPosition(position);
+		estrella->setTexture(t);
 
 		// Caja
-	/*	CajaConFondo* c = new CajaConFondo(200);
+		CajaConFondo* c = new CajaConFondo(80);
+		position = dvec3(-125.0, 40.0, -125.0);
+		c->setPosition(position);
+		c->translateAll();
 		t = new Texture();
 		t->load("..\\Bmps\\container.bmp");
 		gTextures.push_back(t);
@@ -56,24 +63,24 @@ void Scene::init()
 		t1->load("..\\Bmps\\papelC.bmp");
 		gTextures.push_back(t1);
 		c->setTexture(t, t1);
-		gObjects.push_back(c);*/
+		gObjects.push_back(c);
 
 		// Suelo
 		t = new Texture();
 		t->load("..\\Bmps\\baldosaC.bmp");
 		gTextures.push_back(t);
-		gObjects.push_back(new Suelo(600, 600, 15, 10));
-		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, -100.0, 0.0)));
-		gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(1.0, 0.0, 0.0)));
+		gObjects.push_back(new Suelo(500, 500, 15, 15));
+		gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(90.0), dvec3(1.0, 0.0, 0.0)));
 		gObjects.back()->setColor(dvec4(0.75, 1.0, 0.75, 1.0));
 		gObjects.back()->setTexture(t);
 
 		// foto
 		t = new Texture();
 		gTextures.push_back(t);
-		gObjects.push_back(new Foto(200, 100));
+		gObjects.push_back(new Foto(4 * 500/15, 3 * 500/15));
 		gObjects.back()->setTexture(t);
-		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 200.0, 0.0)));
+		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 1.0, 0.0)));
+		gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(1.0, 0.0, 0.0)));
 
 		/* Objetos con transparencia */
 
@@ -81,17 +88,20 @@ void Scene::init()
 		t = new Texture();
 		t->load("..\\Bmps\\grass.bmp", u8vec3(0.0, 0.0, 0.0));
 		gTextures.push_back(t);
-		Planta* planta = new Planta(600, 200);
+		Planta* planta = new Planta(150, 150);
 		gObjects.push_back(planta);
 		planta->setTexture(t);
+		planta->setModelMat(translate(planta->modelMat(), dvec3(150, 75, -150)));
+
 
 		// Cristalera translucida
 		t = new Texture();
 		t->load("..\\Bmps\\windowV.bmp", 120);
 		gTextures.push_back(t);
-		Caja* caja = new Caja(600);
+		Caja* caja = new Caja(500);
 		gObjects.push_back(caja);
 		caja->setTexture(t, t);
+		caja->setModelMat(translate(caja->modelMat(), dvec3(0, 250, 0)));
 	};
 }
 //-------------------------------------------------------------------------

@@ -148,8 +148,13 @@ void Estrella3D::update() {
 	yAngle++;
 
 	//primero giramos en la 'y' y luego en la 'z' para obtener la rotacion deseada
-	setModelMat(rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0)));
+	setModelMat(translate(dmat4(1), position));
+	setModelMat(rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0)));
 	setModelMat(rotate(mModelMat, -radians(zAngle), dvec3(0.0, 0.0, 1.0)));
+}
+void Estrella3D::setPosition(const dvec3& position)
+{
+	this->position = position;
 }
 //-------------------------------------------------------------------------
 
@@ -192,17 +197,15 @@ void Caja::render(dmat4 const& modelViewMat) const
 }
 //-------------------------------------------------------------------------
 
-CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld)
+CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld), ld_(ld), angle(0), position(1)
 {
-	rectangulo = Mesh::generaRectanguloTexCor(ld, ld, 1, 1);
-	modelMatRect = translate(dmat4(1), dvec3(0.0, -ld / 2, 0.0));
-	modelMatRect = rotate(modelMatRect, radians(90.0), dvec3(1.0, 0.0, 0.0));
+	meshFloor = Mesh::generaRectanguloTexCor(ld, ld, 1, 1);
 }
 //-------------------------------------------------------------------------
 
 void CajaConFondo::render(dmat4 const& modelViewMat) const
 {
-	if (mMesh != nullptr && rectangulo != nullptr) {
+	if (mMesh != nullptr && meshFloor != nullptr) {
 
 		glEnable(GL_CULL_FACE);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -214,20 +217,38 @@ void CajaConFondo::render(dmat4 const& modelViewMat) const
 		glCullFace(GL_FRONT);
 		mText2->bind(GL_REPLACE);
 		mMesh->render();
-		upload(modelViewMat * modelMatRect);
-		rectangulo->render();
+		upload(modelViewMat * modelMatFloor);
+		meshFloor->render();
 		mText2->unbind();
 
 		upload(aMat);
 		glCullFace(GL_BACK);
 		mTexture->bind(GL_REPLACE);
 		mMesh->render();
-		upload(modelViewMat * modelMatRect);
-		rectangulo->render();
+		upload(modelViewMat * modelMatFloor);
+		meshFloor->render();
 		mTexture->unbind();
 
 		glDisable(GL_CULL_FACE);
 	}
+}
+void CajaConFondo::update()
+{
+	this->translateAll();
+	angle++;
+	angle = std::fmod(angle, 360.0);
+}
+void CajaConFondo::setPosition(const dvec3& position)
+{
+	this->position = position;
+}
+
+void CajaConFondo::translateAll()
+{
+	setModelMat(translate(dmat4(1), this->position));
+	setModelMat(rotate(mModelMat, radians(-angle), dvec3(0, 0, 1)));
+	modelMatFloor = translate(mModelMat, dvec3(0, -ld_ / 2, 0));
+	modelMatFloor = rotate(modelMatFloor, radians(90.0), dvec3(1, 0, 0));
 }
 //-------------------------------------------------------------------------
 
