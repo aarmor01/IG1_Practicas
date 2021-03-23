@@ -95,8 +95,10 @@ public:
 	virtual ~Estrella3D() {};
 	virtual void render(dmat4 const& modelViewMat) const;
 	virtual void update();
+	void setPosition(const dvec3& position);
 private:
 	GLdouble zAngle = 0.0, yAngle = 0.0;
+	dvec3 position;
 };
 //-------------------------------------------------------------------------
 
@@ -116,9 +118,15 @@ public:
 	explicit CajaConFondo(GLdouble ld);
 	virtual ~CajaConFondo() {};
 	virtual void render(dmat4 const& modelViewMat) const;
+	virtual void update();
+	void setPosition(const dvec3& position);
+	void translateAll();
 private:
-	Mesh* rectangulo = nullptr;
-	dmat4 modelMatRect;
+	Mesh* meshFloor = nullptr;
+	dmat4 modelMatFloor;
+	dvec3 position;
+	GLdouble angle;
+	GLdouble ld_;
 };
 //-------------------------------------------------------------------------
 
@@ -146,6 +154,12 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
+//
+//class Cristalera : public Caja {
+//public:
+//	explicit Cristalera(GLdouble ld, GLdouble height);
+//	virtual ~Cristalera() {};
+//};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_
