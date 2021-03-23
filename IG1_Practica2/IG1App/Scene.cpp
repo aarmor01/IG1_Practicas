@@ -62,7 +62,7 @@ void Scene::init()
 		t = new Texture();
 		t->load("..\\Bmps\\baldosaC.bmp");
 		gTextures.push_back(t);
-		gObjects.push_back(new Suelo(600, 400, 15, 10));
+		gObjects.push_back(new Suelo(600, 600, 15, 10));
 		gObjects.back()->setModelMat(translate(dmat4(1), dvec3(0.0, -100.0, 0.0)));
 		gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(1.0, 0.0, 0.0)));
 		gObjects.back()->setColor(dvec4(0.75, 1.0, 0.75, 1.0));
