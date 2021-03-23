@@ -288,6 +288,9 @@ Planta::Planta(GLdouble w, GLdouble h)
 void Planta::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.0);
+
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		mTexture->setWrap(GL_REPEAT);
@@ -303,5 +306,7 @@ void Planta::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 
 		mTexture->unbind();
+
+		glDisable(GL_ALPHA_TEST);
 	}
 }
