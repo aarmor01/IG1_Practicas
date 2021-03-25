@@ -37,6 +37,9 @@ protected:
 	vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	vector<Texture*> gTextures;  // Textures for the gObjs
 
+	static const int NUM_TEXTURES = 5;
+	static const pair<std::string, int> bmps[NUM_TEXTURES];
+	void loadTexture();
 	int mId = 1;
 };
 //-------------------------------------------------------------------------
