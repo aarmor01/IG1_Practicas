@@ -209,6 +209,12 @@ CajaConFondo::CajaConFondo(GLdouble ld) : Caja(ld), ld_(ld), angle(0), position(
 }
 //-------------------------------------------------------------------------
 
+CajaConFondo::~CajaConFondo()
+{
+	delete meshFloor;
+}
+//-------------------------------------------------------------------------
+
 void CajaConFondo::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr && meshFloor != nullptr) {

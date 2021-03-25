@@ -8,19 +8,18 @@ using namespace glm;
 
 void Mesh::draw() const
 {
-	glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+	glDrawArrays(mPrimitive, 0, size()); // primitive graphic, first index and number of elements to be rendered
 }
 //-------------------------------------------------------------------------
 
 void Mesh::render() const
 {
-	if (vVertices.size() > 0) {  // transfer data
-	  // transfer the coordinates of the vertices
-
+	if (vVertices.size() > 0) { // transfer data
+								// transfer the coordinates of the vertices
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
-		if (vColors.size() > 0) { // transfer colors
+		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());   // number of coordinates per vertex, type of each coordinate, stride, pointer 
+		if (vColors.size() > 0) {    // transfer colors
 			glEnableClientState(GL_COLOR_ARRAY);
 			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
 		}
@@ -134,10 +133,10 @@ Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h) {
 
 	mesh->mNumVertices = 4;
 	mesh->vVertices.reserve(mesh->mNumVertices);
-	mesh->vVertices.emplace_back(-w / 2.0, h / 2.0, 0.0); // v0 arriba izquierda
+	mesh->vVertices.emplace_back(-w / 2.0, h / 2.0, 0.0);  // v0 arriba izquierda
 	mesh->vVertices.emplace_back(-w / 2.0, -h / 2.0, 0.0); // v1 abajo izquierda
-	mesh->vVertices.emplace_back(w / 2.0, h / 2.0, 0.0); // v2 arriba derecha
-	mesh->vVertices.emplace_back(w / 2.0, -h / 2.0, 0.0); // v3 abajo derecha
+	mesh->vVertices.emplace_back(w / 2.0, h / 2.0, 0.0);   // v2 arriba derecha
+	mesh->vVertices.emplace_back(w / 2.0, -h / 2.0, 0.0);  // v3 abajo derecha
 
 	return mesh;
 }
@@ -212,9 +211,9 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 	Mesh* mesh = generaRectangulo(w, h);
 
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
-	mesh->vTexCoords.emplace_back(0.0, rh); // v0
+	mesh->vTexCoords.emplace_back(0.0, rh);  // v0
 	mesh->vTexCoords.emplace_back(0.0, 0.0); // v1
-	mesh->vTexCoords.emplace_back(rw, rh); // v2
+	mesh->vTexCoords.emplace_back(rw, rh);   // v2
 	mesh->vTexCoords.emplace_back(rw, 0.0);  // v3
 
 	return mesh;

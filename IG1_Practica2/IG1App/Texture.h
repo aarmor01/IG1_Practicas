@@ -6,6 +6,8 @@
 #include <glm.hpp>
 #include "Pixmap32RGBA.h"
 #include <string>
+#include "CheckML.h"
+
 
 //-------------------------------------------------------------------------
 class IG1App;
@@ -15,10 +17,10 @@ public:
 	Texture() {};
 	~Texture();
 
-	Texture(const Texture& tex) = delete;  // no copy constructor
+	Texture(const Texture& tex) = delete;			  // no copy constructor
 	Texture& operator=(const Texture& tex) = delete;  // no copy assignment
 
-	void load(const std::string& BMP_Name, GLubyte alpha = 255); // load from file and upload to GPU
+	void load(const std::string& BMP_Name, GLubyte alpha = 255);				  // load from file and upload to GPU
 	void load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha = 0); // load from file and upload to GPU
 	void loadColorBuffer(GLuint width, GLuint height, GLuint buffer);
 	void save(const std::string& BMP_Name);

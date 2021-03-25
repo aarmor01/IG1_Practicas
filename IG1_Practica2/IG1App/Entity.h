@@ -7,6 +7,8 @@
 
 #include "Mesh.h"
 #include "Texture.h"
+#include "CheckML.h"
+
 
 using namespace glm;
 
@@ -115,7 +117,7 @@ protected:
 class CajaConFondo : public Caja {
 public:
 	explicit CajaConFondo(GLdouble ld);
-	virtual ~CajaConFondo() {};
+	virtual ~CajaConFondo();
 	virtual void render(dmat4 const& modelViewMat) const;
 	virtual void update();
 	void setPosition(const dvec3& position);
@@ -144,6 +146,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update();
 };
+//-------------------------------------------------------------------------
 
 class Planta : public Abs_Entity
 {
@@ -153,12 +156,6 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
-//
-//class Cristalera : public Caja {
-//public:
-//	explicit Cristalera(GLdouble ld, GLdouble height);
-//	virtual ~Cristalera() {};
-//};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

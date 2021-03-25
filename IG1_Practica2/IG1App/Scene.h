@@ -21,7 +21,7 @@ public:
 	Scene() {};
 	~Scene() { free(); resetGL(); };
 
-	Scene(const Scene& s) = delete;  // no copy constructor
+	Scene(const Scene& s) = delete;				// no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
 
 	void init();
@@ -34,8 +34,9 @@ protected:
 	void setGL();
 	void resetGL();
 
-	vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
-	vector<Texture*> gTextures;  // Textures for the gObjs
+	vector<Abs_Entity*> gObjectsOpaque	;  // Entities (graphic objects) of the scene
+	vector<Abs_Entity*> gObjectsTrans;	   // Entities (graphic objects) translucents of the scene
+	vector<Texture*> gTextures;			   // Textures for the gObjs
 
 	static const int NUM_TEXTURES = 5;
 	static const pair<std::string, int> bmps[NUM_TEXTURES];
