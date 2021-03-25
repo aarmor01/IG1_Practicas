@@ -27,9 +27,6 @@ void Mesh::render() const
 		if (vTexCoords.size() > 0) { // transfer texture
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
-
-			glEnable(GL_BLEND); //Activar blending
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		draw();
@@ -37,7 +34,6 @@ void Mesh::render() const
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisable(GL_BLEND);
 	}
 }
 //-------------------------------------------------------------------------
