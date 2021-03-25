@@ -20,7 +20,7 @@ public:
 	Abs_Entity() : mModelMat(1.0), mColor(1) {};  // 4x4 identity matrix
 	virtual ~Abs_Entity() { delete mMesh; mMesh = nullptr; };
 
-	Abs_Entity(const Abs_Entity& e) = delete;  // no copy constructor
+	Abs_Entity(const Abs_Entity& e) = delete;			  // no copy constructor
 	Abs_Entity& operator=(const Abs_Entity& e) = delete;  // no copy assignment
 
 	virtual void render(dmat4 const& modelViewMat) const = 0;  // abstract method
@@ -34,10 +34,10 @@ public:
 
 protected:
 
-	Mesh* mMesh = nullptr;   // the mesh
+	Mesh* mMesh = nullptr;		 // the mesh
 	Texture* mTexture = nullptr; // texture
-	dmat4 mModelMat;    // modeling matrix
-	dvec4 mColor;		 // color vector
+	dmat4 mModelMat;			 // modeling matrix
+	dvec4 mColor;				 // color vector
 
 	// transfers modelViewMat to the GPU
 	virtual void upload(dmat4 const& mModelViewMat) const;
