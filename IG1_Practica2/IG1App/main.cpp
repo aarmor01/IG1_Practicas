@@ -4,7 +4,7 @@
 
 //-------------------------------------------------------------------------
 
-int ctrl_handler(int event)   // callback
+int ctrl_handler(int event)			 // callback
 {
 	if (event == CTRL_CLOSE_EVENT) { // when the user closes the console 
 		IG1App::s_ig1app.close();

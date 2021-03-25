@@ -56,7 +56,7 @@ void IG1App::iniWinOpenGL()
 
 	glutInitContextVersion(3, 3);
 	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);  // GLUT_CORE_PROFILE
-	glutInitContextFlags(GLUT_DEBUG);		// GLUT_FORWARD_COMPATIBLE
+	glutInitContextFlags(GLUT_DEBUG);					 // GLUT_FORWARD_COMPATIBLE
 
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 
@@ -92,9 +92,9 @@ void IG1App::display() const
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+	mScene->render(*mCamera);							 // uploads the viewport and camera to the GPU
 
-	glutSwapBuffers();	// swaps the front and back buffer
+	glutSwapBuffers();									 // swaps the front and back buffer
 }
 //-------------------------------------------------------------------------
 
@@ -115,8 +115,8 @@ void IG1App::key(unsigned char key, int x, int y)
 	bool need_redisplay = true;
 
 	switch (key) {
-	case 27:  // Escape key 
-		glutLeaveMainLoop();  // stops main loop and destroy the OpenGL context
+	case 27:					   // Escape key 
+		glutLeaveMainLoop();	   // stops main loop and destroy the OpenGL context
 	case '+':
 		mCamera->setScale(+0.01);  // zoom in  (increases the scale)
 		break;
@@ -172,10 +172,10 @@ void IG1App::specialKey(int key, int x, int y)
 			mCamera->yaw(-1);     // rotate -1 on the Y axis 
 		break;
 	case GLUT_KEY_UP:
-		mCamera->roll(1);    // rotates 1 on the Z axis
+		mCamera->roll(1);		  // rotates 1 on the Z axis
 		break;
 	case GLUT_KEY_DOWN:
-		mCamera->roll(-1);   // rotates -1 on the Z axis
+		mCamera->roll(-1);		  // rotates -1 on the Z axis
 		break;
 	default:
 		need_redisplay = false;
