@@ -104,6 +104,7 @@ void Scene::free()
 	}
 
 	gObjectsOpaque.clear();
+	gObjectsTrans.clear();
 	gTextures.clear();
 }
 //-------------------------------------------------------------------------
