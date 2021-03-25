@@ -74,7 +74,7 @@ void Scene::init()
 		gObjects.back()->setColor(dvec4(0.75, 1.0, 0.75, 1.0));
 		gObjects.back()->setTexture(t);
 
-		// foto
+		// Foto
 		t = new Texture();
 		gTextures.push_back(t);
 		gObjects.push_back(new Foto(4 * 500/15, 3 * 500/15));
