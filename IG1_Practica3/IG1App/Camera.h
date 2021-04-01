@@ -23,9 +23,12 @@ public:
 	void set2D();
 	void set3D();
 
-	void pitch(GLdouble a); // rotates a degrees on the X axis
-	void yaw(GLdouble a);   // rotates a degrees on the Y axis
-	void roll(GLdouble a);  // rotates a degrees on the Z axis
+	//void pitch(GLdouble a);   // rotates a degrees on the X axis
+	//void yaw(GLdouble a);     // rotates a degrees on the Y axis
+	//void roll(GLdouble a);    // rotates a degrees on the Z axis
+	void moveLR(GLdouble cs); // Left / Right
+	void moveFB(GLdouble cs); // Forward / Backward
+	void moveUD(GLdouble cs); // Up / Down
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
@@ -43,6 +46,7 @@ protected:
 	glm::dvec3 mEye = { 0.0, 0.0, 500.0 };  // camera's position
 	glm::dvec3 mLook = { 0.0, 0.0, 0.0 };   // target's position
 	glm::dvec3 mUp = { 0.0, 1.0, 0.0 };     // the up vector 
+	glm::dvec3 mRight, mUpward, mFront;     //inicializar (?)
 
 	glm::dmat4 mViewMat;    // view matrix = inverse of modeling matrix 
 	void uploadVM() const;  // transfers viewMat to the GPU
@@ -59,6 +63,7 @@ protected:
 
 	void setVM();
 	void setPM();
+	void setAxes();
 };
 //-------------------------------------------------------------------------
 
