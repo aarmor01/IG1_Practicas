@@ -2,7 +2,7 @@
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
-//#include <gtc/matrix_access.hpp>
+#include <gtc/matrix_access.hpp>
 
 using namespace glm;
 
@@ -26,6 +26,7 @@ void Camera::uploadVM() const
 void Camera::setVM()
 {
 	mViewMat = lookAt(mEye, mLook, mUp);  // glm::lookAt defines the view matrix 
+	setAxes();
 }
 //-------------------------------------------------------------------------
 
@@ -47,24 +48,48 @@ void Camera::set3D()
 }
 //-------------------------------------------------------------------------
 
-void Camera::pitch(GLdouble a)
+//void Camera::pitch(GLdouble a)
+//{
+//	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
+//	// glm::rotate returns mViewMat * rotationMatrix
+//}
+////-------------------------------------------------------------------------
+//
+//void Camera::yaw(GLdouble a)
+//{
+//	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 1.0, 0));
+//	// glm::rotate returns mViewMat * rotationMatrix
+//}
+////-------------------------------------------------------------------------
+//
+//void Camera::roll(GLdouble a)
+//{
+//	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
+//	// glm::rotate returns mViewMat * rotationMatrix
+//}
+//-------------------------------------------------------------------------
+
+void Camera::moveLR(GLdouble cs)
 {
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
-	// glm::rotate returns mViewMat * rotationMatrix
+	mEye  += mRight * cs;
+	mLook += mRight * cs;
+	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::yaw(GLdouble a)
+void Camera::moveFB(GLdouble cs)
 {
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 1.0, 0));
-	// glm::rotate returns mViewMat * rotationMatrix
+	mLook += mFront * cs;
+	mEye += mFront * cs;
+	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::roll(GLdouble a)
+void Camera::moveUD(GLdouble cs)
 {
-	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
-	// glm::rotate returns mViewMat * rotationMatrix
+	mEye  += mUpward * cs;
+	mLook += mUpward * cs;
+	setVM();
 }
 //-------------------------------------------------------------------------
 
@@ -92,6 +117,12 @@ void Camera::setPM()
 		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
 	}
+}
+void Camera::setAxes()
+{
+	mRight  =   row(mViewMat, 0);
+	mUpward =   row(mViewMat, 1);
+	mFront  = - row(mViewMat, 2);
 }
 //-------------------------------------------------------------------------
 
