@@ -41,6 +41,8 @@ public:
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); };
 
+	void orbit(GLdouble incAng, GLdouble incY);
+
 protected:
 
 	glm::dvec3 mEye = { 0.0, 0.0, 500.0 };  // camera's position
@@ -53,6 +55,8 @@ protected:
 
 	glm::dmat4 mProjMat;     // projection matrix
 	void uploadPM() const;   // transfers projMat to the GPU
+
+	GLdouble mRadio, mAng;
 
 	GLdouble xRight, xLeft, yTop, yBot;      // size of scene visible area
 	GLdouble mNearVal = 1, mFarVal = 10000;  // view volume
