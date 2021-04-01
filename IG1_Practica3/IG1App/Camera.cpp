@@ -10,7 +10,7 @@ using namespace glm;
 
 Camera::Camera(Viewport* vp) : mViewPort(vp), mViewMat(1.0), mProjMat(1.0),
 xRight(vp->width() / 2.0), xLeft(-xRight),
-yTop(vp->height() / 2.0), yBot(-yTop)
+yTop(vp->height() / 2.0), yBot(-yTop), mRadio(1000), mAng(0)
 {
 	setPM();
 }
@@ -134,4 +134,11 @@ void Camera::uploadPM() const
 }
 //-------------------------------------------------------------------------
 
-
+void Camera::orbit(GLdouble incAng, GLdouble incY) {
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	mEye.y += incY;
+	setVM();
+}
+//-------------------------------------------------------------------------
