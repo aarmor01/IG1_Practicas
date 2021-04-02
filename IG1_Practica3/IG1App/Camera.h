@@ -29,6 +29,7 @@ public:
 	void moveLR(GLdouble cs); // Left / Right
 	void moveFB(GLdouble cs); // Forward / Backward
 	void moveUD(GLdouble cs); // Up / Down
+	void changePrj();		  //Toggles between orto and perspective
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };

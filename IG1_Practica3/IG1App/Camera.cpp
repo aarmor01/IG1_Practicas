@@ -93,6 +93,17 @@ void Camera::moveUD(GLdouble cs)
 }
 //-------------------------------------------------------------------------
 
+void Camera::changePrj()
+{
+	//changes to perspective
+	if (bOrto) mProjMat = glm::frustum(xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
+	//changes to orto
+	else	   mProjMat = glm::ortho  (xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
+
+	bOrto = !bOrto;
+}
+//-------------------------------------------------------------------------
+
 void Camera::setSize(GLdouble xw, GLdouble yh)
 {
 	xRight = xw / 2.0;
