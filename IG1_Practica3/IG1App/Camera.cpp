@@ -71,7 +71,7 @@ void Camera::set3D()
 
 void Camera::moveLR(GLdouble cs)
 {
-	mEye  += mRight * cs;
+	mEye += mRight * cs;
 	mLook += mRight * cs;
 	setVM();
 }
@@ -87,7 +87,7 @@ void Camera::moveFB(GLdouble cs)
 
 void Camera::moveUD(GLdouble cs)
 {
-	mEye  += mUpward * cs;
+	mEye += mUpward * cs;
 	mLook += mUpward * cs;
 	setVM();
 }
@@ -95,12 +95,9 @@ void Camera::moveUD(GLdouble cs)
 
 void Camera::changePrj()
 {
-	//changes to perspective
-	if (bOrto) mProjMat = glm::frustum(xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
-	//changes to orto
-	else	   mProjMat = glm::ortho  (xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
-
 	bOrto = !bOrto;
+
+	setPM();
 }
 //-------------------------------------------------------------------------
 
@@ -124,16 +121,18 @@ void Camera::setScale(GLdouble s)
 
 void Camera::setPM()
 {
-	if (bOrto) { //  if orthogonal projection
-		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+	if (bOrto) //  if orthogonal projection
 		// glm::ortho defines the orthogonal projection matrix
-	}
+		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+	else  // fovy 60 --> Near = 2 * Top
+		// glm::frustum defines the perspective projection matrix
+		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, 2 * yTop, mFarVal);
 }
 void Camera::setAxes()
 {
-	mRight  =   row(mViewMat, 0);
-	mUpward =   row(mViewMat, 1);
-	mFront  = - row(mViewMat, 2);
+	mRight = row(mViewMat, 0);
+	mUpward = row(mViewMat, 1);
+	mFront = -row(mViewMat, 2);
 }
 //-------------------------------------------------------------------------
 
