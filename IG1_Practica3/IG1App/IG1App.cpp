@@ -89,10 +89,12 @@ void IG1App::free()
 
 void IG1App::display() const
 {  // double buffering
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	mScene->render(*mCamera);							 // uploads the viewport and camera to the GPU
+	if (!m2Vistas)
+		mScene->render(*mCamera);							 // uploads the viewport and camera to the GPU
+	else
+		display2Vistas();
 
 	glutSwapBuffers();									 // swaps the front and back buffer
 }
@@ -125,6 +127,9 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'l':
 		mCamera->set3D();
+		break;
+	case 'k':
+		m2Vistas = !m2Vistas;
 		break;
 	case 'o':
 		mCamera->set2D();
@@ -168,18 +173,18 @@ void IG1App::specialKey(int key, int x, int y)
 	case GLUT_KEY_RIGHT:
 		if (mdf == GLUT_ACTIVE_CTRL)
 			mCamera->moveFB(5);
-			//mCamera->pitch(-1);   // rotates -1 on the X axis-
+		//mCamera->pitch(-1);   // rotates -1 on the X axis-
 		else
 			mCamera->moveLR(1);
-			//mCamera->pitch(1);    // rotates 1 on the X axis
+		//mCamera->pitch(1);    // rotates 1 on the X axis
 		break;
 	case GLUT_KEY_LEFT:
 		if (mdf == GLUT_ACTIVE_CTRL)
 			mCamera->moveFB(-5);
-			//mCamera->yaw(1);      // rotates 1 on the Y axis 
+		//mCamera->yaw(1);      // rotates 1 on the Y axis 
 		else
 			mCamera->moveLR(-1);
-			//mCamera->yaw(-1);     // rotate -1 on the Y axis 
+		//mCamera->yaw(-1);     // rotate -1 on the Y axis 
 		break;
 	case GLUT_KEY_UP:
 		mCamera->moveUD(1);
@@ -208,6 +213,7 @@ void IG1App::update()
 	}
 }
 //-------------------------------------------------------------------------
+
 void IG1App::save()
 {
 	Texture* t = new Texture();
@@ -216,3 +222,25 @@ void IG1App::save()
 	delete t;
 }
 //-------------------------------------------------------------------------
+
+void IG1App::display2Vistas() const {
+	//  cámara auxiliar
+	Camera auxCam = *mCamera;
+	// el puerto de vista auxiliar para restaurarlo
+	Viewport auxVP = *mViewPort;
+	// tamaño de los 2 puertos de vista
+	mViewPort->setSize(mWinW / 2, mWinH);
+
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	// vista usuario
+	mViewPort->setPos(0, 0);
+	mScene->render(auxCam);
+
+	//vista cenital
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.setCenital();
+	mScene-> render(auxCam);
+
+	*mViewPort = auxVP;  // restaurar el puerto de vista
+}

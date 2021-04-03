@@ -96,7 +96,6 @@ void Camera::moveUD(GLdouble cs)
 void Camera::changePrj()
 {
 	bOrto = !bOrto;
-
 	setPM();
 }
 //-------------------------------------------------------------------------
@@ -119,6 +118,14 @@ void Camera::setScale(GLdouble s)
 }
 //-------------------------------------------------------------------------
 
+void Camera::setCenital()
+{
+	mEye = dvec3(0, 1000, 0);
+	mUp = dvec3(1, 0, 0);
+	setVM();
+}
+//-------------------------------------------------------------------------
+
 void Camera::setPM()
 {
 	if (bOrto) //  if orthogonal projection
@@ -128,6 +135,8 @@ void Camera::setPM()
 		// glm::frustum defines the perspective projection matrix
 		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, 2 * yTop, mFarVal);
 }
+//-------------------------------------------------------------------------
+
 void Camera::setAxes()
 {
 	mRight = row(mViewMat, 0);
