@@ -93,16 +93,31 @@ void Camera::moveUD(GLdouble cs)
 }
 //-------------------------------------------------------------------------
 
+void Camera::lookLR(GLdouble cs)
+{
+	mLook += mRight * cs;
+	setVM();
+}
+//-------------------------------------------------------------------------
+
+void Camera::lookUD(GLdouble cs)
+{
+	mLook += mUpward * cs;
+	setVM();
+}
+//-------------------------------------------------------------------------
+
 void Camera::changePrj()
 {
 	//changes to perspective
-	if (bOrto) mProjMat = glm::frustum(xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
+	if (bOrto) mProjMat = frustum(xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
 	//changes to orto
-	else	   mProjMat = glm::ortho  (xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
+	else	   mProjMat = ortho  (xLeft, xRight, yBot, yTop, mNearVal, mFarVal);
 
 	bOrto = !bOrto;
 }
 //-------------------------------------------------------------------------
+
 
 void Camera::setSize(GLdouble xw, GLdouble yh)
 {
@@ -124,10 +139,12 @@ void Camera::setScale(GLdouble s)
 
 void Camera::setPM()
 {
-	if (bOrto) { //  if orthogonal projection
+	if (bOrto) //  if orthogonal projection
 		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
-	}
+	else
+		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+	
 }
 void Camera::setAxes()
 {

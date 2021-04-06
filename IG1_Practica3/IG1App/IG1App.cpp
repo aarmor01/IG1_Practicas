@@ -73,6 +73,9 @@ void IG1App::iniWinOpenGL()
 	glutSpecialFunc(s_specialKey);
 	glutDisplayFunc(s_display);
 	glutIdleFunc(s_update);
+	glutMouseFunc(s_mouse);
+	glutMotionFunc(s_motion);
+	glutMouseWheelFunc(s_mouseWheel);
 
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
@@ -136,7 +139,7 @@ void IG1App::key(unsigned char key, int x, int y)
 		save();
 		break;
 	case '<':
-		mCamera->orbit(1, 1);
+		mCamera->orbit(1);
 		break;
 	case '0':
 		mCamera->set2D();
@@ -214,5 +217,44 @@ void IG1App::save()
 	t->loadColorBuffer(mWinW, mWinH, GL_FRONT);
 	t->save("..\\Bmps\\foto.bmp");
 	delete t;
+}
+void IG1App::mouse(int button, int state, int x, int y)
+{
+	if (state == GLUT_DOWN)
+	{
+		int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+		mBot = button;
+		mCoord = dvec2(x, _y);
+	}
+}
+
+void IG1App::motion(int x, int y)
+{
+	int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
+	dvec2 difference = mCoord - dvec2(x, _y);
+	mCoord = dvec2(x, _y);
+
+	
+	if (mBot == GLUT_LEFT_BUTTON) 
+		mCamera->orbit(difference.x * 0.05, difference.y);
+	else if (mBot == GLUT_RIGHT_BUTTON)
+	{
+		mCamera->moveLR(difference.x);
+		mCamera->moveUD(difference.y);
+	}
+
+	glutPostRedisplay();
+}
+
+void IG1App::mouseWheel(int wheelButtonNumber, int direction, int x, int y)
+{
+	int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+	int modifiers = glutGetModifiers();
+
+	if (modifiers > 0 && GLUT_ACTIVE_CTRL) mCamera->setScale(direction);
+	else								   mCamera->moveFB(direction);
+
+	glutPostRedisplay();
 }
 //-------------------------------------------------------------------------

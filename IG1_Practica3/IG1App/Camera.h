@@ -26,10 +26,15 @@ public:
 	//void pitch(GLdouble a);   // rotates a degrees on the X axis
 	//void yaw(GLdouble a);     // rotates a degrees on the Y axis
 	//void roll(GLdouble a);    // rotates a degrees on the Z axis
-	void moveLR(GLdouble cs); // Left / Right
-	void moveFB(GLdouble cs); // Forward / Backward
-	void moveUD(GLdouble cs); // Up / Down
+	void moveLR(GLdouble cs);	// Left / Right
+	void moveFB(GLdouble cs);	// Forward / Backward
+	void moveUD(GLdouble cs);	// Up / Down
+	void lookLR(GLdouble cs);
+	void lookUD(GLdouble cs);
 	void changePrj();		  //Toggles between orto and perspective
+	void orbit(GLdouble incAng, GLdouble incY = 0);
+
+
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
@@ -42,7 +47,6 @@ public:
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); };
 
-	void orbit(GLdouble incAng, GLdouble incY);
 
 protected:
 
@@ -57,7 +61,7 @@ protected:
 	glm::dmat4 mProjMat;     // projection matrix
 	void uploadPM() const;   // transfers projMat to the GPU
 
-	GLdouble mRadio, mAng;
+	GLdouble mRadio = 1000.0, mAng = -45;
 
 	GLdouble xRight, xLeft, yTop, yBot;      // size of scene visible area
 	GLdouble mNearVal = 1, mFarVal = 10000;  // view volume
