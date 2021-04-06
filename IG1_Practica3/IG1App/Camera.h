@@ -43,6 +43,9 @@ public:
 	void setSize(GLdouble xw, GLdouble yh);
 	// updates the scale factor 
 	void setScale(GLdouble s);
+	// cenital view
+	void setCenital();
+
 
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); };

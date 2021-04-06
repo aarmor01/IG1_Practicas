@@ -58,6 +58,8 @@ protected:
 	void motion(int x, int y);
 	void mouseWheel(int wheelButtonNumber, int direction, int x, int y);
 
+	void display2Vistas() const;
+
 	// static callbacks 
 	static void s_display() { s_ig1app.display(); };
 	static void s_resize(int newWidth, int newHeight) { s_ig1app.resize(newWidth, newHeight); };
@@ -80,11 +82,12 @@ protected:
 
 	bool mStop = false; // main event processing loop
 	int mWinId = 0;	    // window's identifier
-	int mWinW = 800;    // window's width 
+	int mWinW = 1400;    // window's width 
 	int mWinH = 600;    // window's height
 	bool idleAnim = true; // update bool
 	const float refreshTimeRate = 1000 / 60; // frame rate
 	GLuint mLastUpdateTime = 0; // last update in ms
+	bool m2Vistas = false; // multiple viewports controller
 };
 //-------------------------------------------------------------------------
 
