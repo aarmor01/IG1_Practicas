@@ -1,178 +1,299 @@
-#include "Camera.h"
+#include "IG1App.h"
+#include "CheckML.h"
+#include <iostream>
 
-#include <gtc/matrix_transform.hpp>  
-#include <gtc/type_ptr.hpp>
-#include <gtc/matrix_access.hpp>
+using namespace std;
 
-using namespace glm;
+//-------------------------------------------------------------------------
+// static single instance (singleton pattern)
+
+IG1App IG1App::s_ig1app;  // default constructor (constructor with no parameters)
 
 //-------------------------------------------------------------------------
 
-Camera::Camera(Viewport* vp) : mViewPort(vp), mViewMat(1.0), mProjMat(1.0),
-xRight(vp->width() / 2.0), xLeft(-xRight),
-yTop(vp->height() / 2.0), yBot(-yTop), mRadio(1000), mAng(0)
+void IG1App::close()
 {
-	setPM();
+	if (!mStop) {  // if main loop has not stopped
+		cout << "Closing glut...\n";
+		glutLeaveMainLoop();  // stops main loop and destroy the OpenGL context
+		mStop = true;   // main loop stopped  
+	}
+	free();
 }
 //-------------------------------------------------------------------------
 
-void Camera::uploadVM() const
+void IG1App::run()   // enters the main event processing loop
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixd(value_ptr(mViewMat)); // transfers view matrix to the GPU 
+	if (mWinId == 0) { // if not initialized
+		init();       // initialize the application 
+		glutMainLoop();      // enters the main event processing loop 
+		mStop = true;  // main loop has stopped  
+	}
 }
 //-------------------------------------------------------------------------
 
-void Camera::setVM()
+void IG1App::init()
 {
-	mViewMat = lookAt(mEye, mLook, mUp);  // glm::lookAt defines the view matrix 
-	setAxes();
+	// create an OpenGL Context
+	iniWinOpenGL();
+
+	// create the scene after creating the context 
+	// allocate memory and resources
+	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
+	mCamera = new Camera(mViewPort);
+	mCamera2 = new Camera(mViewPort);
+	mScene = new Scene;
+	mScene2 = new Scene;
+
+	mCamera->set2D();
+	mCamera2->set2D();
+	mScene->init();
+	mScene2->init(0);
+
+	mCamera2->setSize(mViewPort->width() / static_cast<GLdouble>(2), mViewPort->height());
 }
 //-------------------------------------------------------------------------
 
-void Camera::set2D()
-{
-	mEye = dvec3(0, 0, 500);
-	mLook = dvec3(0, 0, 0);
-	mUp = dvec3(0, 1, 0);
-	setVM();
+void IG1App::iniWinOpenGL()
+{  // Initialization
+	cout << "Starting glut...\n";
+	int argc = 0;
+	glutInit(&argc, nullptr);
+
+	glutInitContextVersion(3, 3);
+	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);  // GLUT_CORE_PROFILE
+	glutInitContextFlags(GLUT_DEBUG);					 // GLUT_FORWARD_COMPATIBLE
+
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+
+	glutInitWindowSize(mWinW, mWinH);   // window size
+	//glutInitWindowPosition (140, 140);
+
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth buffer and stencil buffer   
+
+	mWinId = glutCreateWindow("IG1App");  // with its associated OpenGL context, return window's identifier 
+
+	// Callback registration
+	glutReshapeFunc(s_resize);
+	glutKeyboardFunc(s_key);
+	glutSpecialFunc(s_specialKey);
+	glutDisplayFunc(s_display);
+	glutIdleFunc(s_update);
+	glutMouseFunc(s_mouse);
+	glutMotionFunc(s_motion);
+	glutMouseWheelFunc(s_mouseWheel);
+
+	cout << glGetString(GL_VERSION) << '\n';
+	cout << glGetString(GL_VENDOR) << '\n';
 }
 //-------------------------------------------------------------------------
 
-void Camera::set3D()
-{
-	mEye = dvec3(500, 500, 500);
-	mLook = dvec3(0, 10, 0);
-	mUp = dvec3(0, 1, 0);
-	setVM();
+void IG1App::free()
+{  // release memory and resources
+	delete mScene; mScene = nullptr;
+	delete mScene2; mScene2 = nullptr;
+	delete mCamera; mCamera = nullptr;
+	delete mCamera2; mCamera2 = nullptr;
+	delete mViewPort; mViewPort = nullptr;
 }
 //-------------------------------------------------------------------------
 
-//void Camera::pitch(GLdouble a)
-//{
-//	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
-//	// glm::rotate returns mViewMat * rotationMatrix
-//}
-////-------------------------------------------------------------------------
-//
-//void Camera::yaw(GLdouble a)
-//{
-//	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 1.0, 0));
-//	// glm::rotate returns mViewMat * rotationMatrix
-//}
-////-------------------------------------------------------------------------
-//
-//void Camera::roll(GLdouble a)
-//{
-//	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
-//	// glm::rotate returns mViewMat * rotationMatrix
-//}
-//-------------------------------------------------------------------------
+void IG1App::display() const
+{  // double buffering
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-void Camera::moveLR(GLdouble cs)
-{
-	mEye += mRight * cs;
-	mLook += mRight * cs;
-	setVM();
+	if (!m2Vistas)
+		mScene->render(*mCamera);							 // uploads the viewport and camera to the GPU
+	else
+		display2Vistas();
+
+	glutSwapBuffers();									 // swaps the front and back buffer
 }
 //-------------------------------------------------------------------------
 
-void Camera::moveFB(GLdouble cs)
+void IG1App::resize(int newWidth, int newHeight)
 {
-	mLook += mFront * cs;
-	mEye += mFront * cs;
-	setVM();
+	mWinW = newWidth; mWinH = newHeight;
+
+	// Resize Viewport to the new window size
+	mViewPort->setSize(newWidth, newHeight);
+
+	// Resize Scene Visible Area such that the scale is not modified
+	mCamera->setSize(mViewPort->width(), mViewPort->height());
 }
 //-------------------------------------------------------------------------
 
-void Camera::moveUD(GLdouble cs)
+void IG1App::key(unsigned char key, int x, int y)
 {
-	mEye += mUpward * cs;
-	mLook += mUpward * cs;
-	setVM();
+	bool need_redisplay = true;
+
+	switch (key) {
+	case 27:					   // Escape key 
+		glutLeaveMainLoop();	   // stops main loop and destroy the OpenGL context
+	case '+':
+		getCamera(mCoord.x)->setScale(+0.01);  // zoom in  (increases the scale)
+		break;
+	case '-':
+		getCamera(mCoord.x)->setScale(-0.01);  // zoom out (decreases the scale)
+		break;
+	case 'l':
+		getCamera(mCoord.x)->set3D();
+		break;
+	case 'k':
+		m2Vistas = !m2Vistas;
+		break;
+	case 'o':
+		getCamera(mCoord.x)->set2D();
+		break;
+	case 'u':
+		idleAnim = !idleAnim;
+		break;
+	case 'f':
+		save();
+		break;
+	case '<':
+		getCamera(mCoord.x)->orbit(1);
+		break;
+	case '0':
+		getCamera(mCoord.x)->set2D();
+		mScene->changeScene(0);
+		break;
+	case '1':
+		getCamera(mCoord.x)->set2D();
+		mScene->changeScene(1);
+		break;
+	case 'p':
+		getCamera(mCoord.x)->changePrj();
+		break;
+	default:
+		need_redisplay = false;
+		break;
+	} //switch
+
+	if (need_redisplay)
+		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
 }
 //-------------------------------------------------------------------------
 
-void Camera::lookLR(GLdouble cs)
+void IG1App::specialKey(int key, int x, int y)
 {
-	mLook += mRight * cs;
-	setVM();
+	bool need_redisplay = true;
+	int mdf = glutGetModifiers(); // returns the modifiers (Shift, Ctrl, Alt)
+
+	switch (key) {
+	case GLUT_KEY_RIGHT:
+		if (mdf == GLUT_ACTIVE_CTRL)
+			mCamera->moveFB(5);
+		//mCamera->pitch(-1);   // rotates -1 on the X axis-
+		else
+			mCamera->moveLR(1);
+		//mCamera->pitch(1);    // rotates 1 on the X axis
+		break;
+	case GLUT_KEY_LEFT:
+		if (mdf == GLUT_ACTIVE_CTRL)
+			mCamera->moveFB(-5);
+		//mCamera->yaw(1);      // rotates 1 on the Y axis 
+		else
+			mCamera->moveLR(-1);
+		//mCamera->yaw(-1);     // rotate -1 on the Y axis 
+		break;
+	case GLUT_KEY_UP:
+		mCamera->moveUD(1);
+		//mCamera->roll(1);		  // rotates 1 on the Z axis
+		break;
+	case GLUT_KEY_DOWN:
+		mCamera->moveUD(-1);
+		//mCamera->roll(-1);		  // rotates -1 on the Z axis
+		break;
+	default:
+		need_redisplay = false;
+		break;
+	}//switch
+
+	if (need_redisplay)
+		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
 }
 //-------------------------------------------------------------------------
 
-void Camera::lookUD(GLdouble cs)
+void IG1App::update()
 {
-	mLook += mUpward * cs;
-	setVM();
+	if (idleAnim && glutGet(GLUT_ELAPSED_TIME) - mLastUpdateTime >= refreshTimeRate) {
+		mLastUpdateTime = glutGet(GLUT_ELAPSED_TIME);
+		mScene->update();
+		mScene2->update();
+		glutPostRedisplay();
+	}
 }
 //-------------------------------------------------------------------------
 
-void Camera::changePrj()
+void IG1App::save()
 {
-	bOrto = !bOrto;
-	setPM();
+	Texture* t = new Texture();
+	t->loadColorBuffer(mWinW, mWinH, GL_FRONT);
+	t->save("..\\Bmps\\foto.bmp");
+	delete t;
 }
 //-------------------------------------------------------------------------
 
-
-void Camera::setSize(GLdouble xw, GLdouble yh)
+void IG1App::mouse(int button, int state, int x, int y)
 {
-	xRight = xw / 2.0;
-	xLeft = -xRight;
-	yTop = yh / 2.0;
-	yBot = -yTop;
-	setPM();
+	if (state == GLUT_DOWN)
+	{
+		int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+		mBot = button;
+		mCoord = dvec2(x, _y);
+	}
 }
 //-------------------------------------------------------------------------
 
-void Camera::setScale(GLdouble s)
+void IG1App::motion(int x, int y)
 {
-	mScaleFact -= s;
-	if (mScaleFact < 0) mScaleFact = 0.01;
-	setPM();
+	int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
+	dvec2 difference = mCoord - dvec2(x, _y);
+	mCoord = dvec2(x, _y);
+
+	
+	if (mBot == GLUT_LEFT_BUTTON) 
+		getCamera(x)->orbit(difference.x * 0.05, difference.y);
+	else if (mBot == GLUT_RIGHT_BUTTON)
+	{
+		getCamera(x)->moveLR(difference.x);
+		getCamera(x)->moveUD(difference.y);
+	}
+
+	glutPostRedisplay();
 }
 //-------------------------------------------------------------------------
 
-void Camera::setCenital()
+void IG1App::mouseWheel(int wheelButtonNumber, int direction, int x, int y)
 {
-	mEye = dvec3(0, 1000, 0);
-	mUp = dvec3(1, 0, 0);
-	setVM();
+	int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+	int modifiers = glutGetModifiers();
+
+	if (modifiers > 0 && GLUT_ACTIVE_CTRL) getCamera(x)->setScale(direction);
+	else								   getCamera(x)->moveFB(direction);
+
+	glutPostRedisplay();
 }
 //-------------------------------------------------------------------------
 
-void Camera::setPM()
-{
-	if (bOrto) //  if orthogonal projection
-		// glm::ortho defines the orthogonal projection matrix
-		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
-	else  // fovy 60 --> Near = 2 * Top
-		// glm::frustum defines the perspective projection matrix
-		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, 2 * yTop, mFarVal);
-}
-//-------------------------------------------------------------------------
+void IG1App::display2Vistas() const {
 
-void Camera::setAxes()
-{
-	mRight = row(mViewMat, 0);
-	mUpward = row(mViewMat, 1);
-	mFront = -row(mViewMat, 2);
-}
-//-------------------------------------------------------------------------
+	// el puerto de vista auxiliar para restaurarlo
+	Viewport auxVP = *mViewPort;
+	// tama�o de los 2 puertos de vista
+	mViewPort->setSize(mWinW / 2, mWinH);
 
-void Camera::uploadPM() const
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixd(value_ptr(mProjMat)); // transfers projection matrix to the GPU
-	glMatrixMode(GL_MODELVIEW);
-}
-//-------------------------------------------------------------------------
+	// vista usuario
+	mCamera->setSize(mWinW / 2.0, mViewPort->height());
+	mViewPort->setPos(0, 0);
+	mScene->render(*mCamera);
+	mCamera->setSize(mWinW, mViewPort->height());
 
-void Camera::orbit(GLdouble incAng, GLdouble incY) {
-	mAng += incAng;
-	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
-	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
-	mEye.y += incY;
-	setVM();
+	mViewPort->setPos(mWinW / 2, 0);
+	mScene2-> render(*mCamera2);
+
+	*mViewPort = auxVP;  // restaurar el puerto de vista
 }
 //-------------------------------------------------------------------------

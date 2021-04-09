@@ -12,7 +12,7 @@ const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 		{"..\\Bmps\\baldosaC.bmp", 255}, {"..\\Bmps\\windowV.bmp", 150}
 };
 
-void Scene::init()
+void Scene::init(int mId)
 {
 	setGL();  // OpenGL settings
 
