@@ -28,6 +28,7 @@ public:
 	void update();
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
+	void sceneDirLight(Camera const& cam) const;
 
 protected:
 	void free();
