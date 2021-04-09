@@ -25,7 +25,9 @@ void Scene::init(int mId)
 	// Graphics objects (entities) of the scene
 	gObjectsOpaque.push_back(new EjesRGB(400.0));
 
-	if (this->mId == 0) {
+	if(this->mId == 0)
+	{
+		#pragma region case0
 		gObjectsOpaque.push_back(new Poligono(3, 260)); //triangulo de tres lineas solo, sin relleno
 		gObjectsOpaque.back()->setColor(glm::dvec4(1.0, 1.0, 0.0, 1.0));
 
@@ -39,10 +41,13 @@ void Scene::init(int mId)
 
 		gObjectsOpaque.push_back(new RectanguloRGB(900, 600)); //rectangulo RGB
 		gObjectsOpaque.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 0.0, -100.0)));
+#pragma endregion
 	}
-	else {
+	else if (this->mId == 1)
+	{
+		#pragma region case1 
 		/* Objetos opacos */
-		// Estrella
+	// Estrella
 		Estrella3D* estrella = new Estrella3D(30, 8, 55);
 		gObjectsOpaque.push_back(estrella); //estrella 3d
 		dvec3 position = dvec3(-125.0, 150.0, -125.0);
@@ -67,7 +72,7 @@ void Scene::init(int mId)
 		// Foto
 		Texture* t = new Texture();
 		gTextures.push_back(t);
-		gObjectsOpaque.push_back(new Foto(4 * 500/15, 3 * 500/15));
+		gObjectsOpaque.push_back(new Foto(4 * 500 / 15, 3 * 500 / 15));
 		gObjectsOpaque.back()->setTexture(t);
 		gObjectsOpaque.back()->setModelMat(translate(dmat4(1), dvec3(0.0, 1.0, 0.0)));
 		gObjectsOpaque.back()->setModelMat(rotate(gObjectsOpaque.back()->modelMat(), radians(-90.0), dvec3(1.0, 0.0, 0.0)));
@@ -85,7 +90,12 @@ void Scene::init(int mId)
 		gObjectsTrans.push_back(caja);
 		caja->setTexture(gTextures[4], gTextures[4]);
 		caja->setModelMat(translate(caja->modelMat(), dvec3(0, 250, 0)));
-	};
+#pragma endregion
+	}
+	else if(this->mId == 2)
+	{
+
+	}
 }
 //-------------------------------------------------------------------------
 
