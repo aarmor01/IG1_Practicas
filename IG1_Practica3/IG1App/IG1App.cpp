@@ -40,17 +40,15 @@ void IG1App::init()
 	// create the scene after creating the context 
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
-	mCamera = new Camera(mViewPort);
-	mCamera2 = new Camera(mViewPort);
-	mScene = new Scene;
-	mScene2 = new Scene;
+	mCamera   = new Camera(mViewPort);
+	mCamera2  = new Camera(mViewPort);
+	mScene    = new Scene;
+	mScene2   = new Scene;
 
 	mCamera->set2D();
 	mCamera2->set2D();
-	mScene->init();
-	mScene2->init(0);
-
-	mCamera2->setSize(mViewPort->width() / static_cast<GLdouble>(2), mViewPort->height());
+	mScene->init(1);
+	mScene2->init();
 }
 //-------------------------------------------------------------------------
 
@@ -146,7 +144,7 @@ void IG1App::key(unsigned char key, int x, int y)
 		getCamera(mCoord.x)->set2D();
 		break;
 	case 'u':
-		idleAnim = !idleAnim;
+		getScene(mCoord.x) == mScene ? idleAnim = !idleAnim : idleAnim2 = !idleAnim2;
 		break;
 	case 'f':
 		save();
@@ -156,11 +154,11 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case '0':
 		getCamera(mCoord.x)->set2D();
-		mScene->changeScene(0);
+		getScene(mCoord.x)->changeScene(0);
 		break;
 	case '1':
 		getCamera(mCoord.x)->set2D();
-		mScene->changeScene(1);
+		getScene(mCoord.x)->changeScene(1);
 		break;
 	case 'p':
 		getCamera(mCoord.x)->changePrj();
@@ -217,10 +215,10 @@ void IG1App::specialKey(int key, int x, int y)
 
 void IG1App::update()
 {
-	if (idleAnim && glutGet(GLUT_ELAPSED_TIME) - mLastUpdateTime >= refreshTimeRate) {
+	if (glutGet(GLUT_ELAPSED_TIME) - mLastUpdateTime >= refreshTimeRate) {
 		mLastUpdateTime = glutGet(GLUT_ELAPSED_TIME);
-		mScene->update();
-		mScene2->update();
+		if (idleAnim)  mScene->update();
+		if (idleAnim2) mScene2->update();
 		glutPostRedisplay();
 	}
 }
@@ -237,12 +235,9 @@ void IG1App::save()
 
 void IG1App::mouse(int button, int state, int x, int y)
 {
-	if (state == GLUT_DOWN)
-	{
-		int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
-		mBot = button;
-		mCoord = dvec2(x, _y);
-	}
+	int _y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+	mCoord = dvec2(x, _y);
+	mBot = button;
 }
 //-------------------------------------------------------------------------
 
@@ -253,8 +248,8 @@ void IG1App::motion(int x, int y)
 	dvec2 difference = mCoord - dvec2(x, _y);
 	mCoord = dvec2(x, _y);
 
-	
-	if (mBot == GLUT_LEFT_BUTTON) 
+
+	if (mBot == GLUT_LEFT_BUTTON)
 		getCamera(x)->orbit(difference.x * 0.05, difference.y);
 	else if (mBot == GLUT_RIGHT_BUTTON)
 	{
@@ -291,8 +286,9 @@ void IG1App::display2Vistas() const {
 	mScene->render(*mCamera);
 	mCamera->setSize(mWinW, mViewPort->height());
 
+	mCamera2->setSize(mWinW / 2.0, mViewPort->height());
 	mViewPort->setPos(mWinW / 2, 0);
-	mScene2-> render(*mCamera2);
+	mScene2->render(*mCamera2);
 
 	*mViewPort = auxVP;  // restaurar el puerto de vista
 }
