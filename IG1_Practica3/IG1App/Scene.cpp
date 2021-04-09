@@ -14,8 +14,9 @@ const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 
 void Scene::init(int mId)
 {
+	this->mId = mId;
 	setGL();  // OpenGL settings
-
+	
 	// allocate memory and load resources
 	// Lights
 	// Textures
@@ -24,7 +25,7 @@ void Scene::init(int mId)
 	// Graphics objects (entities) of the scene
 	gObjectsOpaque.push_back(new EjesRGB(400.0));
 
-	if (mId == 0) {
+	if (this->mId == 0) {
 		gObjectsOpaque.push_back(new Poligono(3, 260)); //triangulo de tres lineas solo, sin relleno
 		gObjectsOpaque.back()->setColor(glm::dvec4(1.0, 1.0, 0.0, 1.0));
 
@@ -154,10 +155,9 @@ void Scene::render(Camera const& cam) const
 
 void Scene::changeScene(int const id) {
 	if (id != mId) {
-		mId = id;
 		free();
 		resetGL();
-		init();
+		init(id);
 	}
 }
 //-------------------------------------------------------------------------

@@ -71,6 +71,7 @@ protected:
 	static void s_mouseWheel(int wheelButtonNumber, int direction, int x, int y) { s_ig1app.mouseWheel(wheelButtonNumber, direction, x, y); };
 
 	Camera* getCamera(int x) { return (!m2Vistas || x < mViewPort->width() / 2.0 ? mCamera : mCamera2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
+	Scene* getScene(int x) { return (!m2Vistas || x < mViewPort->width() / 2.0 ? mScene : mScene2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
 
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
@@ -90,6 +91,7 @@ protected:
 	int mWinW = 1400;    // window's width 
 	int mWinH = 600;    // window's height
 	bool idleAnim = true; // update bool
+	bool idleAnim2 = true; // update bool
 	const float refreshTimeRate = 1000 / 60; // frame rate
 	GLuint mLastUpdateTime = 0; // last update in ms
 	bool m2Vistas = false; // multiple viewports controller
