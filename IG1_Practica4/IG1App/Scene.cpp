@@ -94,7 +94,29 @@ void Scene::init(int mId)
 	}
 	else if(this->mId == 2)
 	{
+	/*	Sphere* esfera = new Sphere(100.0);
+		esfera->setColor(dvec4(0.5, 1, 1, 0));
+		gObjectsOpaque.push_back(esfera);
 
+		Cylinder* cono = new Cylinder(50.0, 0, 100.0);
+		cono->setColor(dvec4(1, 0.5, 0.7, 0));
+		glm::dmat4 mAux = cono->modelMat();
+		mAux = translate(mAux, dvec3(0, 85, 0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
+		cono->setModelMat(mAux);
+		gObjectsOpaque.push_back(cono);*/
+
+		Disk* disk = new Disk(40, 100);
+		disk->setColor(dvec4(0.5, 1, 1, 0));
+		gObjectsOpaque.push_back(disk);
+
+		PartialDisk* disk2 = new PartialDisk(40, 100, 20, 90);
+		disk2->setColor(dvec4(0.5, 1, 1, 0));
+		glm::dmat4 mAux = disk2->modelMat();
+		mAux = translate(mAux, dvec3(0, 85, 0));
+		mAux = rotate(mAux, radians(-90.0), dvec3(1.0, 0, 0));
+		disk2->setModelMat(mAux);
+		gObjectsOpaque.push_back(disk2);
 	}
 }
 //-------------------------------------------------------------------------
