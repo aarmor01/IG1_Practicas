@@ -24,7 +24,7 @@ public:
 	Scene(const Scene& s) = delete;				// no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
 
-	void init();
+	void init(int mId = 1);
 	void update();
 	void render(Camera const& cam) const;
 	void changeScene(int const id);

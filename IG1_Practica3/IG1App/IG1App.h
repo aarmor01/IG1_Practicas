@@ -70,12 +70,17 @@ protected:
 	static void s_motion(int x, int y) { s_ig1app.motion(x, y); };
 	static void s_mouseWheel(int wheelButtonNumber, int direction, int x, int y) { s_ig1app.mouseWheel(wheelButtonNumber, direction, x, y); };
 
+	Camera* getCamera(int x) { return (!m2Vistas || x < mViewPort->width() / 2.0 ? mCamera : mCamera2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
+
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
 	// Camera position, view volume and projection
 	Camera* mCamera = nullptr;
+	Camera* mCamera2 = nullptr;
+
 	// Graphics objects of the scene
 	Scene* mScene = nullptr;
+	Scene* mScene2 = nullptr;
 
 	dvec2 mCoord;
 	int mBot;
