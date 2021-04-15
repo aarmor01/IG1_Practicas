@@ -1,4 +1,4 @@
-//#pragma once
+////#pragma once
 #ifndef _H_Mesh_H_
 #define _H_Mesh_H_
 
@@ -24,6 +24,7 @@ public:
 	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh); // creates a rectangle with texture vertices
 	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h);			   // creates a 3d star with texture
 	static Mesh* generaContCuboTexCor(GLdouble nl);									   // creates a cube with texture
+	static Mesh* generaHexagonoTexCor(GLdouble radio);									   // creates a cube with texture
 
 	Mesh() {};
 	virtual ~Mesh() {};

@@ -368,8 +368,8 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const
 Cylinder::Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height)
 {
 	this->baseRadius = baseRadius;
-	this->topRadius = topRadius;
-	this->height = height;
+	this->topRadius  = topRadius;
+	this->height     = height;
 }
 //------------------------------------------------------------------------
 
@@ -416,8 +416,8 @@ PartialDisk::PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble st
 {
 	this->innerRadius = innerRadius;
 	this->outerRadius = outerRadius;
-	this->startAngle = startAngle;
-	this->sweepAngle = sweepAngle;
+	this->startAngle  = startAngle;
+	this->sweepAngle  = sweepAngle;
 }
 //------------------------------------------------------------------------
 
@@ -436,3 +436,19 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 	glDisable(GL_COLOR_MATERIAL);
 }
 //------------------------------------------------------------------------
+
+Hexagono::Hexagono(GLdouble radio)
+{
+	mMesh = Mesh::generaHexagonoTexCor(radio);
+}
+
+void Hexagono::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		//mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		//mTexture->unbind();
+	}
+}

@@ -248,4 +248,28 @@ Mesh* Mesh::generaContCuboTexCor(GLdouble nl) {
 
 	return mesh;
 }
+Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
+{
+	Mesh* auxMesh = Mesh::generaPoligono(6, radio);
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+	mesh->mNumVertices = 7;
+	mesh->vVertices.reserve(7);
+	mesh->vVertices.emplace_back(0, 0, 0);
+
+	for (int i = 5; i >= 0; i--) mesh->vVertices.emplace_back(auxMesh->vVertices[i]);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+	mesh->vTexCoords.emplace_back(0.5, 0.5);
+
+	GLdouble angle = 90.0;
+
+	for (int i = 0; i < mesh->mNumVertices - 1; i++) {
+		mesh->vTexCoords.emplace_back(0.5 + 0.5 * cos(radians(angle)), 0.5 + 0.5 * sin(radians(angle)));
+		angle += 360.0 / 6;
+	}
+
+	return mesh;
+}
 //-------------------------------------------------------------------------
