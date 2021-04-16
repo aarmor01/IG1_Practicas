@@ -179,9 +179,6 @@ void Caja::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
-		glDepthMask(GL_FALSE);
-		glEnable(GL_BLEND); //Activar blending
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_CULL_FACE);
 
 		//Renderizamos primero las caras traseras para
@@ -198,8 +195,6 @@ void Caja::render(dmat4 const& modelViewMat) const
 		mTexture->unbind();
 	
 		glDisable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
 	}
 }
 //-------------------------------------------------------------------------

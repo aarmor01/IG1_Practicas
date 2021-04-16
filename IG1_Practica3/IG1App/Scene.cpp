@@ -148,7 +148,14 @@ void Scene::render(Camera const& cam) const
 	}
 
 	for (Abs_Entity* el : gObjectsTrans) {
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND); //Activar blending
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		el->render(cam.viewMat());
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
 	}
 }
 //-------------------------------------------------------------------------
