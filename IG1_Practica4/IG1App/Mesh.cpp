@@ -254,11 +254,13 @@ Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_TRIANGLE_FAN;
-	mesh->mNumVertices = 7;
-	mesh->vVertices.reserve(7);
+	mesh->mNumVertices = 8;
+	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vVertices.emplace_back(0, 0, 0);
 
 	for (int i = 5; i >= 0; i--) mesh->vVertices.emplace_back(auxMesh->vVertices[i]);
+
+	mesh->vVertices.emplace_back(auxMesh->vVertices[5]);
 
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 	mesh->vTexCoords.emplace_back(0.5, 0.5);
