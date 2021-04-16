@@ -32,7 +32,7 @@ void Camera::setVM()
 
 void Camera::set2D()
 {
-	mEye = dvec3(0, 0, 500);
+	mEye = dvec3(0, 0, 1000);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
 	setVM();
