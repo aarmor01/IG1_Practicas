@@ -1,8 +1,2 @@
 Nicolás Rosa Caballero
 Aarón Nauzet Moreno Sosa
-
-Parte opcionales realizadas: 
-- Apartado 10 (Caja con fondo)
-- Apartado 15 (Caja con fondo y textura)
-- Apartado 17 (Guardar foto)
-- Apartado 18 (Planta)
