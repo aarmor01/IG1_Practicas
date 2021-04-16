@@ -447,8 +447,15 @@ void Hexagono::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		//mTexture->bind(GL_REPLACE);
+
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+
+		mTexture->bind(GL_REPLACE);
 		mMesh->render();
-		//mTexture->unbind();
+		mTexture->unbind();
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
 	}
 }
