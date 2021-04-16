@@ -272,6 +272,8 @@ Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 		angle += 360.0 / 6;
 	}
 
+	delete auxMesh;
+	auxMesh = nullptr;
 	return mesh;
 }
 //-------------------------------------------------------------------------

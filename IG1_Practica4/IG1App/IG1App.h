@@ -58,6 +58,7 @@ protected:
 	void motion(int x, int y);
 	void mouseWheel(int wheelButtonNumber, int direction, int x, int y);
 
+	void display2Escenas() const;
 	void display2Vistas() const;
 
 	// static callbacks 
@@ -66,12 +67,12 @@ protected:
 	static void s_key(unsigned char key, int x, int y) { s_ig1app.key(key, x, y); };
 	static void s_specialKey(int key, int x, int y) { s_ig1app.specialKey(key, x, y); };
 	static void s_update() { s_ig1app.update(); };
-	static void s_mouse(int button, int state, int x, int y) { s_ig1app.mouse(button, state, x, y);  };
+	static void s_mouse(int button, int state, int x, int y) { s_ig1app.mouse(button, state, x, y); };
 	static void s_motion(int x, int y) { s_ig1app.motion(x, y); };
 	static void s_mouseWheel(int wheelButtonNumber, int direction, int x, int y) { s_ig1app.mouseWheel(wheelButtonNumber, direction, x, y); };
 
-	Camera* getCamera(int x) { return (!m2Vistas || x < mViewPort->width() / 2.0 ? mCamera : mCamera2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
-	Scene* getScene(int x) { return (!m2Vistas || x < mViewPort->width() / 2.0 ? mScene : mScene2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
+	Camera* getCamera(int x) { return (!m2Escenas || x < mViewPort->width() / 2.0 ? mCamera : mCamera2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
+	Scene* getScene(int x) { return (!m2Escenas || x < mViewPort->width() / 2.0 ? mScene : mScene2); }; //m2vistas para no mover mCamera2 cuando no esta el modo dos vistas
 
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
@@ -95,6 +96,7 @@ protected:
 	const float refreshTimeRate = 1000 / 60; // frame rate
 	GLuint mLastUpdateTime = 0; // last update in ms
 	bool m2Vistas = false; // multiple viewports controller
+	bool m2Escenas = false; // multiple viewports controller
 };
 //-------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-#include "IG1App.h"
+﻿#include "IG1App.h"
 #include "CheckML.h"
 #include <iostream>
 
@@ -40,10 +40,10 @@ void IG1App::init()
 	// create the scene after creating the context 
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
-	mCamera   = new Camera(mViewPort);
-	mCamera2  = new Camera(mViewPort);
-	mScene    = new Scene;
-	mScene2   = new Scene;
+	mCamera = new Camera(mViewPort);
+	mCamera2 = new Camera(mViewPort);
+	mScene = new Scene;
+	mScene2 = new Scene;
 
 	mCamera->set2D();
 	mCamera2->set2D();
@@ -100,10 +100,10 @@ void IG1App::display() const
 {  // double buffering
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	if (!m2Vistas)
-		mScene->render(*mCamera);							 // uploads the viewport and camera to the GPU
-	else
-		display2Vistas();
+	if (!m2Vistas && !m2Escenas) mScene->render(*mCamera); // uploads the viewport and camera to the GPU
+	else if (m2Escenas)			 display2Escenas();
+	else if (m2Vistas)			 display2Vistas();
+
 
 	glutSwapBuffers();									 // swaps the front and back buffer
 }
@@ -138,7 +138,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		getCamera(mCoord.x)->set3D();
 		break;
 	case 'k':
-		m2Vistas = !m2Vistas;
+		if (!m2Escenas) m2Vistas = !m2Vistas;
+		break;
+	case 'j':
+		if (!m2Vistas)  m2Escenas = !m2Escenas;
 		break;
 	case 'o':
 		getCamera(mCoord.x)->set2D();
@@ -273,11 +276,11 @@ void IG1App::mouseWheel(int wheelButtonNumber, int direction, int x, int y)
 }
 //-------------------------------------------------------------------------
 
-void IG1App::display2Vistas() const {
+void IG1App::display2Escenas() const {
 
 	// el puerto de vista auxiliar para restaurarlo
 	Viewport auxVP = *mViewPort;
-	// tama�o de los 2 puertos de vista
+	// tamaño de los 2 puertos de vista
 	mViewPort->setSize(mWinW / 2, mWinH);
 
 	// vista usuario
@@ -289,6 +292,29 @@ void IG1App::display2Vistas() const {
 	mCamera2->setSize(mWinW / 2.0, mViewPort->height());
 	mViewPort->setPos(mWinW / 2, 0);
 	mScene2->render(*mCamera2);
+
+	*mViewPort = auxVP;  // restaurar el puerto de vista
+}
+
+void IG1App::display2Vistas() const
+{
+	//  camara auxiliar
+	Camera auxCam = *mCamera;
+	// el puerto de vista auxiliar para restaurarlo
+	Viewport auxVP = *mViewPort;
+	// tama�o de los 2 puertos de vista
+	mViewPort->setSize(mWinW / 2, mWinH);
+
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+	// vista usuario
+	mViewPort->setPos(0, 0);
+	mScene->render(auxCam);
+
+	//vista cenital
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.setCenital();
+	mScene->render(auxCam);
 
 	*mViewPort = auxVP;  // restaurar el puerto de vista
 }
