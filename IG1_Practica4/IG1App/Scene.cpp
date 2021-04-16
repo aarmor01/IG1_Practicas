@@ -9,7 +9,7 @@ using namespace glm;
 
 const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 		{"..\\Bmps\\baldosaP.bmp", 255}, {"..\\Bmps\\container.bmp", 255 }, {"..\\Bmps\\papelC.bmp", 255},
-		{"..\\Bmps\\baldosaC.bmp", 255}, {"..\\Bmps\\windowV.bmp", 150}, {"..\\Bmps\\noche.bmp", 80}
+		{"..\\Bmps\\baldosaC.bmp", 255}, {"..\\Bmps\\windowV.bmp", 150}, {"..\\Bmps\\noche.bmp", 150}
 };
 
 void Scene::init(int mId)
@@ -162,7 +162,7 @@ void Scene::init(int mId)
 		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
 		mAux = translate(mAux, dvec3(0, 0, 150));
 		hexagono->setModelMat(mAux);
-		gObjectsOpaque.push_back(hexagono);
+		gObjectsTrans.push_back(hexagono);
 
 		hexagono = new Hexagono(300);
 		hexagono->setTexture(gTextures[5]);
@@ -171,7 +171,7 @@ void Scene::init(int mId)
 		mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
 		mAux = translate(mAux, dvec3(0, 0, -150));
 		hexagono->setModelMat(mAux);
-		gObjectsOpaque.push_back(hexagono);
+		gObjectsTrans.push_back(hexagono);
 	}
 }
 //-------------------------------------------------------------------------
