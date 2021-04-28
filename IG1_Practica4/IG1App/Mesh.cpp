@@ -16,7 +16,6 @@ void Mesh::render() const
 {
 	if (vVertices.size() > 0) { // transfer data
 								// transfer the coordinates of the vertices
-
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());   // number of coordinates per vertex, type of each coordinate, stride, pointer 
 		if (vColors.size() > 0) {    // transfer colors
@@ -248,6 +247,8 @@ Mesh* Mesh::generaContCuboTexCor(GLdouble nl) {
 
 	return mesh;
 }
+//-------------------------------------------------------------------------
+
 Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 {
 	Mesh* auxMesh = Mesh::generaPoligono(6, radio);
@@ -275,5 +276,40 @@ Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 	delete auxMesh;
 	auxMesh = nullptr;
 	return mesh;
+}
+//-------------------------------------------------------------------------
+
+void IndexMesh::render() const
+{
+	if (vVertices.size() > 0) { // transfer data
+								// transfer the coordinates of the vertices
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());   // number of coordinates per vertex, type of each coordinate, stride, pointer 
+		if (vColors.size() > 0) {    // transfer colors
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+		}
+		if (vTexCoords.size() > 0) { // transfer texture
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+		}
+		if (vIndices != nullptr) { // transfer texture
+			glEnableClientState(GL_INDEX_ARRAY);
+			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		}
+
+		draw();
+
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_INDEX_ARRAY);
+	}
+}
+//-------------------------------------------------------------------------
+
+void IndexMesh::draw() const
+{
+	glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndices);
 }
 //-------------------------------------------------------------------------

@@ -45,8 +45,21 @@ protected:
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords; // texture vertices
+
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------
+
+class IndexMesh : public Mesh {
+public:
+	IndexMesh() { mPrimitive = GL_TRIANGLES; }
+	~IndexMesh() { delete[] vIndices; }
+	virtual void render() const;
+
+protected:
+	GLuint* vIndices = nullptr; // tabla de índices
+	GLuint nNumIndices = 0;
+	virtual void draw() const;
+};
 
 #endif //_H_Scene_H_
