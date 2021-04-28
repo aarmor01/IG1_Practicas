@@ -313,3 +313,41 @@ void IndexMesh::draw() const
 	glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndices);
 }
 //-------------------------------------------------------------------------
+
+IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
+{
+	IndexMesh* iMesh = new IndexMesh();
+
+	iMesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	iMesh->mNumVertices = 8;
+	iMesh->vVertices.reserve(iMesh->mNumVertices);
+
+	iMesh->vVertices.emplace_back(30.0, 30.0, 0.0);
+	iMesh->vVertices.emplace_back(10.0, 10.0, 0.0);
+	iMesh->vVertices.emplace_back(70.0, 30.0, 0.0);
+	iMesh->vVertices.emplace_back(90.0, 10.0, 0.0);
+	iMesh->vVertices.emplace_back(70.0, 70.0, 0.0);
+	iMesh->vVertices.emplace_back(90.0, 90.0, 0.0);
+	iMesh->vVertices.emplace_back(30.0, 70.0, 0.0);
+	iMesh->vVertices.emplace_back(10.0, 90.0, 0.0);
+
+	iMesh->vColors.reserve(iMesh->mNumVertices);
+
+	iMesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
+	iMesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	iMesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	iMesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+	iMesh->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
+	iMesh->vColors.emplace_back(1.0, 0.0, 1.0, 1.0);
+	iMesh->vColors.emplace_back(0.0, 1.0, 1.0, 1.0);
+	iMesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+
+	iMesh->nNumIndices = 10;
+	iMesh->vIndices = new GLuint[iMesh->nNumIndices];
+	for (int i = 0; i < iMesh->nNumIndices; i++)
+		iMesh->vIndices[i] = i % 8;
+
+	return iMesh;
+}
+//-------------------------------------------------------------------------

@@ -52,6 +52,9 @@ protected:
 
 class IndexMesh : public Mesh {
 public:
+
+	static IndexMesh* generaAnilloCuadradoIndexado();
+
 	IndexMesh() { mPrimitive = GL_TRIANGLES; }
 	~IndexMesh() { delete[] vIndices; }
 	virtual void render() const;
@@ -59,6 +62,7 @@ public:
 protected:
 	GLuint* vIndices = nullptr; // tabla de índices
 	GLuint nNumIndices = 0;
+
 	virtual void draw() const;
 };
 
