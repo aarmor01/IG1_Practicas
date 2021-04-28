@@ -188,7 +188,7 @@ void Caja::render(dmat4 const& modelViewMat) const
 		mText2->bind(GL_REPLACE);
 		mMesh->render();
 		mText2->unbind();
-
+		
 		glCullFace(GL_BACK);
 		mTexture->bind(GL_REPLACE);
 		mMesh->render();

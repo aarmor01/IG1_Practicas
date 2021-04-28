@@ -142,7 +142,7 @@ void Camera::setCenital()
 
 void Camera::setPM()
 {
-	if (bOrto) //  if orthogonal projection
+	if (bOrto) // if orthogonal projection
 		// glm::ortho defines the orthogonal projection matrix
 		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 	else  // fovy 60 --> Near = 2 * Top
