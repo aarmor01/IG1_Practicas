@@ -436,6 +436,7 @@ Hexagono::Hexagono(GLdouble radio)
 {
 	mMesh = Mesh::generaHexagonoTexCor(radio);
 }
+//------------------------------------------------------------------------
 
 void Hexagono::render(glm::dmat4 const& modelViewMat) const
 {
@@ -448,3 +449,21 @@ void Hexagono::render(glm::dmat4 const& modelViewMat) const
 		mTexture->unbind();
 	}
 }
+//------------------------------------------------------------------------
+
+AnilloCuadrado::AnilloCuadrado()
+{
+	mMesh = IndexMesh::generaAnilloCuadradoIndexado();
+}
+//------------------------------------------------------------------------
+
+void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		mMesh->render();
+	}
+}
+//------------------------------------------------------------------------

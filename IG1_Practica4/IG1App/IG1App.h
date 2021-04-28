@@ -89,7 +89,7 @@ protected:
 
 	bool mStop = false; // main event processing loop
 	int mWinId = 0;	    // window's identifier
-	int mWinW = 1400;    // window's width 
+	int mWinW = 800;    // window's width 
 	int mWinH = 600;    // window's height
 	bool idleAnim = true; // update bool
 	bool idleAnim2 = true; // update bool
