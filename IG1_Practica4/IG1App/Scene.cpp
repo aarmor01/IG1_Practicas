@@ -232,8 +232,12 @@ void Scene::update() {
 
 void Scene::render(Camera const& cam) const
 {
-	//if(this->mId == 0)
-	//	sceneDirLight(cam);
+	if(this->mId != 1)
+		sceneDirLight(cam);
+	else {
+		glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHT0);
+	}
 	cam.upload();
 
 	for (Abs_Entity* el : gObjectsOpaque) {
@@ -291,5 +295,5 @@ void Scene::loadTexture()
 	Texture* t = new Texture();
 	t->load("..\\Bmps\\grass.bmp", u8vec3(0, 0, 0));
 	gTextures.push_back(t);
-
 }
+//-------------------------------------------------------------------------
