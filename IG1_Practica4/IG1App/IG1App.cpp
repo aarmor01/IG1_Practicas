@@ -47,8 +47,8 @@ void IG1App::init()
 
 	mCamera->set2D();
 	mCamera2->set2D();
-	mScene->init();
-	mScene2->init();
+	mScene->init(1);
+	mScene2->init(1);
 }
 //-------------------------------------------------------------------------
 
@@ -162,6 +162,10 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '1':
 		getCamera(mCoord.x)->set2D();
 		getScene(mCoord.x)->changeScene(1);
+		break;
+	case '2':
+		getCamera(mCoord.x)->set2D();
+		getScene(mCoord.x)->changeScene(2);
 		break;
 	case 'p':
 		getCamera(mCoord.x)->changePrj();
