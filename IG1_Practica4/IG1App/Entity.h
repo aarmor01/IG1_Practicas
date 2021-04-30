@@ -229,5 +229,13 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
+
+class CuboIndexado : public Abs_Entity {
+public:
+	explicit CuboIndexado(GLdouble l);
+	virtual ~CuboIndexado() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update() {};
+};
 //-------------------------------------------------------------------------
 #endif //_H_Entities_H_

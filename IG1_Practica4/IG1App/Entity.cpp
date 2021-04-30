@@ -473,3 +473,22 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 //------------------------------------------------------------------------
+
+CuboIndexado::CuboIndexado(GLdouble l)
+{
+	mMesh = IndexMesh::generaCuboConTapasIndexado(l);
+}
+
+void CuboIndexado::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		
+		glEnable(GL_COLOR_MATERIAL);
+
+		mMesh->render();
+
+		glDisable(GL_COLOR_MATERIAL);
+	}
+}

@@ -177,6 +177,11 @@ void Scene::init(int mId)
 		AnilloCuadrado* anillo = new AnilloCuadrado();
 		gObjectsOpaque.push_back(anillo);
 	}
+	else if (this->mId == 3)
+	{
+		CuboIndexado* cubo = new CuboIndexado(150);
+		gObjectsOpaque.push_back(cubo);
+	}
 }
 //-------------------------------------------------------------------------
 
@@ -204,7 +209,7 @@ void Scene::free()
 void Scene::setGL()
 {
 	// OpenGL basic setting
-	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
+	glClearColor(178 / 255.0, 204 / 255.0, 227 / 255.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_TEXTURE_2D);  // enable Texture 
 
