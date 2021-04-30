@@ -55,6 +55,7 @@ class IndexMesh : public Mesh {
 public:
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
+	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
 
 	IndexMesh() { mPrimitive = GL_TRIANGLES; }
 	~IndexMesh() { delete[] vIndices; }
@@ -65,6 +66,7 @@ protected:
 	GLuint nNumIndices = 0;
 
 	virtual void draw() const;
+	void buildNormalVectors();
 };
 
 #endif //_H_Scene_H_

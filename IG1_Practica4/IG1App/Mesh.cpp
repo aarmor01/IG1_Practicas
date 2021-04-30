@@ -324,6 +324,32 @@ void IndexMesh::draw() const
 }
 //-------------------------------------------------------------------------
 
+void IndexMesh::buildNormalVectors()
+{
+
+	vNormals.reserve(mNumVertices);
+
+	for (int i = 0; i < mNumVertices; i++)
+		vNormals.emplace_back(0, 0, 0);
+
+	for (int i = 0; i < nNumIndices; i += 3)
+	{
+		dvec3 a, b, c, n;
+		a = vVertices[vIndices[i]];
+		b = vVertices[vIndices[i + 1]];
+		c = vVertices[vIndices[i + 2]];
+		n = cross(b - a, c - a);
+
+		vNormals[vIndices[i]] += n;
+		vNormals[vIndices[i + 1]] += n;
+		vNormals[vIndices[i + 2]] += n;
+	}
+
+	for (int i = 0; i < mNumVertices; i++)
+		vNormals[i] = normalize(vNormals[i]);
+}
+//-------------------------------------------------------------------------
+
 IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 {
 	IndexMesh* iMesh = new IndexMesh();
@@ -362,17 +388,68 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	iMesh->vNormals.reserve(iMesh->mNumVertices);
 
 	for (int i = 0; i < iMesh->mNumVertices; i++)
-		iMesh->vNormals.emplace_back(0,0,0);
+		iMesh->vNormals.emplace_back(0, 0, 0);
 
 	dvec3 a, b, c, n;
 	a = iMesh->vVertices[iMesh->vIndices[0]];
 	b = iMesh->vVertices[iMesh->vIndices[1]];
 	c = iMesh->vVertices[iMesh->vIndices[2]];
 
-	n = cross(b-a,c-a);
-	
+	n = cross(b - a, c - a);
+
 	for (int i = 0; i < iMesh->mNumVertices; i++)
 		iMesh->vNormals[i] = normalize(n);
+
+	return iMesh;
+}
+
+IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
+{
+	IndexMesh* iMesh = new IndexMesh();
+
+	iMesh->mPrimitive = GL_TRIANGLES;
+
+	iMesh->mNumVertices = 8;
+	iMesh->vVertices.reserve(iMesh->mNumVertices);
+
+	GLdouble x, y, z;
+
+	for (int i = 0; i < iMesh->mNumVertices; i++) {
+		if (i > 1 && i < 6) x = l / 2;
+		else x = -l / 2;
+
+		if (i % 2 == 0) y = l / 2;
+		else y = -l / 2;
+
+		if (i > 3 && i < 8) z = -l / 2;
+		else z = l / 2;
+
+		iMesh->vVertices.emplace_back(x, y, z);
+	}
+
+	// Colores
+	iMesh->vColors.reserve(iMesh->nNumIndices);
+	for (int i = 0; i < iMesh->mNumVertices; i++)
+		iMesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+
+	//Indices
+	iMesh->nNumIndices = 36;
+	iMesh->vIndices = new GLuint[iMesh->nNumIndices]{ 0,3,2,	  //Cara delantera
+									 0,1,3,
+									 2,3,4,	  //Cara derecha
+									 4,3,5,
+									 4,5,6,	  //Cara traser
+									 6,5,7,
+									 6,7,1,	  //Cara izquierda
+									 1,0,6,
+									 6,0,4,	  //Cara Arriba
+									 4,0,2,
+									 7,1,5,	  //Cara Abajo
+									 5,1,3 };
+
+
+	//Normales
+	iMesh->buildNormalVectors();
 
 	return iMesh;
 }
