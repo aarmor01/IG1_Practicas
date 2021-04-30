@@ -26,9 +26,11 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		glEnable(GL_COLOR_MATERIAL);
 		glLineWidth(2);
 		mMesh->render();
 		glLineWidth(1);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 //-------------------------------------------------------------------------
@@ -462,8 +464,12 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		
+		glEnable(GL_COLOR_MATERIAL);
 
 		mMesh->render();
+
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 //------------------------------------------------------------------------

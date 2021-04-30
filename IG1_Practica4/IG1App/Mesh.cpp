@@ -358,6 +358,22 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 	for (int i = 0; i < iMesh->nNumIndices; i++)
 		iMesh->vIndices[i] = i % 8;
 
+	//Normales
+	iMesh->vNormals.reserve(iMesh->mNumVertices);
+
+	for (int i = 0; i < iMesh->mNumVertices; i++)
+		iMesh->vNormals.emplace_back(0,0,0);
+
+	dvec3 a, b, c, n;
+	a = iMesh->vVertices[iMesh->vIndices[0]];
+	b = iMesh->vVertices[iMesh->vIndices[1]];
+	c = iMesh->vVertices[iMesh->vIndices[2]];
+
+	n = cross(b-a,c-a);
+	
+	for (int i = 0; i < iMesh->mNumVertices; i++)
+		iMesh->vNormals[i] = normalize(n);
+
 	return iMesh;
 }
 //-------------------------------------------------------------------------
