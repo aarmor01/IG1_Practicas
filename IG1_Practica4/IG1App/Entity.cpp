@@ -190,12 +190,12 @@ void Caja::render(dmat4 const& modelViewMat) const
 		mText2->bind(GL_REPLACE);
 		mMesh->render();
 		mText2->unbind();
-		
+
 		glCullFace(GL_BACK);
 		mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
-	
+
 		glDisable(GL_CULL_FACE);
 	}
 }
@@ -315,7 +315,7 @@ void Foto::update() {
 
 Planta::Planta(GLdouble w, GLdouble h)
 {
-	mMesh = Mesh::generaRectanguloTexCor(w,h,1,1);
+	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
 }
 //-------------------------------------------------------------------------
 
@@ -365,8 +365,8 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const
 Cylinder::Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height)
 {
 	this->baseRadius = baseRadius;
-	this->topRadius  = topRadius;
-	this->height     = height;
+	this->topRadius = topRadius;
+	this->height = height;
 }
 //------------------------------------------------------------------------
 
@@ -413,8 +413,8 @@ PartialDisk::PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble st
 {
 	this->innerRadius = innerRadius;
 	this->outerRadius = outerRadius;
-	this->startAngle  = startAngle;
-	this->sweepAngle  = sweepAngle;
+	this->startAngle = startAngle;
+	this->sweepAngle = sweepAngle;
 }
 //------------------------------------------------------------------------
 
@@ -464,7 +464,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		
+
 		glEnable(GL_COLOR_MATERIAL);
 
 		mMesh->render();
@@ -484,11 +484,27 @@ void CuboIndexado::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		
+
 		glEnable(GL_COLOR_MATERIAL);
 
 		mMesh->render();
 
 		glDisable(GL_COLOR_MATERIAL);
 	}
+}
+
+CompoundEntity::~CompoundEntity()
+{
+	for (Abs_Entity* el : gObjects) {
+		delete el;  el = nullptr;
+	}
+
+	gObjects.clear();
+}
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat)
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	for (Abs_Entity* e : gObjects) e->render(aMat);
 }

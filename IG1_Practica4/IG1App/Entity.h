@@ -237,5 +237,14 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
+
+class CompoundEntity : public Abs_Entity {
+private:
+	std::vector<Abs_Entity*> gObjects;
+public:
+	void addEntity(Abs_Entity* ae) { gObjects.emplace_back(ae); }
+	virtual ~CompoundEntity();
+	virtual void render();
+};
 //-------------------------------------------------------------------------
 #endif //_H_Entities_H_
