@@ -3,7 +3,7 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 #include <gtc/matrix_access.hpp>
-
+#include "../IG1App/Scene.h"
 #include "IG1App.h"
 
 //-------------------------------------------------------------------------
@@ -502,9 +502,69 @@ CompoundEntity::~CompoundEntity()
 	gObjects.clear();
 }
 
-void CompoundEntity::render(glm::dmat4 const& modelViewMat)
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
 	for (Abs_Entity* e : gObjects) e->render(aMat);
+}
+
+TIE::TIE(std::vector<Texture*> gTextures)
+{
+	Hexagono* wingL = new Hexagono(300);
+	wingL->setTexture(gTextures[5]);
+	wingL->setColor(dvec4(0, 0.254, 0.415, 0));
+	glm::dmat4 mAux = wingL->modelMat();
+	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
+	mAux = translate(mAux, dvec3(0, 0, 150));
+	wingL->setModelMat(mAux);
+	this->gObjects.push_back(wingL);
+
+	Hexagono* wingR = new Hexagono(300);
+	wingR = new Hexagono(300);
+	wingR->setTexture(gTextures[5]);
+	wingR->setColor(dvec4(0, 0.254, 0.415, 0));
+	mAux = wingR->modelMat();
+	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
+	mAux = translate(mAux, dvec3(0, 0, -150));
+	wingR->setModelMat(mAux);
+	gObjects.push_back(wingR);
+
+	Sphere* core = new Sphere(100.0);
+	core->setColor(dvec4(0, 0.254, 0.415, 0));
+	gObjects.push_back(core);
+
+	Cylinder* shaft = new Cylinder(20.0, 20.0, 300.0);
+	shaft->setColor(dvec4(0, 0.254, 0.415, 0));
+	mAux = shaft->modelMat();
+	mAux = translate(mAux, dvec3(150, 0, 0));
+	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
+	shaft->setModelMat(mAux);
+	gObjects.push_back(shaft);
+
+	CompoundEntity* front = new CompoundEntity();
+
+	Cylinder* cono = new Cylinder(50.0, 50.0, 200.0);
+	cono->setColor(dvec4(0, 0.254, 0.415, 0));
+	mAux = cono->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, -100));
+	cono->setModelMat(mAux);
+	front->gObjects.push_back(cono);
+
+	//Disco tapar cilindro
+	Disk* disk = new Disk(0, 50);
+	disk->setColor(dvec4(0, 0.254, 0.415, 0));
+	mAux = disk->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, 100));
+	disk->setModelMat(mAux);
+	front->gObjects.push_back(disk);
+
+	disk = new Disk(0, 50);
+	disk->setColor(dvec4(0, 0.254, 0.415, 0));
+	mAux = disk->modelMat();
+	mAux = translate(mAux, dvec3(0, 0, -100));
+	disk->setModelMat(mAux);
+	front->gObjects.push_back(disk);
+
+	gObjects.push_back(front);
 }
