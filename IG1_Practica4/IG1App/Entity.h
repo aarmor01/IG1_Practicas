@@ -253,6 +253,9 @@ class TIE : public CompoundEntity
 public:
 	explicit TIE(std::vector<Texture*> gTextures);
 	virtual ~TIE() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+private:
+	std::vector<Abs_Entity*> gObjectsTrans;
 };
 //-------------------------------------------------------------------------
 #endif //_H_Entities_H_

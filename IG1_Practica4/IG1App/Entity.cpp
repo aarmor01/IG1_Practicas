@@ -518,7 +518,7 @@ TIE::TIE(std::vector<Texture*> gTextures)
 	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
 	mAux = translate(mAux, dvec3(0, 0, 150));
 	wingL->setModelMat(mAux);
-	this->gObjects.push_back(wingL);
+	this->gObjectsTrans.push_back(wingL);
 
 	Hexagono* wingR = new Hexagono(300);
 	wingR = new Hexagono(300);
@@ -528,7 +528,7 @@ TIE::TIE(std::vector<Texture*> gTextures)
 	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
 	mAux = translate(mAux, dvec3(0, 0, -150));
 	wingR->setModelMat(mAux);
-	gObjects.push_back(wingR);
+	gObjectsTrans.push_back(wingR);
 
 	Sphere* core = new Sphere(100.0);
 	core->setColor(dvec4(0, 0.254, 0.415, 0));
@@ -567,4 +567,20 @@ TIE::TIE(std::vector<Texture*> gTextures)
 	front->gObjects.push_back(disk);
 
 	gObjects.push_back(front);
+}
+
+void TIE::render(glm::dmat4 const& modelViewMat) const
+{
+	CompoundEntity::render(modelViewMat);
+
+	for (Abs_Entity* el : gObjectsTrans) {
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		el->render(modelViewMat);
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
+	}
 }
