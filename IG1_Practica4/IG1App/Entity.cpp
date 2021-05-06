@@ -486,9 +486,9 @@ void CuboIndexado::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 
 		glEnable(GL_COLOR_MATERIAL);
-
+		glColor4d(0.0, 1.0, 0.0, 1.0);
 		mMesh->render();
-
+		glColor4d(1.0, 1.0, 1.0, 1.0);
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }

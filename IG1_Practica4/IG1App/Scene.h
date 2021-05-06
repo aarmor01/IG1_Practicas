@@ -43,6 +43,13 @@ protected:
 	static const pair<std::string, int> bmps[NUM_TEXTURES];
 	void loadTexture();
 	int mId = 1;
+
+	void primeraEscena2D();
+	void primeraEscena3D();
+	void tieFighter();
+	void anilloCuadrado();
+	void cuboIndexado();
+
 };
 //-------------------------------------------------------------------------
 
