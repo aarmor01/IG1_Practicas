@@ -326,7 +326,6 @@ void IndexMesh::draw() const
 
 void IndexMesh::buildNormalVectors()
 {
-
 	vNormals.reserve(mNumVertices);
 
 	for (int i = 0; i < mNumVertices; i++)
@@ -427,24 +426,19 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 		iMesh->vVertices.emplace_back(x, y, z);
 	}
 
-	// Colores
-	iMesh->vColors.reserve(iMesh->nNumIndices);
-	for (int i = 0; i < iMesh->mNumVertices; i++)
-		iMesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
-
 	//Indices
 	iMesh->nNumIndices = 36;
 	iMesh->vIndices = new GLuint[iMesh->nNumIndices]{ 0,3,2,	  //Cara delantera
 									 0,1,3,
 									 2,3,4,	  //Cara derecha
 									 4,3,5,
-									 4,5,6,	  //Cara traser
+									 4,5,6,	  //Cara trasera
 									 6,5,7,
 									 6,7,1,	  //Cara izquierda
 									 1,0,6,
-									 6,0,4,	  //Cara Arriba
+									 6,0,4,	  //Cara arriba
 									 4,0,2,
-									 7,1,5,	  //Cara Abajo
+									 7,1,5,	  //Cara abajo
 									 5,1,3 };
 
 

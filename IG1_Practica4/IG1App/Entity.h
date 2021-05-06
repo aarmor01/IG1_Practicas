@@ -222,6 +222,17 @@ public:
 };
 //-------------------------------------------------------------------------
 
+/*
+ * No usamos la clase EntityWithIndex porque como la unica diferencia entre esta clase y 
+ * Abs_Entity sería cambiar el Mesh* por IndexMesh*; y al ser Mesh la clase padre de IndexMesh, 
+ * un Mesh ya puede contener un IndexMesh, la clase se quedaría así:
+ * 
+ * class EntityWithIndex: public Abs_Entity {};
+ * 
+ * por lo que no es necesario (y sería más util hacer un using EntityWithIndex = Abs_Entity).
+ * Además esto lo consultamos en clase contigo y nos diste permiso.
+ */
+
 class AnilloCuadrado : public Abs_Entity {
 public:
 	explicit AnilloCuadrado();
@@ -229,6 +240,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
+//-------------------------------------------------------------------------
 
 class CuboIndexado : public Abs_Entity {
 public:
@@ -237,6 +249,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
+//-------------------------------------------------------------------------
 
 class CompoundEntity : public Abs_Entity {
 public:
@@ -247,6 +260,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update() {};
 };
+//-------------------------------------------------------------------------
 
 class TIE : public CompoundEntity
 {
