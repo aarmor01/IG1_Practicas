@@ -272,4 +272,13 @@ private:
 	std::vector<Abs_Entity*> gObjectsTrans;
 };
 //-------------------------------------------------------------------------
+
+//Entidades por revolucion
+
+class Cono : public Abs_Entity {
+public:
+	explicit Cono(GLdouble height, GLdouble radius, GLuint n);
+	virtual ~Cono() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 #endif //_H_Entities_H_

@@ -72,6 +72,7 @@ protected:
 class MbR : public IndexMesh {
 public:
 	MbR(int m, int n, glm::dvec3* perfil);
+	virtual ~MbR() { delete[] perfil; }
 	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
 protected:
 	int n;
