@@ -28,7 +28,7 @@ void Scene::init(int mId)
 	if (this->mId == 1)
 	{
 		//tieFighter();
-		Cono* cono = new Cono(300, 100, 200);
+		Cono* cono = new Cono(300, 100, 50);
 		gObjectsOpaque.push_back(cono);
 	}
 	else if (this->mId == 2)
