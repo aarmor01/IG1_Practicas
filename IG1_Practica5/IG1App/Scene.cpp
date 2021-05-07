@@ -26,7 +26,11 @@ void Scene::init(int mId)
 	gObjectsOpaque.push_back(new EjesRGB(400.0));
 
 	if (this->mId == 1)
-		tieFighter();
+	{
+		//tieFighter();
+		Cono* cono = new Cono(300, 100, 200);
+		gObjectsOpaque.push_back(cono);
+	}
 	else if (this->mId == 2)
 		anilloCuadrado();
 	else if (this->mId == 3)

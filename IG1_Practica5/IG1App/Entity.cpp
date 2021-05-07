@@ -584,3 +584,27 @@ void TIE::render(glm::dmat4 const& modelViewMat) const
 		glDepthMask(GL_TRUE);
 	}
 }
+
+Cono::Cono(GLdouble height, GLdouble radius, GLuint n)
+{
+	// h=altura del cono, r=radio de la base
+	// n=número de muestras, m=número de puntos del perfil
+	int m = 3;
+	dvec3* perfil = new dvec3[m];
+	perfil[0] = dvec3(0.5, 0.0, 0.0);
+	perfil[1] = dvec3(radius, 0.0, 0.0);
+	perfil[2] = dvec3(0.5, height, 0.0);
+	this->mMesh = new MbR(m, n, perfil);
+	mMesh = MbR::generaIndexMeshByRevolution(m,n,perfil);
+}
+
+void Cono::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}

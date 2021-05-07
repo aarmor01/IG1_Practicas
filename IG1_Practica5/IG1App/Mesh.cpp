@@ -490,6 +490,7 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 		mesh->vVertices.emplace_back(vertices[i]);
 
 	//Determinar indices caras cuadrangulares
+	mesh->vIndices = new GLuint[nn*mm];
 	// El contador i recorre las muestras alrededor del eje Y
 	int indiceMayor = 0;
 	for (int i = 0; i < nn; i++)
