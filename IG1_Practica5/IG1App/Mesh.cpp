@@ -449,9 +449,72 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 }
 //-------------------------------------------------------------------------
 
-MbR::MbR(int n, dvec3* perfil, int m)
+MbR::MbR(int m, int n, glm::dvec3* perfil)
 {
-	this->n = n;
 	this->m = m;
+	this->n = n;
 	this->perfil = perfil;
+}
+
+MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
+{
+	MbR* mesh = new MbR(mm, nn, perfil);
+
+	// Definir la primitiva como GL_TRIANGLES
+	mesh->mPrimitive = GL_TRIANGLES;
+	// Definir el número de vértices como nn*mm
+	mesh->mNumVertices = nn * mm;
+	// Usar un vector auxiliar de vértices
+	dvec3* vertices = new dvec3[mesh->mNumVertices];
+
+	for (int i = 0; i < nn; i++)
+	{
+		// Generar la muestra i-ésima de vértices
+		GLdouble theta = i * 360 / nn;
+		GLdouble c = cos(radians(theta));
+		GLdouble s = sin(radians(theta));
+
+		// R_y(theta) es la matriz de rotación alrededor del eje Y
+		for (int j = 0; j < mm; j++) {
+			int indice = i * mm + j;
+			GLdouble x = c * perfil[j].x + s * perfil[j].z;
+			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+			vertices[indice] = dvec3(x, perfil[j].y, z);
+		}
+	}
+
+	//Volcar vertices
+	//mesh->vVertices = vertices; //claramante esto no va así lmao, hare un bucle aunque no
+	//me parece eficiente
+	for (int i = 0; i < mesh->mNumVertices; i++)
+		mesh->vVertices.emplace_back(vertices[i]);
+
+	//Determinar indices caras cuadrangulares
+	// El contador i recorre las muestras alrededor del eje Y
+	int indiceMayor = 0;
+	for (int i = 0; i < nn; i++)
+	{
+		// El contador j recorre los vértices del perfil,
+		// de abajo arriba. Las caras cuadrangulares resultan
+		// al unir la muestra i-ésima con la (i+1)%nn-ésima
+		for (int j = 0; j < mm - 1; j++)
+		{
+			// El contador indice sirve para llevar cuenta
+			// de los índices generados hasta ahora. Se recorre
+			// la cara desde la esquina inferior izquierda
+			int indice = i * mm + j;
+			// Los cuatro índices son entonces:
+			//indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1
+			mesh->vIndices[indiceMayor] = indice;
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+		}
+	}
+
+	// Vectores normales
+	mesh->buildNormalVectors();
+	return mesh;
 }
