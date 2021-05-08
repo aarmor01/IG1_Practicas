@@ -607,7 +607,7 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble m)
+Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev)
 {
 	dvec3* perfil = new dvec3[puntosPerfil];
 
@@ -616,13 +616,12 @@ Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble m)
 	GLfloat angle = 270; //angulo
 	for (GLuint counter = 0; counter < puntosPerfil; counter++) {
 		perfil[counter] = dvec3(radius * cos(radians(angle)), radius * sin(radians(angle)), 0.0);
-		angle += 180 / (puntosPerfil-1); // incrementamos el angulo del siguiente vertice
+		angle += 180.0 / (puntosPerfil-1); // incrementamos el angulo del siguiente vertice
 	}
 
 	/////////////
 
-	this->mMesh = new MbR(m, radius, perfil);
-	mMesh = MbR::generaIndexMeshByRevolution(m, radius, perfil);
+	this->mMesh = MbR::generaIndexMeshByRevolution(puntosPerfil, rev, perfil);
 }
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
@@ -633,6 +632,5 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		mMesh->render();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
 	}
 }

@@ -464,8 +464,11 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 	mesh->mPrimitive = GL_TRIANGLES;
 	// Definir el número de vértices como nn*mm
 	mesh->mNumVertices = nn * mm;
-	// Usar un vector auxiliar de vértices
-	dvec3* vertices = new dvec3[mesh->mNumVertices];
+	// Reservamos espacio
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++)
+		mesh->vVertices.emplace_back(0, 0, 0);
 
 	for (int i = 0; i < nn; i++)
 	{
@@ -479,15 +482,9 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 			int indice = i * mm + j;
 			GLdouble x = c * perfil[j].x + s * perfil[j].z;
 			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
-			vertices[indice] = dvec3(x, perfil[j].y, z);
+			mesh->vVertices[indice] = dvec3(x, perfil[j].y, z);
 		}
 	}
-
-	//Volcar vertices
-	//mesh->vVertices = vertices; //claramante esto no va así lmao, hare un bucle aunque no
-	//me parece eficiente
-	for (int i = 0; i < mesh->mNumVertices; i++)
-		mesh->vVertices.emplace_back(vertices[i]);
 
 	//Determinar indices caras cuadrangulares
 	mesh->nNumIndices = 6 * nn * mm - 6 * nn;
