@@ -28,8 +28,10 @@ void Scene::init(int mId)
 	if (this->mId == 1)
 	{
 		//tieFighter();
-		Cono* cono = new Cono(300, 100, 50);
-		gObjectsOpaque.push_back(cono);
+	/*	Cono* cono = new Cono(300, 100, 50);
+		gObjectsOpaque.push_back(cono);*/
+		Esfera* esfera = new Esfera(150, 7, 4);
+		gObjectsOpaque.push_back(esfera);
 	}
 	else if (this->mId == 2)
 		anilloCuadrado();
