@@ -30,7 +30,7 @@ void Scene::init(int mId)
 		//tieFighter();
 	/*	Cono* cono = new Cono(300, 100, 50);
 		gObjectsOpaque.push_back(cono);*/
-		Esfera* esfera = new Esfera(150, 7, 4);
+		Esfera* esfera = new Esfera(150, 10, 16);
 		gObjectsOpaque.push_back(esfera);
 	}
 	else if (this->mId == 2)

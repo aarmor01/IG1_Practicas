@@ -284,7 +284,7 @@ public:
 
 class Esfera : public Abs_Entity{
 public:
-	explicit Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble m);
+	explicit Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev);
 	virtual ~Esfera() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
