@@ -30,8 +30,16 @@ void Scene::init(int mId)
 		//tieFighter();
 	/*	Cono* cono = new Cono(300, 100, 50);
 		gObjectsOpaque.push_back(cono);*/
-		Esfera* esfera = new Esfera(150, 10, 16);
+		Esfera* esfera = new Esfera(150, 50, 50);
+		glm::dmat4 mAux = esfera->modelMat();
+		mAux = translate(mAux, dvec3(-200, 0, 0));
+		esfera->setModelMat(mAux);
 		gObjectsOpaque.push_back(esfera);
+		Sphere* sphere = new Sphere(150);
+		mAux = sphere->modelMat();
+		mAux = translate(mAux, dvec3(200, 0, 0));
+		sphere->setModelMat(mAux);
+		gObjectsOpaque.push_back(sphere);
 	}
 	else if (this->mId == 2)
 		anilloCuadrado();
