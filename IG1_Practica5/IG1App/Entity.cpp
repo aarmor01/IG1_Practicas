@@ -632,3 +632,8 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 	}
 }
+
+Grid::Grid(GLuint lado, GLuint numDivisiones)
+{
+	mMesh = Mesh::generateGrid(lado, numDivisiones);
+}

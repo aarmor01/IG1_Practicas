@@ -284,6 +284,55 @@ Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 }
 //-------------------------------------------------------------------------
 
+IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint numDiv)
+{   // Grid cuadrado de lado*lado, centrado en el plano Y=0,
+	// dividido en numDiv*numDiv celdas (cada celda son 2 triángulos)
+	IndexMesh* indexMesh = new IndexMesh();
+	GLdouble incr = lado / numDiv; // incremento para la coordenada x, y la c. z
+	GLuint numFC = numDiv + 1; // número de vértices por filas y columnas
+	// Generación de vértices
+	indexMesh->mNumVertices = numFC * numFC;
+	indexMesh->vVertices = new dvec3[indexMesh->mNumVertices];
+
+	double z = -lado / 2;
+	double x = -lado / 2;
+	for (int f = 0; f < numFC; f++) {
+		for (int c = 0; c < numFC; c++) {
+			indexMesh->vVertices[f * numFC + c] = dvec3(x + c * incr, 0, z + f * incr);
+		}
+	}
+
+	// Generación de índices
+	indexMesh->nNumIndices = numDiv * numDiv * 6;
+	indexMesh->vIndices = new GLuint[indexMesh->nNumIndices];
+
+	GLuint i = 0;
+	for (int h = 0; h < numFC; h++) {
+		for (int k = 0; k < numFC; k++) {
+			int iv = h * numFC + k;
+			indexMesh->vIndices[i++] = iv;
+			indexMesh->vIndices[i++] = iv + numFC;
+			indexMesh->vIndices[i++] = iv + 1;
+
+			indexMesh->vIndices[i++] = iv + 1;
+			indexMesh->vIndices[i++] = iv + numFC;
+			indexMesh->vIndices[i++] = iv + numFC + 1;
+		}
+	}
+
+	GLuint s = 0;
+	GLuint t = 1;
+	for (int f = 0; f < numFC; f++) {
+		for (int c = 0; c < numFC; c++) {
+			indexMesh->vTexCoords[f * numFC + c] = dvec2(s + 1/numFC , t - 1/numFC);
+		}
+	}
+	
+	indexMesh->buildNormalVectors();
+	return indexMesh;
+}
+//-------------------------------------------------------------------------
+
 void IndexMesh::render() const
 {
 	if (vVertices.size() > 0) { // transfer data
@@ -524,3 +573,4 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 	mesh->buildNormalVectors();
 	return mesh;
 }
+

@@ -288,4 +288,10 @@ public:
 	virtual ~Esfera() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
+
+class Grid : public Abs_Entity
+{
+public:
+	Grid(GLuint lado, GLuint numDivisiones);
+};
 #endif //_H_Entities_H_
