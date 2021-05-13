@@ -125,6 +125,12 @@ void IG1App::key(unsigned char key, int x, int y)
 {
 	bool need_redisplay = true;
 
+	if (key >= '0' && key <= '9')
+	{
+		getCamera(mCoord.x)->set2D();
+		getScene(mCoord.x)->changeScene(key-48);
+	}
+
 	switch (key) {
 	case 27:					   // Escape key 
 		glutLeaveMainLoop();	   // stops main loop and destroy the OpenGL context
@@ -154,22 +160,6 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case '<':
 		getCamera(mCoord.x)->orbit(1);
-		break;
-	case '0':
-		getCamera(mCoord.x)->set2D();
-		getScene(mCoord.x)->changeScene(0);
-		break;
-	case '1':
-		getCamera(mCoord.x)->set2D();
-		getScene(mCoord.x)->changeScene(1);
-		break;
-	case '2':
-		getCamera(mCoord.x)->set2D();
-		getScene(mCoord.x)->changeScene(2);
-		break;
-	case '3':
-		getCamera(mCoord.x)->set2D();
-		getScene(mCoord.x)->changeScene(3);
 		break;
 	case 'p':
 		getCamera(mCoord.x)->changePrj();
