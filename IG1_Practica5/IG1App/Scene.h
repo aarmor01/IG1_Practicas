@@ -49,6 +49,7 @@ protected:
 	void tieFighter();
 	void anilloCuadrado();
 	void cuboIndexado();
+	void dosEsferas();
 
 };
 //-------------------------------------------------------------------------
