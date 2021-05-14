@@ -9,9 +9,7 @@
 #include "Texture.h"
 #include "CheckML.h"
 
-
 using namespace glm;
-
 //-------------------------------------------------------------------------
 
 class Abs_Entity  // abstract class
@@ -154,7 +152,7 @@ public:
 	void setPosition(const dvec3& position);
 private:
 	GLdouble zAngle = 0.0, yAngle = 0.0;
-	dvec3 position;
+	dvec3 position = dvec3();
 };
 //-------------------------------------------------------------------------
 
@@ -223,12 +221,12 @@ public:
 //-------------------------------------------------------------------------
 
 /*
- * No usamos la clase EntityWithIndex porque como la unica diferencia entre esta clase y 
- * Abs_Entity sería cambiar el Mesh* por IndexMesh*; y al ser Mesh la clase padre de IndexMesh, 
+ * No usamos la clase EntityWithIndex porque como la unica diferencia entre esta clase y
+ * Abs_Entity sería cambiar el Mesh* por IndexMesh*; y al ser Mesh la clase padre de IndexMesh,
  * un Mesh ya puede contener un IndexMesh, la clase se quedaría así:
- * 
+ *
  * class EntityWithIndex: public Abs_Entity {};
- * 
+ *
  * por lo que no es necesario (y sería más util hacer un using EntityWithIndex = Abs_Entity).
  * Además esto lo consultamos en clase contigo y nos diste permiso.
  */
@@ -282,7 +280,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
-class Esfera : public Abs_Entity{
+class Esfera : public Abs_Entity {
 public:
 	explicit Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev);
 	virtual ~Esfera() {};
@@ -293,5 +291,7 @@ class Grid : public Abs_Entity
 {
 public:
 	Grid(GLuint lado, GLuint numDivisiones);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
 };
 #endif //_H_Entities_H_

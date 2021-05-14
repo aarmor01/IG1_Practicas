@@ -156,6 +156,8 @@ void Estrella3D::update() {
 	setModelMat(rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0)));
 	setModelMat(rotate(mModelMat, -radians(zAngle), dvec3(0.0, 0.0, 1.0)));
 }
+//-------------------------------------------------------------------------
+
 void Estrella3D::setPosition(const dvec3& position)
 {
 	this->position = position;
@@ -486,12 +488,13 @@ void CuboIndexado::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 
 		glEnable(GL_COLOR_MATERIAL);
-		glColor4d(0.0, 1.0, 0.0, 1.0);
+		glColor3d(0.0, 1.0, 0.0);
 		mMesh->render();
-		glColor4d(1.0, 1.0, 1.0, 1.0);
+		glColor3d(1.0, 1.0, 1.0);
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }
+//------------------------------------------------------------------------
 
 CompoundEntity::~CompoundEntity()
 {
@@ -501,6 +504,7 @@ CompoundEntity::~CompoundEntity()
 
 	gObjects.clear();
 }
+//------------------------------------------------------------------------
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
@@ -508,6 +512,7 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	for (Abs_Entity* e : gObjects) e->render(aMat);
 }
+//------------------------------------------------------------------------
 
 TIE::TIE(std::vector<Texture*> gTextures)
 {
@@ -568,6 +573,7 @@ TIE::TIE(std::vector<Texture*> gTextures)
 
 	gObjects.push_back(front);
 }
+//------------------------------------------------------------------------
 
 void TIE::render(glm::dmat4 const& modelViewMat) const
 {
@@ -584,6 +590,7 @@ void TIE::render(glm::dmat4 const& modelViewMat) const
 		glDepthMask(GL_TRUE);
 	}
 }
+//------------------------------------------------------------------------
 
 Cono::Cono(GLdouble height, GLdouble radius, GLuint n)
 {
@@ -595,8 +602,9 @@ Cono::Cono(GLdouble height, GLdouble radius, GLuint n)
 	perfil[1] = dvec3(radius, 0.0, 0.0);
 	perfil[2] = dvec3(0.5, height, 0.0);
 	this->mMesh = new MbR(m, n, perfil);
-	mMesh = MbR::generaIndexMeshByRevolution(m,n,perfil);
+	mMesh = MbR::generaIndexMeshByRevolution(m, n, perfil);
 }
+//------------------------------------------------------------------------
 
 void Cono::render(glm::dmat4 const& modelViewMat) const
 {
@@ -606,23 +614,21 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 	}
 }
+//------------------------------------------------------------------------
 
 Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev)
 {
 	dvec3* perfil = new dvec3[puntosPerfil];
 
-	//////////////////
-
 	GLfloat angle = 270; //angulo
 	for (GLuint counter = 0; counter < puntosPerfil; counter++) {
 		perfil[counter] = dvec3(radius * cos(radians(angle)), radius * sin(radians(angle)), 0.0);
-		angle += 180.0 / (puntosPerfil-1); // incrementamos el angulo del siguiente vertice
+		angle += 180.0 / (puntosPerfil - 1); // incrementamos el angulo del siguiente vertice
 	}
-
-	/////////////
 
 	this->mMesh = MbR::generaIndexMeshByRevolution(puntosPerfil, rev, perfil);
 }
+//------------------------------------------------------------------------
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
@@ -632,8 +638,35 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 	}
 }
+//------------------------------------------------------------------------
 
 Grid::Grid(GLuint lado, GLuint numDivisiones)
 {
-	mMesh = Mesh::generateGrid(lado, numDivisiones);
+	mMesh = IndexMesh::generateGrid(lado, numDivisiones);
 }
+//------------------------------------------------------------------------
+
+void Grid::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		if (mTexture == nullptr) {
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(0.0, 0.0, 1.0);
+		}
+		else
+			mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		if (mTexture == nullptr) {
+			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
+		}
+		else
+			mTexture->unbind();
+	}
+}
+//------------------------------------------------------------------------
