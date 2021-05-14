@@ -37,6 +37,9 @@ void Scene::init(int mId)
 		cuboIndexado();
 	else if (this->mId == 4)
 		dosEsferas();
+	else if (this->mId == 5) {
+		gObjectsOpaque.push_back(new Grid(400, 10));
+	}
 }
 //-------------------------------------------------------------------------
 

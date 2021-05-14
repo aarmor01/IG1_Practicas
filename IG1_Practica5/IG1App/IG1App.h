@@ -84,8 +84,8 @@ protected:
 	Scene* mScene = nullptr;
 	Scene* mScene2 = nullptr;
 
-	dvec2 mCoord;
-	int mBot;
+	dvec2 mCoord = dvec2();
+	int mBot = 0;
 
 	bool mStop = false; // main event processing loop
 	int mWinId = 0;	    // window's identifier

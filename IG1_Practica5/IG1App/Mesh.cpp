@@ -285,20 +285,41 @@ Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 //-------------------------------------------------------------------------
 
 IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint numDiv)
-{   // Grid cuadrado de lado*lado, centrado en el plano Y=0,
+{
+	// Grid cuadrado de lado*lado, centrado en el plano Y=0,
 	// dividido en numDiv*numDiv celdas (cada celda son 2 triángulos)
 	IndexMesh* indexMesh = new IndexMesh();
 	GLdouble incr = lado / numDiv; // incremento para la coordenada x, y la c. z
-	GLuint numFC = numDiv + 1; // número de vértices por filas y columnas
+	GLuint numFC = numDiv + 1;	   // número de vértices por filas y columnas
+
 	// Generación de vértices
 	indexMesh->mNumVertices = numFC * numFC;
-	indexMesh->vVertices = new dvec3[indexMesh->mNumVertices];
+	indexMesh->vVertices.reserve(indexMesh->mNumVertices);
+
+	for (int i = 0; i < indexMesh->mNumVertices; i++)
+		indexMesh->vVertices.emplace_back(dvec3());
 
 	double z = -lado / 2;
 	double x = -lado / 2;
 	for (int f = 0; f < numFC; f++) {
 		for (int c = 0; c < numFC; c++) {
-			indexMesh->vVertices[f * numFC + c] = dvec3(x + c * incr, 0, z + f * incr);
+			int indice = f * numFC + c;
+			indexMesh->vVertices[indice] = dvec3(x + c * incr, 0, z + f * incr);
+		}
+	}
+
+	// generacion de texturas
+	indexMesh->vTexCoords.reserve(indexMesh->mNumVertices);
+
+	for (int i = 0; i < indexMesh->mNumVertices; i++)
+		indexMesh->vTexCoords.emplace_back(dvec2());
+
+	GLuint s = 0;
+	GLuint t = 1;
+	for (int f = 0; f < numFC; f++) {
+		for (int c = 0; c < numFC; c++) {
+			int indice = f * numFC + c;
+			indexMesh->vTexCoords[indice] = dvec2(s + (double)c / numFC, t - (double)f / numFC);
 		}
 	}
 
@@ -320,14 +341,7 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint numDiv)
 		}
 	}
 
-	GLuint s = 0;
-	GLuint t = 1;
-	for (int f = 0; f < numFC; f++) {
-		for (int c = 0; c < numFC; c++) {
-			indexMesh->vTexCoords[f * numFC + c] = dvec2(s + 1/numFC , t - 1/numFC);
-		}
-	}
-	
+	// normales
 	indexMesh->buildNormalVectors();
 	return indexMesh;
 }
@@ -450,6 +464,7 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 
 	return iMesh;
 }
+//-------------------------------------------------------------------------
 
 IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 {
@@ -504,6 +519,7 @@ MbR::MbR(int m, int n, glm::dvec3* perfil)
 	this->n = n;
 	this->perfil = perfil;
 }
+//-------------------------------------------------------------------------
 
 MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 {
@@ -573,4 +589,4 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil)
 	mesh->buildNormalVectors();
 	return mesh;
 }
-
+//-------------------------------------------------------------------------

@@ -45,7 +45,7 @@ protected:
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords; // texture vertices
-	std::vector<glm::dvec3> vNormals; // tabla de normales
+	std::vector<glm::dvec3> vNormals;   // tabla de normales
 
 	virtual void draw() const;
 };
@@ -72,9 +72,11 @@ protected:
 
 class MbR : public IndexMesh {
 public:
+	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
+
 	MbR(int m, int n, glm::dvec3* perfil);
 	virtual ~MbR() { delete[] perfil; }
-	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
+
 protected:
 	int n;
 	int m;
