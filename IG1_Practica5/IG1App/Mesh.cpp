@@ -328,8 +328,8 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint numDiv)
 	indexMesh->vIndices = new GLuint[indexMesh->nNumIndices];
 
 	GLuint i = 0;
-	for (int h = 0; h < numFC; h++) {
-		for (int k = 0; k < numFC; k++) {
+	for (int h = 0; h < numDiv; h++) {
+		for (int k = 0; k < numDiv; k++) {
 			int iv = h * numFC + k;
 			indexMesh->vIndices[i++] = iv;
 			indexMesh->vIndices[i++] = iv + numFC;

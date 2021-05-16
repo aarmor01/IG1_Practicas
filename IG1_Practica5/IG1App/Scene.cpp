@@ -38,7 +38,9 @@ void Scene::init(int mId)
 	else if (this->mId == 4)
 		dosEsferas();
 	else if (this->mId == 5) {
-		gObjectsOpaque.push_back(new Grid(400, 10));
+		Grid* grid = new Grid(400, 10);
+		grid->setTexture(gTextures[0]);
+		gObjectsOpaque.push_back(grid);
 	}
 }
 //-------------------------------------------------------------------------
