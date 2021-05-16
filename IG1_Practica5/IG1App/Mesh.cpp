@@ -319,7 +319,7 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint numDiv)
 	for (int f = 0; f < numFC; f++) {
 		for (int c = 0; c < numFC; c++) {
 			int indice = f * numFC + c;
-			indexMesh->vTexCoords[indice] = dvec2(s + (double)c / numFC, t - (double)f / numFC);
+			indexMesh->vTexCoords[indice] = dvec2(s + (double)c / numDiv, t - (double)f / numDiv);
 		}
 	}
 
