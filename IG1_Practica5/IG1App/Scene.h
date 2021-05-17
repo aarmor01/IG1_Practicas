@@ -39,7 +39,7 @@ protected:
 	vector<Abs_Entity*> gObjectsTrans;	   // Entities (graphic objects) translucents of the scene
 	vector<Texture*> gTextures;			   // Textures for the gObjs
 
-	static const int NUM_TEXTURES = 6;
+	static const int NUM_TEXTURES = 8;
 	static const pair<std::string, int> bmps[NUM_TEXTURES];
 	void loadTexture();
 	int mId = 1;

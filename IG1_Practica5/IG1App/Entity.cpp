@@ -510,7 +510,24 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
-	for (Abs_Entity* e : gObjects) e->render(aMat);
+	for (Abs_Entity* e : gObjects)
+	{
+		if (mTexture == nullptr) {
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(0.0, 0.0, 1.0);
+		}
+		else
+			mTexture->bind(GL_REPLACE);
+
+		e->render(aMat);
+
+		if (mTexture == nullptr) {
+			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
+		}
+		else
+			mTexture->unbind();
+	}
 }
 //------------------------------------------------------------------------
 
@@ -640,7 +657,7 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 }
 //------------------------------------------------------------------------
 
-Grid::Grid(GLuint lado, GLuint numDivisiones)
+Grid::Grid(GLdouble lado, GLuint numDivisiones)
 {
 	mMesh = IndexMesh::generateGrid(lado, numDivisiones);
 }
@@ -651,6 +668,9 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		glEnable(GL_CULL_FACE);
+
+		glCullFace(GL_BACK);
 
 		if (mTexture == nullptr) {
 			glEnable(GL_COLOR_MATERIAL);
@@ -658,8 +678,9 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		}
 		else
 			mTexture->bind(GL_REPLACE);
-
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		if (mTexture == nullptr) {
 			glColor3f(1.0, 1.0, 1.0);
@@ -667,6 +688,77 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		}
 		else
 			mTexture->unbind();
+
+
+		glCullFace(GL_FRONT);
+		glEnable(GL_COLOR_MATERIAL);
+		glColor3f(0.0, 0.0, 1.0);
+		mMesh->render();
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
+		glDisable(GL_CULL_FACE);
+
 	}
 }
 //------------------------------------------------------------------------
+
+GridCube::GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gTextures)
+{
+	dmat4 mat;
+	//Frontal y trasera
+	Grid* grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(lado/2, lado/2, 0));
+	mat = rotate(mat, radians(90.0), dvec3(0.0, 1.0, 0.0));
+	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(-lado/2, lado/2, 0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 1.0, 0.0));
+	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	//Laterales
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();	mat = translate(mat, dvec3(0, lado/2, lado/2));
+	mat = rotate(mat, radians(90.0), dvec3(0.0, 0.0, 1.0));
+	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
+	mat = rotate(mat, radians(90.0), dvec3(0.0, 1.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, lado/2, -lado/2));
+	mat = rotate(mat, radians(90.0), dvec3(0.0, 0.0, 1.0));
+	mat = rotate(mat, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 1.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	//Superior e inferior
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, lado, 0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[6]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = rotate(mat, radians(180.0), dvec3(1.0, 0.0, 0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[6]);
+	gObjects.push_back(grid);
+
+}

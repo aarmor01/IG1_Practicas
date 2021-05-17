@@ -9,7 +9,8 @@ using namespace glm;
 
 const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 		{"..\\Bmps\\baldosaP.bmp", 255}, {"..\\Bmps\\container.bmp", 255 }, {"..\\Bmps\\papelC.bmp", 255},
-		{"..\\Bmps\\baldosaC.bmp", 255}, {"..\\Bmps\\windowV.bmp", 150}, {"..\\Bmps\\noche.bmp", 150}
+		{"..\\Bmps\\baldosaC.bmp", 255}, {"..\\Bmps\\windowV.bmp", 150}, {"..\\Bmps\\noche.bmp", 150},
+		{"..\\Bmps\\checker.bmp", 255}, {"..\\Bmps\\stones.bmp", 255}
 };
 
 void Scene::init(int mId)
@@ -38,9 +39,11 @@ void Scene::init(int mId)
 	else if (this->mId == 4)
 		dosEsferas();
 	else if (this->mId == 5) {
-		Grid* grid = new Grid(400, 10);
+		/*Grid* grid = new Grid(400, 10);
 		grid->setTexture(gTextures[0]);
-		gObjectsOpaque.push_back(grid);
+		gObjectsOpaque.push_back(grid);*/
+		GridCube* gridCube = new GridCube(200, 10, gTextures);
+		gObjectsOpaque.push_back(gridCube);
 	}
 }
 //-------------------------------------------------------------------------

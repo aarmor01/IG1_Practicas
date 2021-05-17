@@ -271,6 +271,14 @@ private:
 };
 //-------------------------------------------------------------------------
 
+class GridCube : public CompoundEntity
+{
+public:
+	explicit GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gTextures);
+	virtual ~GridCube() {};
+};
+//-------------------------------------------------------------------------
+
 //Entidades por revolucion
 
 class Cono : public Abs_Entity {
@@ -290,7 +298,7 @@ public:
 class Grid : public Abs_Entity
 {
 public:
-	Grid(GLuint lado, GLuint numDivisiones);
+	Grid(GLdouble lado, GLuint numDivisiones);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
