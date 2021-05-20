@@ -284,7 +284,7 @@ Mesh* Mesh::generaHexagonoTexCor(GLdouble radio)
 }
 //-------------------------------------------------------------------------
 
-IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint numDiv)
+IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint numDiv)
 {
 	// Grid cuadrado de lado*lado, centrado en el plano Y=0,
 	// dividido en numDiv*numDiv celdas (cada celda son 2 triángulos)
