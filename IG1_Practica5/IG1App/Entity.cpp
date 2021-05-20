@@ -480,6 +480,7 @@ CuboIndexado::CuboIndexado(GLdouble l)
 {
 	mMesh = IndexMesh::generaCuboConTapasIndexado(l);
 }
+//------------------------------------------------------------------------
 
 void CuboIndexado::render(glm::dmat4 const& modelViewMat) const
 {
@@ -511,23 +512,7 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
 	for (Abs_Entity* e : gObjects)
-	{
-		if (mTexture == nullptr) {
-			glEnable(GL_COLOR_MATERIAL);
-			glColor3f(0.0, 0.0, 1.0);
-		}
-		else
-			mTexture->bind(GL_REPLACE);
-
 		e->render(aMat);
-
-		if (mTexture == nullptr) {
-			glColor3f(1.0, 1.0, 1.0);
-			glDisable(GL_COLOR_MATERIAL);
-		}
-		else
-			mTexture->unbind();
-	}
 }
 //------------------------------------------------------------------------
 
@@ -659,7 +644,7 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 
 Grid::Grid(GLdouble lado, GLuint numDivisiones)
 {
-	mMesh = IndexMesh::generateGrid(lado, numDivisiones);
+	mMesh = IndexMesh::generaGrid(lado, numDivisiones);
 }
 //------------------------------------------------------------------------
 
@@ -668,36 +653,23 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glEnable(GL_CULL_FACE);
-
-		glCullFace(GL_BACK);
 
 		if (mTexture == nullptr) {
 			glEnable(GL_COLOR_MATERIAL);
 			glColor3f(0.0, 0.0, 1.0);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 		else
 			mTexture->bind(GL_REPLACE);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		if (mTexture == nullptr) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glColor3f(1.0, 1.0, 1.0);
 			glDisable(GL_COLOR_MATERIAL);
 		}
 		else
 			mTexture->unbind();
-
-
-		glCullFace(GL_FRONT);
-		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(0.0, 0.0, 1.0);
-		mMesh->render();
-		glColor3f(1.0, 1.0, 1.0);
-		glDisable(GL_COLOR_MATERIAL);
-		glDisable(GL_CULL_FACE);
-
 	}
 }
 //------------------------------------------------------------------------
@@ -705,42 +677,41 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 GridCube::GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gTextures)
 {
 	dmat4 mat;
-	//Frontal y trasera
+	//Laterales
 	Grid* grid = new Grid(lado, numDivisiones);
 	mat = grid->modelMat();
-	mat = translate(mat, dvec3(lado/2, lado/2, 0));
-	mat = rotate(mat, radians(90.0), dvec3(0.0, 1.0, 0.0));
-	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
+	mat = translate(mat, dvec3(lado / 2, lado / 2, 0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
 	grid->setModelMat(mat);
 	grid->setTexture(gTextures[7]);
 	gObjects.push_back(grid);
 
 	grid = new Grid(lado, numDivisiones);
 	mat = grid->modelMat();
-	mat = translate(mat, dvec3(-lado/2, lado/2, 0));
-	mat = rotate(mat, radians(-90.0), dvec3(0.0, 1.0, 0.0));
-	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
+	mat = translate(mat, dvec3(-lado / 2, lado / 2, 0));
+	mat = rotate(mat, radians(180.0), dvec3(0.0, 1.0, 0.0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
 	grid->setModelMat(mat);
 	grid->setTexture(gTextures[7]);
 	gObjects.push_back(grid);
 
-	//Laterales
-
-	grid = new Grid(lado, numDivisiones);
-	mat = grid->modelMat();	mat = translate(mat, dvec3(0, lado/2, lado/2));
-	mat = rotate(mat, radians(90.0), dvec3(0.0, 0.0, 1.0));
-	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
-	mat = rotate(mat, radians(90.0), dvec3(0.0, 1.0, 0.0));
-	grid->setModelMat(mat);
-	grid->setTexture(gTextures[7]);
-	gObjects.push_back(grid);
+	//Frontal y trasera
 
 	grid = new Grid(lado, numDivisiones);
 	mat = grid->modelMat();
-	mat = translate(mat, dvec3(0, lado/2, -lado/2));
-	mat = rotate(mat, radians(90.0), dvec3(0.0, 0.0, 1.0));
+	mat = translate(mat, dvec3(0, lado / 2, lado / 2));
+	mat = rotate(mat, radians(180.0), dvec3(0.0, 1.0, 0.0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
 	mat = rotate(mat, radians(-90.0), dvec3(1.0, 0.0, 0.0));
-	mat = rotate(mat, radians(-90.0), dvec3(0.0, 1.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, lado / 2, -lado / 2));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+	mat = rotate(mat, radians(-90.0), dvec3(1.0, 0.0, 0.0));
 	grid->setModelMat(mat);
 	grid->setTexture(gTextures[7]);
 	gObjects.push_back(grid);
@@ -760,5 +731,5 @@ GridCube::GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gT
 	grid->setModelMat(mat);
 	grid->setTexture(gTextures[6]);
 	gObjects.push_back(grid);
-
 }
+//------------------------------------------------------------------------

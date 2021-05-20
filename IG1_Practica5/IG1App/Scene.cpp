@@ -27,11 +27,7 @@ void Scene::init(int mId)
 	gObjectsOpaque.push_back(new EjesRGB(400.0));
 
 	if (this->mId == 1)
-	{
 		tieFighter();
-	/*	Cono* cono = new Cono(300, 100, 50);
-		gObjectsOpaque.push_back(cono);*/
-	}
 	else if (this->mId == 2)
 		anilloCuadrado();
 	else if (this->mId == 3)
@@ -253,8 +249,12 @@ void Scene::cuboIndexado()
 }
 //-------------------------------------------------------------------------
 
+// Practica 2 esferas revoluciones
 void Scene::dosEsferas()
 {
+	/*Cono* cono = new Cono(300, 100, 50);
+	gObjectsOpaque.push_back(cono);*/
+
 	Esfera* esfera = new Esfera(150, 50, 50);
 	glm::dmat4 mAux = esfera->modelMat();
 	mAux = translate(mAux, dvec3(-200, 0, 0));

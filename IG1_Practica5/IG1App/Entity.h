@@ -260,8 +260,7 @@ public:
 };
 //-------------------------------------------------------------------------
 
-class TIE : public CompoundEntity
-{
+class TIE : public CompoundEntity {
 public:
 	explicit TIE(std::vector<Texture*> gTextures);
 	virtual ~TIE() {};
@@ -271,15 +270,22 @@ private:
 };
 //-------------------------------------------------------------------------
 
-class GridCube : public CompoundEntity
-{
+class GridCube : public CompoundEntity {
 public:
 	explicit GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gTextures);
 	virtual ~GridCube() {};
 };
 //-------------------------------------------------------------------------
 
-//Entidades por revolucion
+class Grid : public Abs_Entity {
+public:
+	Grid(GLdouble lado, GLuint numDivisiones);
+	virtual ~Grid() {};
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+//-------------------------------------------------------------------------
+
+// Entidades por revolucion (Mbr)
 
 class Cono : public Abs_Entity {
 public:
@@ -287,6 +293,7 @@ public:
 	virtual ~Cono() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
+//-------------------------------------------------------------------------
 
 class Esfera : public Abs_Entity {
 public:
@@ -294,12 +301,6 @@ public:
 	virtual ~Esfera() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
+//-------------------------------------------------------------------------
 
-class Grid : public Abs_Entity
-{
-public:
-	Grid(GLdouble lado, GLuint numDivisiones);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
-
-};
 #endif //_H_Entities_H_
