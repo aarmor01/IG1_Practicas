@@ -41,6 +41,34 @@ void Scene::init(int mId)
 		GridCube* gridCube = new GridCube(200, 10, gTextures);
 		gObjectsOpaque.push_back(gridCube);
 	}
+	else if (this->mId == 6)
+	{
+		glm::dmat4 modelMat;
+		Esfera* esfera = new Esfera(10000, 80, 200);
+		esfera->setColor(dvec4(0, 0.254, 0.415, 0));
+		modelMat = esfera->modelMat();
+		modelMat = translate(modelMat, dvec3(-5000, -10000, -10000));
+		esfera->setModelMat(modelMat);
+		gObjectsOpaque.push_back(esfera);
+
+		TIE* tie = new TIE(gTextures);
+		modelMat = tie->modelMat();
+		modelMat = translate(modelMat, dvec3(-600, 0, 0));
+		tie->setModelMat(modelMat);
+		gObjectsOpaque.push_back(tie);
+
+		tie = new TIE(gTextures);
+		modelMat = tie->modelMat();
+		tie->setModelMat(modelMat);
+		modelMat = translate(modelMat, dvec3(600, 0, 0));
+		gObjectsOpaque.push_back(tie);
+
+		tie = new TIE(gTextures);
+		modelMat = tie->modelMat();
+		modelMat = translate(modelMat, dvec3(0, -300, 500));
+		tie->setModelMat(modelMat);
+		gObjectsOpaque.push_back(tie);
+	}
 }
 //-------------------------------------------------------------------------
 

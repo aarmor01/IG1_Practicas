@@ -580,13 +580,15 @@ TIE::TIE(std::vector<Texture*> gTextures)
 void TIE::render(glm::dmat4 const& modelViewMat) const
 {
 	CompoundEntity::render(modelViewMat);
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
 
 	for (Abs_Entity* el : gObjectsTrans) {
 		glDepthMask(GL_FALSE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		el->render(modelViewMat);
+		el->render(aMat);
 
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
@@ -635,9 +637,13 @@ Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev)
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+		glEnable(GL_COLOR_MATERIAL);
+		glColor3f(mColor.r, mColor.g, mColor.b);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		mMesh->render();
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 //------------------------------------------------------------------------
