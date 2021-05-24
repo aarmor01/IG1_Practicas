@@ -6,6 +6,7 @@
 #include <glm.hpp>
 
 #include "Mesh.h"
+#include "Light.h"
 #include "Texture.h"
 #include "CheckML.h"
 
@@ -39,6 +40,16 @@ protected:
 
 	// transfers modelViewMat to the GPU
 	virtual void upload(dmat4 const& mModelViewMat) const;
+};
+//-------------------------------------------------------------------------
+
+class EntityWithMaterial : public Abs_Entity {
+public:
+	EntityWithMaterial() : Abs_Entity() { };
+	virtual ~EntityWithMaterial() { };
+	void setMaterial(Material* matl) { material = matl; };
+protected:
+	Material* material = nullptr;
 };
 //-------------------------------------------------------------------------
 
@@ -295,7 +306,7 @@ public:
 };
 //-------------------------------------------------------------------------
 
-class Esfera : public Abs_Entity {
+class Esfera : public EntityWithMaterial {
 public:
 	explicit Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev);
 	virtual ~Esfera() {};
