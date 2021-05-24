@@ -164,6 +164,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'p':
 		getCamera(mCoord.x)->changePrj();
 		break;
+	case 'q':
+		getScene(mCoord.x)->getDirLight()->enable();
+		break;
+	case 'w':
+		getScene(mCoord.x)->getDirLight()->disable();
+		break;
 	default:
 		need_redisplay = false;
 		break;

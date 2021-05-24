@@ -13,6 +13,15 @@ const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 		{"..\\Bmps\\checker.bmp", 255}, {"..\\Bmps\\stones.bmp", 255}
 };
 
+Scene::Scene()
+{
+	dirLight = new DirLight();
+	dirLight->setAmb({ 0, 0, 0, 1 });
+	dirLight->setDiff({ 1, 1, 1, 1 });
+	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	dirLight->setPosDir({ 1, 1, 1 });
+}
+
 void Scene::init(int mId)
 {
 	this->mId = mId;
@@ -20,11 +29,6 @@ void Scene::init(int mId)
 
 	// allocate memory and load resources
 	// Lights
-	dirLight = new DirLight();
-	dirLight->setAmb({ 0, 0, 0, 1 });
-	dirLight->setDiff({ 1, 1, 1, 1 });
-	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	dirLight->setPosDir({ 1, 1, 1 });
 
 	// Textures
 	loadTexture();
@@ -105,7 +109,7 @@ void Scene::setGL()
 	glClearColor(178 / 255.0, 204 / 255.0, 227 / 255.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_TEXTURE_2D);  // enable Texture 
-
+	glEnable(GL_LIGHTING);
 }
 //-------------------------------------------------------------------------
 
@@ -114,6 +118,7 @@ void Scene::resetGL()
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
 	glDisable(GL_TEXTURE_2D);  // disable Texture 	
+	glDisable(GL_LIGHTING);
 }
 //-------------------------------------------------------------------------
 
