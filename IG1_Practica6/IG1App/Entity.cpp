@@ -631,19 +631,33 @@ Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev)
 	}
 
 	this->mMesh = MbR::generaIndexMeshByRevolution(puntosPerfil, rev, perfil);
+
+	//setMaterial(new Material());
 }
 //------------------------------------------------------------------------
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(mColor.r, mColor.g, mColor.b);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		mMesh->render();
-		glColor3f(1.0, 1.0, 1.0);
-		glDisable(GL_COLOR_MATERIAL);
+
+		if (material != nullptr) {
+			glEnable(GL_COLOR_MATERIAL);
+			glColorMaterial(GL_BACK, GL_DIFFUSE);
+			glColorMaterial(GL_BACK, GL_SPECULAR);
+			glColorMaterial(GL_BACK, GL_AMBIENT);
+			material->upload();
+			mMesh->render();
+			glDisable(GL_COLOR_MATERIAL);
+		}
+		else {
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(mColor.r, mColor.g, mColor.b);
+			mMesh->render();
+			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
+		}
 	}
 }
 //------------------------------------------------------------------------
