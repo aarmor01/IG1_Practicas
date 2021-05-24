@@ -28,16 +28,18 @@ public:
 	void update();
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
-	void sceneDirLight(Camera const& cam) const;
+	//void sceneDirLight(Camera const& cam) const;
 
 protected:
 	void free();
 	void setGL();
 	void resetGL();
 
-	vector<Abs_Entity*> gObjectsOpaque	;  // Entities (graphic objects) of the scene
+	vector<Abs_Entity*> gObjectsOpaque;    // Entities (graphic objects) of the scene
 	vector<Abs_Entity*> gObjectsTrans;	   // Entities (graphic objects) translucents of the scene
 	vector<Texture*> gTextures;			   // Textures for the gObjs
+
+	DirLight* dirLight;					   // luz direccional
 
 	static const int NUM_TEXTURES = 8;
 	static const pair<std::string, int> bmps[NUM_TEXTURES];

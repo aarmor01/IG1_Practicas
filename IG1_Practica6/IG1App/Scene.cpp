@@ -20,6 +20,12 @@ void Scene::init(int mId)
 
 	// allocate memory and load resources
 	// Lights
+	dirLight = new DirLight();
+	dirLight->setAmb({ 0, 0, 0, 1 });
+	dirLight->setDiff({ 1, 1, 1, 1 });
+	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	dirLight->setPosDir({ 1, 1, 1 });
+
 	// Textures
 	loadTexture();
 
@@ -124,7 +130,8 @@ void Scene::update() {
 
 void Scene::render(Camera const& cam) const
 {
-	sceneDirLight(cam);
+	dirLight->upload(cam.viewMat());
+
 	cam.upload();
 
 	for (Abs_Entity* el : gObjectsOpaque) {
@@ -153,21 +160,21 @@ void Scene::changeScene(int const id) {
 }
 //-------------------------------------------------------------------------
 
-void Scene::sceneDirLight(Camera const& cam) const
-{
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glm::fvec4 posDir = { 1, 1, 1, 0 };
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixd(value_ptr(cam.viewMat()));
-	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
-	glm::fvec4 ambient = { 0, 0, 0, 1 };
-	glm::fvec4 diffuse = { 1, 1, 1, 1 };
-	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
-	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
-}
+//void Scene::sceneDirLight(Camera const& cam) const
+//{
+//	glEnable(GL_LIGHTING);
+//	glEnable(GL_LIGHT0);
+//	glm::fvec4 posDir = { 1, 1, 1, 0 };
+//	glMatrixMode(GL_MODELVIEW);
+//	glLoadMatrixd(value_ptr(cam.viewMat()));
+//	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
+//	glm::fvec4 ambient = { 0, 0, 0, 1 };
+//	glm::fvec4 diffuse = { 1, 1, 1, 1 };
+//	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+//	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
+//	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
+//	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+//}
 //-------------------------------------------------------------------------
 
 void Scene::loadTexture()
