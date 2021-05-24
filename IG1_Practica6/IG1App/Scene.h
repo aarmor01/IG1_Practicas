@@ -18,7 +18,7 @@ using namespace std;
 class Scene
 {
 public:
-	Scene() {};
+	Scene();
 	~Scene() { free(); resetGL(); };
 
 	Scene(const Scene& s) = delete;				// no copy constructor
@@ -28,6 +28,7 @@ public:
 	void update();
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
+	DirLight* getDirLight() { return dirLight; }
 	//void sceneDirLight(Camera const& cam) const;
 
 protected:
