@@ -46,7 +46,7 @@ void Scene::init(int mId)
 	loadTexture();
 
 	// Graphics objects (entities) of the scene
-	if(mId != 6)gObjectsOpaque.push_back(new EjesRGB(400.0));
+	if (mId != 6) gObjectsOpaque.push_back(new EjesRGB(400.0));
 
 	if (this->mId == 1)
 		tieFighter();
@@ -56,73 +56,10 @@ void Scene::init(int mId)
 		cuboIndexado();
 	else if (this->mId == 4)
 		dosEsferas();
-	else if (this->mId == 5) {
-		/*Grid* grid = new Grid(400, 10);
-		grid->setTexture(gTextures[0]);
-		gObjectsOpaque.push_back(grid);*/
-		GridCube* gridCube = new GridCube(200, 10, gTextures);
-		gObjectsOpaque.push_back(gridCube);
-	}
+	else if (this->mId == 5)
+		gridCube();
 	else if (this->mId == 6)
-	{
-		GLdouble radioEsfera = 300;
-		gObjectsOpaque.push_back(new EjesRGB(radioEsfera*2));
-		glm::dmat4 modelMat;
-		Esfera* esfera = new Esfera(radioEsfera, 80, 200);
-		esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
-		modelMat = esfera->modelMat();
-		esfera->setModelMat(modelMat);
-		gObjectsOpaque.push_back(esfera);
-
-		tie1 = new SpotLight();
-		tie1->setAmb({ 0, 0, 0, 1 });
-		tie1->setDiff({ 1, 1, 1, 1 });
-		tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
-		tie1->setPosDir({ 1, 1, 1 });
-
-		tie2 = new SpotLight();
-		tie2->setAmb({ 0, 0, 0, 1 });
-		tie2->setDiff({ 1, 1, 1, 1 });
-		tie2->setSpec({ 0.5, 0.5, 0.5, 1 });
-		tie2->setPosDir({ 1, 1, 1 });
-
-		tie3 = new SpotLight();
-		tie3->setAmb({ 0, 0, 0, 1 });
-		tie3->setDiff({ 1, 1, 1, 1 });
-		tie3->setSpec({ 0.5, 0.5, 0.5, 1 });
-		tie3->setPosDir({ 1, 1, 1 });
-
-		CompoundEntity* tieFormation = new CompoundEntity();
-
-		TIE* tie = new TIE(gTextures, radioEsfera/6.0);
-		modelMat = tie->modelMat();
-		modelMat = translate(modelMat, dvec3(-radioEsfera/4, -radioEsfera/ 20, 0));
-		modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
-		tie->setModelMat(modelMat);
-		tieFormation->addEntity(tie);
-		tie->setSpotLight(tie1);
-
-		tie = new TIE(gTextures, radioEsfera / 6.0);
-		modelMat = tie->modelMat();
-		modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
-		tie->setModelMat(modelMat);
-		tieFormation->addEntity(tie);
-		tie->setSpotLight(tie2);
-
-
-		tie = new TIE(gTextures, radioEsfera / 6.0);
-		modelMat = tie->modelMat();
-		modelMat = translate(modelMat, dvec3(radioEsfera/4, -radioEsfera / 20, 0));
-		modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
-		tie->setModelMat(modelMat);
-		tieFormation->addEntity(tie);
-		tie->setSpotLight(tie3);
-
-
-		modelMat = tieFormation->modelMat();
-		tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
-		gObjectsOpaque.push_back(tieFormation);
-	}
+		tiesEsfera();
 }
 //-------------------------------------------------------------------------
 
@@ -209,23 +146,6 @@ void Scene::changeScene(int const id) {
 		init(id);
 	}
 }
-//-------------------------------------------------------------------------
-
-//void Scene::sceneDirLight(Camera const& cam) const
-//{
-//	glEnable(GL_LIGHTING);
-//	glEnable(GL_LIGHT0);
-//	glm::fvec4 posDir = { 1, 1, 1, 0 };
-//	glMatrixMode(GL_MODELVIEW);
-//	glLoadMatrixd(value_ptr(cam.viewMat()));
-//	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
-//	glm::fvec4 ambient = { 0, 0, 0, 1 };
-//	glm::fvec4 diffuse = { 1, 1, 1, 1 };
-//	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
-//	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
-//	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
-//	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
-//}
 //-------------------------------------------------------------------------
 
 void Scene::loadTexture()
@@ -354,6 +274,79 @@ void Scene::dosEsferas()
 }
 //-------------------------------------------------------------------------
 
+// Practica 2 cubo por grids
+void Scene::gridCube()
+{
+	/*Grid* grid = new Grid(400, 10);
+	grid->setTexture(gTextures[0]);
+	gObjectsOpaque.push_back(grid);*/
+	GridCube* gridCube = new GridCube(200, 10, gTextures);
+	gObjectsOpaque.push_back(gridCube);
+}
+//-------------------------------------------------------------------------
+
+// Practica 2 escena con ties y esfera
+void Scene::tiesEsfera()
+{
+	GLdouble radioEsfera = 300;
+	gObjectsOpaque.push_back(new EjesRGB(radioEsfera * 2));
+	glm::dmat4 modelMat;
+	Esfera* esfera = new Esfera(radioEsfera, 80, 200);
+	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
+	modelMat = esfera->modelMat();
+	esfera->setModelMat(modelMat);
+	gObjectsOpaque.push_back(esfera);
+
+	tie1 = new SpotLight();
+	tie1->setAmb({ 0, 0, 0, 1 });
+	tie1->setDiff({ 1, 1, 1, 1 });
+	tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
+	tie1->setPosDir({ 1, 1, 1 });
+
+	tie2 = new SpotLight();
+	tie2->setAmb({ 0, 0, 0, 1 });
+	tie2->setDiff({ 1, 1, 1, 1 });
+	tie2->setSpec({ 0.5, 0.5, 0.5, 1 });
+	tie2->setPosDir({ 1, 1, 1 });
+
+	tie3 = new SpotLight();
+	tie3->setAmb({ 0, 0, 0, 1 });
+	tie3->setDiff({ 1, 1, 1, 1 });
+	tie3->setSpec({ 0.5, 0.5, 0.5, 1 });
+	tie3->setPosDir({ 1, 1, 1 });
+
+	CompoundEntity* tieFormation = new CompoundEntity();
+
+	TIE* tie = new TIE(gTextures, radioEsfera / 6.0);
+	modelMat = tie->modelMat();
+	modelMat = translate(modelMat, dvec3(-radioEsfera / 4, -radioEsfera / 20, 0));
+	modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
+	tie->setModelMat(modelMat);
+	tieFormation->addEntity(tie);
+	tie->setSpotLight(tie1);
+
+	tie = new TIE(gTextures, radioEsfera / 6.0);
+	modelMat = tie->modelMat();
+	modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
+	tie->setModelMat(modelMat);
+	tieFormation->addEntity(tie);
+	tie->setSpotLight(tie2);
+
+
+	tie = new TIE(gTextures, radioEsfera / 6.0);
+	modelMat = tie->modelMat();
+	modelMat = translate(modelMat, dvec3(radioEsfera / 4, -radioEsfera / 20, 0));
+	modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
+	tie->setModelMat(modelMat);
+	tieFormation->addEntity(tie);
+	tie->setSpotLight(tie3);
+
+
+	modelMat = tieFormation->modelMat();
+	tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
+	gObjectsOpaque.push_back(tieFormation);
+}
+//-------------------------------------------------------------------------
 
 void Scene::TIEsLightsOn()
 {
