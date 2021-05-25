@@ -179,11 +179,11 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'z':
 		getScene(mCoord.x)->getSpotLight()->enable();
 		break;
-	case 'c':
+	case 'x':
 		getScene(mCoord.x)->getSpotLight()->disable();
 		break;
 	case 'e':
-		getScene(mCoord.x)->getDirLight()->enable();
+		getScene(mCoord.x)->defaultLighting();
 		break;
 	case 'r':
 		getScene(mCoord.x)->darkScene();
