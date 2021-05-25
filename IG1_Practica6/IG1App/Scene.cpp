@@ -20,6 +20,18 @@ Scene::Scene()
 	dirLight->setDiff({ 1, 1, 1, 1 });
 	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
 	dirLight->setPosDir({ 1, 1, 1 });
+
+	posLight = new PosLight();
+	posLight->setAmb({ 0, 0, 0, 1 });
+	posLight->setDiff({ 1, 1, 1, 1 });
+	posLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	posLight->setPosDir({ 1, 1, 1 });
+
+	spotLight = new SpotLight();
+	spotLight->setAmb({ 0, 0, 0, 1 });
+	spotLight->setDiff({ 1, 1, 1, 1 });
+	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	spotLight->setPosDir({ 1, 1, 1 });
 }
 
 void Scene::init(int mId)
@@ -136,6 +148,8 @@ void Scene::update() {
 void Scene::render(Camera const& cam) const
 {
 	dirLight->upload(cam.viewMat());
+	posLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat());
 
 	cam.upload();
 

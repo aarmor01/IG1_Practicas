@@ -170,6 +170,26 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'w':
 		getScene(mCoord.x)->getDirLight()->disable();
 		break;
+	case 'a':
+		getScene(mCoord.x)->getPosLight()->enable();
+		break;
+	case 's':
+		getScene(mCoord.x)->getPosLight()->disable();
+		break;
+	case 'z':
+		getScene(mCoord.x)->getSpotLight()->enable();
+		break;
+	case 'c':
+		getScene(mCoord.x)->getSpotLight()->disable();
+		break;
+	case 'e':
+		getScene(mCoord.x)->getDirLight()->enable();
+		break;
+	case 'r':
+		getScene(mCoord.x)->getPosLight()->disable();
+		getScene(mCoord.x)->getSpotLight()->disable();
+		getScene(mCoord.x)->getDirLight()->disable();
+		break;
 	default:
 		need_redisplay = false;
 		break;

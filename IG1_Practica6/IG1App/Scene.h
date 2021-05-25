@@ -29,6 +29,8 @@ public:
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
 	DirLight* getDirLight() { return dirLight; }
+	PosLight* getPosLight() { return posLight; }
+	SpotLight* getSpotLight() { return spotLight; }
 	//void sceneDirLight(Camera const& cam) const;
 
 protected:
@@ -41,6 +43,8 @@ protected:
 	vector<Texture*> gTextures;			   // Textures for the gObjs
 
 	DirLight* dirLight;					   // luz direccional
+	PosLight* posLight;					   // luz posicional
+	SpotLight* spotLight;
 
 	static const int NUM_TEXTURES = 8;
 	static const pair<std::string, int> bmps[NUM_TEXTURES];
