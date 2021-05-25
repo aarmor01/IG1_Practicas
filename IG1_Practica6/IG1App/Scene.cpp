@@ -65,9 +65,9 @@ void Scene::init(int mId)
 	}
 	else if (this->mId == 6)
 	{
-		gObjectsOpaque.push_back(new EjesRGB(6000.0));
+		GLdouble radioEsfera = 300;
+		gObjectsOpaque.push_back(new EjesRGB(radioEsfera*2));
 		glm::dmat4 modelMat;
-		GLdouble radioEsfera = 2500;
 		Esfera* esfera = new Esfera(radioEsfera, 80, 200);
 		esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
 		modelMat = esfera->modelMat();
@@ -94,15 +94,15 @@ void Scene::init(int mId)
 
 		CompoundEntity* tieFormation = new CompoundEntity();
 
-		TIE* tie = new TIE(gTextures);
+		TIE* tie = new TIE(gTextures, radioEsfera/6.0);
 		modelMat = tie->modelMat();
-		modelMat = translate(modelMat, dvec3(-500, -200, 0));
+		modelMat = translate(modelMat, dvec3(-radioEsfera/4, -radioEsfera/ 20, 0));
 		modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 		tie->setModelMat(modelMat);
 		tieFormation->addEntity(tie);
 		tie->setSpotLight(tie1);
 
-		tie = new TIE(gTextures);
+		tie = new TIE(gTextures, radioEsfera / 6.0);
 		modelMat = tie->modelMat();
 		modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 		tie->setModelMat(modelMat);
@@ -110,9 +110,9 @@ void Scene::init(int mId)
 		tie->setSpotLight(tie2);
 
 
-		tie = new TIE(gTextures);
+		tie = new TIE(gTextures, radioEsfera / 6.0);
 		modelMat = tie->modelMat();
-		modelMat = translate(modelMat, dvec3(500, -300, 0));
+		modelMat = translate(modelMat, dvec3(radioEsfera/4, -radioEsfera / 20, 0));
 		modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
 		tie->setModelMat(modelMat);
 		tieFormation->addEntity(tie);
@@ -120,7 +120,7 @@ void Scene::init(int mId)
 
 
 		modelMat = tieFormation->modelMat();
-		tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera + 500, 0)));
+		tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
 		gObjectsOpaque.push_back(tieFormation);
 	}
 }

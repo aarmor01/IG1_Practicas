@@ -516,60 +516,59 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 }
 //------------------------------------------------------------------------
 
-TIE::TIE(std::vector<Texture*> gTextures)
+TIE::TIE(std::vector<Texture*> gTextures, GLfloat size)
 {
-	Hexagono* wingL = new Hexagono(300);
+	Hexagono* wingL = new Hexagono(size);
 	wingL->setTexture(gTextures[5]);
 	wingL->setColor(dvec4(0, 0.254, 0.415, 0));
 	glm::dmat4 mAux = wingL->modelMat();
 	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
-	mAux = translate(mAux, dvec3(0, 0, 150));
+	mAux = translate(mAux, dvec3(0, 0, size/2.0));
 	wingL->setModelMat(mAux);
 	this->gObjectsTrans.push_back(wingL);
 
-	Hexagono* wingR = new Hexagono(300);
-	wingR = new Hexagono(300);
+	Hexagono* wingR = new Hexagono(size);
 	wingR->setTexture(gTextures[5]);
 	wingR->setColor(dvec4(0, 0.254, 0.415, 0));
 	mAux = wingR->modelMat();
 	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
-	mAux = translate(mAux, dvec3(0, 0, -150));
+	mAux = translate(mAux, dvec3(0, 0, -size/2.0));
 	wingR->setModelMat(mAux);
 	gObjectsTrans.push_back(wingR);
 
-	Sphere* core = new Sphere(100.0);
+	Sphere* core = new Sphere(size/3.0);
 	core->setColor(dvec4(0, 0.254, 0.415, 0));
 	gObjects.push_back(core);
 
-	Cylinder* shaft = new Cylinder(20.0, 20.0, 300.0);
+	Cylinder* shaft = new Cylinder(size / 15.0, size / 15.0, size);
 	shaft->setColor(dvec4(0, 0.254, 0.415, 0));
 	mAux = shaft->modelMat();
-	mAux = translate(mAux, dvec3(150, 0, 0));
+	mAux = translate(mAux, dvec3(size/2.0, 0, 0));
 	mAux = rotate(mAux, radians(-90.0), dvec3(0.0, 1.0, 0));
 	shaft->setModelMat(mAux);
 	gObjects.push_back(shaft);
 
 	CompoundEntity* front = new CompoundEntity();
 
-	Cylinder* cono = new Cylinder(50.0, 50.0, 200.0);
+	Cylinder* cono = new Cylinder(size / 6.0, size / 6.0, (2*size)/3.0);
 	cono->setColor(dvec4(0, 0.254, 0.415, 0));
 	mAux = cono->modelMat();
-	mAux = translate(mAux, dvec3(0, 0, -100));
+	mAux = translate(mAux, dvec3(0, 0, -size / 3.0));
 	cono->setModelMat(mAux);
 	front->gObjects.push_back(cono);
 
 	//Disco tapar cilindro
-	Disk* disk = new Disk(0, 50);
+	Disk* disk = new Disk(0, size/6.0);
 	disk->setColor(dvec4(0, 0.254, 0.415, 0));
 	mAux = disk->modelMat();
-	mAux = translate(mAux, dvec3(0, 0, 100));
+	mAux = translate(mAux, dvec3(0, 0, size/3.0));
 	disk->setModelMat(mAux);
 	front->gObjects.push_back(disk);
 
-	disk = new Disk(0, 50);
+	disk = new Disk(0, size/6.0);
 	disk->setColor(dvec4(0, 0.254, 0.415, 0));
 	mAux = disk->modelMat();
-	mAux = translate(mAux, dvec3(0, 0, -100));
+	mAux = translate(mAux, dvec3(0, 0, -size / 3.0));
 	disk->setModelMat(mAux);
 	front->gObjects.push_back(disk);
 
