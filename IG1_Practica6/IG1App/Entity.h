@@ -273,7 +273,7 @@ public:
 
 class TIE : public CompoundEntity {
 public:
-	explicit TIE(std::vector<Texture*> gTextures);
+	explicit TIE(std::vector<Texture*> gTextures, GLfloat size = 300);
 	virtual ~TIE() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	void setSpotLight(SpotLight* light) { this->light = light; }
