@@ -5,6 +5,7 @@
 
 using namespace glm;
 
+bool Scene::lightsAreOn = false;
 //-------------------------------------------------------------------------
 
 const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
@@ -12,35 +13,16 @@ const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 		{"..\\Bmps\\baldosaC.bmp", 255}, {"..\\Bmps\\windowV.bmp", 150}, {"..\\Bmps\\noche.bmp", 150},
 		{"..\\Bmps\\checker.bmp", 255}, {"..\\Bmps\\stones.bmp", 255}
 };
-
-Scene::Scene()
-{
-	dirLight = new DirLight();
-	dirLight->setDiff({ 1, 1, 1, 1 });
-	dirLight->setAmb({ 0, 0, 0, 1 });
-	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	dirLight->setPosDir({ 1, 1, 1 });
-
-	posLight = new PosLight();
-	posLight->setDiff({ 1, 1, 0, 1 });
-	posLight->setAmb({ 0.2, 0.2, 0, 1 });
-	posLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	posLight->setPosDir({ 600, 200, 0 });
-
-	/*spotLight = new SpotLight();
-	spotLight->setDiff({ 1, 1, 1, 1 });
-	spotLight->setAmb({ 0, 0, 0, 1 });
-	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	spotLight->setPosDir({ 1, 1, 1 });*/
-}
+//-------------------------------------------------------------------------
 
 void Scene::init(int mId)
 {
 	this->mId = mId;
 	setGL();  // OpenGL settings
 
-	// allocate memory and load resources
 	// Lights
+	if(!lightsAreOn) 
+		createLights();
 
 	// Textures
 	loadTexture();
@@ -87,7 +69,7 @@ void Scene::free()
 void Scene::setGL()
 {
 	// OpenGL basic setting
-	//glClearColor(178 / 255.0, 204 / 255.0, 227 / 255.0, 0.0);  // background color (alpha=1 -> opaque)
+	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_TEXTURE_2D);  // enable Texture 
 	glEnable(GL_LIGHTING);
@@ -116,9 +98,9 @@ void Scene::update() {
 
 void Scene::render(Camera const& cam) const
 {
-	//dirLight->upload(cam.viewMat());
+	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
-	//spotLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat());
 
 	cam.upload();
 
@@ -261,16 +243,18 @@ void Scene::dosEsferas()
 	/*Cono* cono = new Cono(300, 100, 50);
 	gObjectsOpaque.push_back(cono);*/
 
-	Esfera* esfera = new Esfera(150, 50, 50);
-	glm::dmat4 mAux = esfera->modelMat();
-	mAux = translate(mAux, dvec3(-200, 0, 0));
-	esfera->setModelMat(mAux);
-	gObjectsOpaque.push_back(esfera);
 	Sphere* sphere = new Sphere(150);
-	mAux = sphere->modelMat();
+	glm::dmat4 mAux = sphere->modelMat();
 	mAux = translate(mAux, dvec3(200, 0, 0));
 	sphere->setModelMat(mAux);
 	gObjectsOpaque.push_back(sphere);
+
+	Esfera* esfera = new Esfera(150, 50, 50);
+	mAux = esfera->modelMat();
+	mAux = translate(mAux, dvec3(-200, 0, 0));
+	esfera->setModelMat(mAux);
+	gObjectsOpaque.push_back(esfera);
+	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
 }
 //-------------------------------------------------------------------------
 
@@ -294,14 +278,14 @@ void Scene::tiesEsfera()
 	glm::dmat4 modelMat;
 	Esfera* esfera = new Esfera(radioEsfera, 80, 200);
 	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
-	//Material* matl = new Material();
-	//matl->setCopper();
-	//esfera->setMaterial(matl);
+	Material* matl = new Material();
+	matl->setCopper();
+	esfera->setMaterial(matl);
 	modelMat = esfera->modelMat();
 	esfera->setModelMat(modelMat);
 	gObjectsOpaque.push_back(esfera);
 
-	tie1 = new SpotLight();
+	/*tie1 = new SpotLight();
 	tie1->setAmb({ 0, 0, 0, 1 });
 	tie1->setDiff({ 1, 1, 1, 1 });
 	tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
@@ -317,7 +301,7 @@ void Scene::tiesEsfera()
 	tie3->setAmb({ 0, 0, 0, 1 });
 	tie3->setDiff({ 1, 1, 1, 1 });
 	tie3->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie3->setPosDir({ 1, 1, 1 });
+	tie3->setPosDir({ 1, 1, 1 });*/
 
 	CompoundEntity* tieFormation = new CompoundEntity();
 
@@ -327,14 +311,14 @@ void Scene::tiesEsfera()
 	modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieFormation->addEntity(tie);
-	tie->setSpotLight(tie1);
+	//tie->setSpotLight(tie1);
 
 	tie = new TIE(gTextures, radioEsfera / 6.0);
 	modelMat = tie->modelMat();
 	modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 	tie->setModelMat(modelMat);
 	tieFormation->addEntity(tie);
-	tie->setSpotLight(tie2);
+	//tie->setSpotLight(tie2);
 
 
 	tie = new TIE(gTextures, radioEsfera / 6.0);
@@ -343,7 +327,7 @@ void Scene::tiesEsfera()
 	modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieFormation->addEntity(tie);
-	tie->setSpotLight(tie3);
+	//tie->setSpotLight(tie3);
 
 
 	modelMat = tieFormation->modelMat();
@@ -352,11 +336,53 @@ void Scene::tiesEsfera()
 }
 //-------------------------------------------------------------------------
 
+void Scene::createLights()
+{
+	dirLight = new DirLight();
+	dirLight->setDiff({ 1, 1, 1, 1 });
+	dirLight->setAmb({ 0, 0, 0, 1 });
+	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	dirLight->setPosDir({ 1, 1, 1 });
+
+	posLight = new PosLight();
+	posLight->setDiff({ 1, 1, 0, 1 });
+	posLight->setAmb({ 0.2, 0.2, 0, 1 });
+	posLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	posLight->setPosDir({ 600, 200, 0 });
+
+	spotLight = new SpotLight();
+	spotLight->setDiff({ 1, 1, 1, 1 });
+	spotLight->setAmb({ 0, 0, 0, 1 });
+	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	spotLight->setPosDir({ 0, 0, 400 });
+	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 180, 1);
+
+	lightsAreOn = true;
+}
+//-------------------------------------------------------------------------
+
+void Scene::disableAllLights()
+{
+	dirLight->disable();
+	posLight->disable();
+	spotLight->disable();
+}
+//-------------------------------------------------------------------------
+
 void Scene::darkScene()
 {
-	posLight->disable();
+	disableAllLights();
 
 	GLfloat amb[] = { 0.0, 0.0, 0.0, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+}
+//-------------------------------------------------------------------------
+
+void Scene::defaultLighting()
+{
+	disableAllLights();
+
+	GLfloat amb[] = { 0.2, 0.2, 0.2, 1.0 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 }
 //-------------------------------------------------------------------------

@@ -18,7 +18,7 @@ using namespace std;
 class Scene
 {
 public:
-	Scene();
+	Scene() {};
 	~Scene() { free(); resetGL(); };
 
 	Scene(const Scene& s) = delete;				// no copy constructor
@@ -29,14 +29,18 @@ public:
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
 
+	// boolean to only create lights once
+	static bool lightsAreOn;					
+
 	DirLight* getDirLight() { return dirLight; }
 	PosLight* getPosLight() { return posLight; }
 	SpotLight* getSpotLight() { return spotLight; }
 
 	SpotLight* tie1 = nullptr,
-		* tie2 = nullptr,
-		* tie3 = nullptr;
+			 * tie2 = nullptr,
+			 * tie3 = nullptr;
 
+	void defaultLighting();
 	void darkScene();
 
 	void TIEsLightsOn();
@@ -57,6 +61,9 @@ protected:
 	DirLight* dirLight;					   // luz direccional
 	PosLight* posLight;					   // luz posicional
 	SpotLight* spotLight;
+
+	void createLights();				   // generates lights
+	void disableAllLights();			   // disables all lights
 
 	static const int NUM_TEXTURES = 8;
 	static const pair<std::string, int> bmps[NUM_TEXTURES];
