@@ -28,17 +28,18 @@ public:
 	void update();
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
+
 	DirLight* getDirLight() { return dirLight; }
 	PosLight* getPosLight() { return posLight; }
 	SpotLight* getSpotLight() { return spotLight; }
 
-	SpotLight* tie1;
-	SpotLight* tie2;
-	SpotLight* tie3;
+	SpotLight* tie1 = nullptr,
+		* tie2 = nullptr,
+		* tie3 = nullptr;
+
 	void TIEsLightsOn();
 	void TIEsLightsOff();
 
-	//void sceneDirLight(Camera const& cam) const;
 	void orbita();
 	void rota();
 
@@ -66,6 +67,8 @@ protected:
 	void anilloCuadrado();
 	void cuboIndexado();
 	void dosEsferas();
+	void gridCube();
+	void tiesEsfera();
 };
 //-------------------------------------------------------------------------
 
