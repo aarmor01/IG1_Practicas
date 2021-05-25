@@ -73,6 +73,24 @@ void Scene::init(int mId)
 		esfera->setModelMat(modelMat);
 		gObjectsOpaque.push_back(esfera);
 
+		tie1 = new SpotLight();
+		tie1->setAmb({ 0, 0, 0, 1 });
+		tie1->setDiff({ 1, 1, 1, 1 });
+		tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
+		tie1->setPosDir({ 1, 1, 1 });
+
+		tie2 = new SpotLight();
+		tie2->setAmb({ 0, 0, 0, 1 });
+		tie2->setDiff({ 1, 1, 1, 1 });
+		tie2->setSpec({ 0.5, 0.5, 0.5, 1 });
+		tie2->setPosDir({ 1, 1, 1 });
+
+		tie3 = new SpotLight();
+		tie3->setAmb({ 0, 0, 0, 1 });
+		tie3->setDiff({ 1, 1, 1, 1 });
+		tie3->setSpec({ 0.5, 0.5, 0.5, 1 });
+		tie3->setPosDir({ 1, 1, 1 });
+
 		CompoundEntity* tieFormation = new CompoundEntity();
 
 		TIE* tie = new TIE(gTextures);
@@ -81,12 +99,15 @@ void Scene::init(int mId)
 		modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 		tie->setModelMat(modelMat);
 		tieFormation->addEntity(tie);
+		tie->setSpotLight(tie1);
 
 		tie = new TIE(gTextures);
 		modelMat = tie->modelMat();
 		modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 		tie->setModelMat(modelMat);
 		tieFormation->addEntity(tie);
+		tie->setSpotLight(tie2);
+
 
 		tie = new TIE(gTextures);
 		modelMat = tie->modelMat();
@@ -94,6 +115,9 @@ void Scene::init(int mId)
 		modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
 		tie->setModelMat(modelMat);
 		tieFormation->addEntity(tie);
+		tie->setSpotLight(tie3);
+
+
 		modelMat = tieFormation->modelMat();
 		tieFormation->setModelMat(translate(modelMat, dvec3(0, 5500, 0)));
 		gObjectsOpaque.push_back(tieFormation);
@@ -125,7 +149,7 @@ void Scene::free()
 void Scene::setGL()
 {
 	// OpenGL basic setting
-	glClearColor(178 / 255.0, 204 / 255.0, 227 / 255.0, 0.0);  // background color (alpha=1 -> opaque)
+	//glClearColor(178 / 255.0, 204 / 255.0, 227 / 255.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_TEXTURE_2D);  // enable Texture 
 	glEnable(GL_LIGHTING);
@@ -149,9 +173,6 @@ void Scene::update() {
 	for (Abs_Entity* obj : gObjectsTrans) {
 		obj->update();
 	}
-
-	orbita();
-	rota();
 }
 //-------------------------------------------------------------------------
 
@@ -330,11 +351,34 @@ void Scene::dosEsferas()
 	sphere->setModelMat(mAux);
 	gObjectsOpaque.push_back(sphere);
 }
+//-------------------------------------------------------------------------
+
+
+void Scene::TIEsLightsOn()
+{
+	if (mId != 6) return;
+	tie1->enable();
+	tie2->enable();
+	tie3->enable();
+}
+
+void Scene::TIEsLightsOff()
+{
+	if (mId != 6) return;
+	tie1->disable();
+	tie2->disable();
+	tie3->disable();
+}
+
 void Scene::orbita()
 {
+	if (mId != 6) return;
 }
+//-------------------------------------------------------------------------
+
 void Scene::rota()
 {
+	if (mId != 6) return;
 }
 //-------------------------------------------------------------------------
 

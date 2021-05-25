@@ -190,6 +190,18 @@ void IG1App::key(unsigned char key, int x, int y)
 		getScene(mCoord.x)->getSpotLight()->disable();
 		getScene(mCoord.x)->getDirLight()->disable();
 		break;
+	case 'b':
+		getScene(mCoord.x)->rota();
+		break;
+	case 'y':
+		getScene(mCoord.x)->orbita();
+		break;
+	case 't':
+		getScene(mCoord.x)->TIEsLightsOn();
+		break;
+	case 'g':
+		getScene(mCoord.x)->TIEsLightsOff();
+		break;
 	default:
 		need_redisplay = false;
 		break;

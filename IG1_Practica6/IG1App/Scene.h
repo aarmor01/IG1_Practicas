@@ -31,7 +31,16 @@ public:
 	DirLight* getDirLight() { return dirLight; }
 	PosLight* getPosLight() { return posLight; }
 	SpotLight* getSpotLight() { return spotLight; }
+
+	SpotLight* tie1;
+	SpotLight* tie2;
+	SpotLight* tie3;
+	void TIEsLightsOn();
+	void TIEsLightsOff();
+
 	//void sceneDirLight(Camera const& cam) const;
+	void orbita();
+	void rota();
 
 protected:
 	void free();
@@ -57,8 +66,6 @@ protected:
 	void anilloCuadrado();
 	void cuboIndexado();
 	void dosEsferas();
-	void orbita();
-	void rota();
 };
 //-------------------------------------------------------------------------
 
