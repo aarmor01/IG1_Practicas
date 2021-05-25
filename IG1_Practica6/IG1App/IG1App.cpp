@@ -186,9 +186,7 @@ void IG1App::key(unsigned char key, int x, int y)
 		getScene(mCoord.x)->getDirLight()->enable();
 		break;
 	case 'r':
-		getScene(mCoord.x)->getPosLight()->disable();
-		getScene(mCoord.x)->getSpotLight()->disable();
-		getScene(mCoord.x)->getDirLight()->disable();
+		getScene(mCoord.x)->darkScene();
 		break;
 	case 'b':
 		getScene(mCoord.x)->rota();

@@ -448,7 +448,7 @@ void Hexagono::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
-		mTexture->bind(GL_REPLACE);
+		mTexture->bind(GL_MODULATE);
 		mMesh->render();
 		mTexture->unbind();
 	}
@@ -630,8 +630,6 @@ Esfera::Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev)
 	}
 
 	this->mMesh = MbR::generaIndexMeshByRevolution(puntosPerfil, rev, perfil);
-
-	//setMaterial(new Material());
 }
 //------------------------------------------------------------------------
 
@@ -674,7 +672,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 		else
-			mTexture->bind(GL_REPLACE);
+			mTexture->bind(GL_MODULATE);
 		mMesh->render();
 
 		if (mTexture == nullptr) {

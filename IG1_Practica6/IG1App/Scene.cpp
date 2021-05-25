@@ -16,22 +16,22 @@ const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 Scene::Scene()
 {
 	dirLight = new DirLight();
-	dirLight->setAmb({ 0, 0, 0, 1 });
 	dirLight->setDiff({ 1, 1, 1, 1 });
+	dirLight->setAmb({ 0, 0, 0, 1 });
 	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
 	dirLight->setPosDir({ 1, 1, 1 });
 
 	posLight = new PosLight();
-	posLight->setAmb({ 0, 0, 0, 1 });
-	posLight->setDiff({ 1, 1, 1, 1 });
+	posLight->setDiff({ 1, 1, 0, 1 });
+	posLight->setAmb({ 0.2, 0.2, 0, 1 });
 	posLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	posLight->setPosDir({ 1, 1, 1 });
+	posLight->setPosDir({ 600, 200, 0 });
 
-	spotLight = new SpotLight();
-	spotLight->setAmb({ 0, 0, 0, 1 });
+	/*spotLight = new SpotLight();
 	spotLight->setDiff({ 1, 1, 1, 1 });
+	spotLight->setAmb({ 0, 0, 0, 1 });
 	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	spotLight->setPosDir({ 1, 1, 1 });
+	spotLight->setPosDir({ 1, 1, 1 });*/
 }
 
 void Scene::init(int mId)
@@ -116,9 +116,9 @@ void Scene::update() {
 
 void Scene::render(Camera const& cam) const
 {
-	dirLight->upload(cam.viewMat());
+	//dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
-	spotLight->upload(cam.viewMat());
+	//spotLight->upload(cam.viewMat());
 
 	cam.upload();
 
@@ -280,6 +280,7 @@ void Scene::gridCube()
 	/*Grid* grid = new Grid(400, 10);
 	grid->setTexture(gTextures[0]);
 	gObjectsOpaque.push_back(grid);*/
+
 	GridCube* gridCube = new GridCube(200, 10, gTextures);
 	gObjectsOpaque.push_back(gridCube);
 }
@@ -293,6 +294,9 @@ void Scene::tiesEsfera()
 	glm::dmat4 modelMat;
 	Esfera* esfera = new Esfera(radioEsfera, 80, 200);
 	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
+	//Material* matl = new Material();
+	//matl->setCopper();
+	//esfera->setMaterial(matl);
 	modelMat = esfera->modelMat();
 	esfera->setModelMat(modelMat);
 	gObjectsOpaque.push_back(esfera);
@@ -345,6 +349,15 @@ void Scene::tiesEsfera()
 	modelMat = tieFormation->modelMat();
 	tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
 	gObjectsOpaque.push_back(tieFormation);
+}
+//-------------------------------------------------------------------------
+
+void Scene::darkScene()
+{
+	posLight->disable();
+
+	GLfloat amb[] = { 0.0, 0.0, 0.0, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 }
 //-------------------------------------------------------------------------
 
