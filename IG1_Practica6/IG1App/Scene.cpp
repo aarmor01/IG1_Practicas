@@ -21,7 +21,7 @@ void Scene::init(int mId)
 	setGL();  // OpenGL settings
 
 	// Lights
-	if(!lightsAreOn) 
+	if (!lightsAreOn)
 		createLights();
 
 	// Textures
@@ -102,6 +102,13 @@ void Scene::render(Camera const& cam) const
 	posLight->upload(cam.viewMat());
 	spotLight->upload(cam.viewMat());
 
+	if (mId == 6)
+	{
+		tie1->upload(cam.viewMat());
+		tie2->upload(cam.viewMat());
+		tie3->upload(cam.viewMat());
+	}
+
 	cam.upload();
 
 	for (Abs_Entity* el : gObjectsOpaque) {
@@ -122,11 +129,16 @@ void Scene::render(Camera const& cam) const
 //-------------------------------------------------------------------------
 
 void Scene::changeScene(int const id) {
+	tie1->disable();
+	tie2->disable();
+	tie3->disable();
+	
 	if (id != mId) {
 		free();
 		resetGL();
 		init(id);
 	}
+
 }
 //-------------------------------------------------------------------------
 
@@ -265,7 +277,7 @@ void Scene::gridCube()
 	grid->setTexture(gTextures[0]);
 	gObjectsOpaque.push_back(grid);*/
 
-	GridCube* gridCube = new GridCube(200, 10, gTextures);
+	GridCube* gridCube = new GridCube(600, 300, gTextures);
 	gObjectsOpaque.push_back(gridCube);
 }
 //-------------------------------------------------------------------------
@@ -276,7 +288,7 @@ void Scene::tiesEsfera()
 	GLdouble radioEsfera = 300;
 	gObjectsOpaque.push_back(new EjesRGB(radioEsfera * 2));
 	glm::dmat4 modelMat;
-	Esfera* esfera = new Esfera(radioEsfera, 80, 200);
+	Esfera* esfera = new Esfera(radioEsfera, 200, 400);
 	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
 	Material* matl = new Material();
 	matl->setCopper();
@@ -285,50 +297,54 @@ void Scene::tiesEsfera()
 	esfera->setModelMat(modelMat);
 	gObjectsOpaque.push_back(esfera);
 
-	/*tie1 = new SpotLight();
-	tie1->setAmb({ 0, 0, 0, 1 });
-	tie1->setDiff({ 1, 1, 1, 1 });
-	tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie1->setPosDir({ 1, 1, 1 });
+	tie1->enable();
+	tie2->enable();
+	tie3->enable();
 
-	tie2 = new SpotLight();
+	tie1->setDiff({ 1, 1, 1, 1 });
+	tie1->setAmb({ 0, 0, 0, 1 });
+	tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
+	tie1->setPosDir({ -radioEsfera / 5, radioEsfera * 1.2, 0 });
+	tie1->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
+
 	tie2->setAmb({ 0, 0, 0, 1 });
 	tie2->setDiff({ 1, 1, 1, 1 });
 	tie2->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie2->setPosDir({ 1, 1, 1 });
+	tie2->setPosDir({ 0, radioEsfera * 1.2, -radioEsfera / 5 });
+	tie2->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
 
-	tie3 = new SpotLight();
 	tie3->setAmb({ 0, 0, 0, 1 });
 	tie3->setDiff({ 1, 1, 1, 1 });
 	tie3->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie3->setPosDir({ 1, 1, 1 });*/
+	tie3->setPosDir({ radioEsfera / 5, radioEsfera * 1.2, 0 });
+	tie3->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
 
 	CompoundEntity* tieFormation = new CompoundEntity();
 
-	TIE* tie = new TIE(gTextures, radioEsfera / 6.0);
+	TIE* tie = new TIE(gTextures, radioEsfera / 8.0);
 	modelMat = tie->modelMat();
-	modelMat = translate(modelMat, dvec3(-radioEsfera / 4, -radioEsfera / 20, 0));
+	modelMat = translate(modelMat, dvec3(-radioEsfera / 5, -radioEsfera / 20, 0));
 	modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieFormation->addEntity(tie);
-	//tie->setSpotLight(tie1);
+	tie->setSpotLight(tie1);
 
-	tie = new TIE(gTextures, radioEsfera / 6.0);
+	tie = new TIE(gTextures, radioEsfera / 8.0);
 	modelMat = tie->modelMat();
+	modelMat = translate(modelMat, dvec3(0, 0, -radioEsfera / 5));
 	modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 	tie->setModelMat(modelMat);
 	tieFormation->addEntity(tie);
-	//tie->setSpotLight(tie2);
+	tie->setSpotLight(tie2);
 
 
-	tie = new TIE(gTextures, radioEsfera / 6.0);
+	tie = new TIE(gTextures, radioEsfera / 8.0);
 	modelMat = tie->modelMat();
-	modelMat = translate(modelMat, dvec3(radioEsfera / 4, -radioEsfera / 20, 0));
+	modelMat = translate(modelMat, dvec3(radioEsfera / 5, -radioEsfera / 20, 0));
 	modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieFormation->addEntity(tie);
-	//tie->setSpotLight(tie3);
-
+	tie->setSpotLight(tie3);
 
 	modelMat = tieFormation->modelMat();
 	tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
@@ -355,9 +371,17 @@ void Scene::createLights()
 	spotLight->setAmb({ 0, 0, 0, 1 });
 	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
 	spotLight->setPosDir({ 0, 0, 400 });
-	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 180, 1);
+	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 80, 0);
 
 	lightsAreOn = true;
+
+	tie1 = new SpotLight();
+	tie2 = new SpotLight();
+	tie3 = new SpotLight();
+
+	tie1->disable();
+	tie2->disable();
+	tie3->disable();
 }
 //-------------------------------------------------------------------------
 
