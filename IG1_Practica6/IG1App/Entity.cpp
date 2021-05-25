@@ -643,13 +643,8 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 
 		if (material != nullptr) {
-			glEnable(GL_COLOR_MATERIAL);
-			glColorMaterial(GL_BACK, GL_DIFFUSE);
-			glColorMaterial(GL_BACK, GL_SPECULAR);
-			glColorMaterial(GL_BACK, GL_AMBIENT);
 			material->upload();
 			mMesh->render();
-			glDisable(GL_COLOR_MATERIAL);
 		}
 		else {
 			glEnable(GL_COLOR_MATERIAL);
