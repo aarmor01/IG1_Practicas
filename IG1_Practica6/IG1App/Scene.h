@@ -57,7 +57,8 @@ protected:
 	void anilloCuadrado();
 	void cuboIndexado();
 	void dosEsferas();
-
+	void orbita();
+	void rota();
 };
 //-------------------------------------------------------------------------
 

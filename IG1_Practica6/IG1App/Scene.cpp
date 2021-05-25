@@ -46,7 +46,7 @@ void Scene::init(int mId)
 	loadTexture();
 
 	// Graphics objects (entities) of the scene
-	gObjectsOpaque.push_back(new EjesRGB(400.0));
+	if(mId != 6)gObjectsOpaque.push_back(new EjesRGB(400.0));
 
 	if (this->mId == 1)
 		tieFighter();
@@ -65,31 +65,38 @@ void Scene::init(int mId)
 	}
 	else if (this->mId == 6)
 	{
+		gObjectsOpaque.push_back(new EjesRGB(6000.0));
 		glm::dmat4 modelMat;
-		Esfera* esfera = new Esfera(10000, 80, 200);
-		esfera->setColor(dvec4(0, 0.254, 0.415, 0));
+		Esfera* esfera = new Esfera(5000, 80, 200);
+		esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
 		modelMat = esfera->modelMat();
-		modelMat = translate(modelMat, dvec3(-5000, -10000, -10000));
 		esfera->setModelMat(modelMat);
 		gObjectsOpaque.push_back(esfera);
 
+		CompoundEntity* tieFormation = new CompoundEntity();
+
 		TIE* tie = new TIE(gTextures);
 		modelMat = tie->modelMat();
-		modelMat = translate(modelMat, dvec3(-600, 0, 0));
+		modelMat = translate(modelMat, dvec3(-500, -200, 0));
+		modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 		tie->setModelMat(modelMat);
-		gObjectsOpaque.push_back(tie);
+		tieFormation->addEntity(tie);
 
 		tie = new TIE(gTextures);
 		modelMat = tie->modelMat();
+		modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 		tie->setModelMat(modelMat);
-		modelMat = translate(modelMat, dvec3(600, 0, 0));
-		gObjectsOpaque.push_back(tie);
+		tieFormation->addEntity(tie);
 
 		tie = new TIE(gTextures);
 		modelMat = tie->modelMat();
-		modelMat = translate(modelMat, dvec3(0, -300, 500));
+		modelMat = translate(modelMat, dvec3(500, -300, 0));
+		modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
 		tie->setModelMat(modelMat);
-		gObjectsOpaque.push_back(tie);
+		tieFormation->addEntity(tie);
+		modelMat = tieFormation->modelMat();
+		tieFormation->setModelMat(translate(modelMat, dvec3(0, 5500, 0)));
+		gObjectsOpaque.push_back(tieFormation);
 	}
 }
 //-------------------------------------------------------------------------
@@ -142,6 +149,9 @@ void Scene::update() {
 	for (Abs_Entity* obj : gObjectsTrans) {
 		obj->update();
 	}
+
+	orbita();
+	rota();
 }
 //-------------------------------------------------------------------------
 
@@ -319,6 +329,12 @@ void Scene::dosEsferas()
 	mAux = translate(mAux, dvec3(200, 0, 0));
 	sphere->setModelMat(mAux);
 	gObjectsOpaque.push_back(sphere);
+}
+void Scene::orbita()
+{
+}
+void Scene::rota()
+{
 }
 //-------------------------------------------------------------------------
 
