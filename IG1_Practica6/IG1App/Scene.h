@@ -37,6 +37,8 @@ public:
 		* tie2 = nullptr,
 		* tie3 = nullptr;
 
+	void darkScene();
+
 	void TIEsLightsOn();
 	void TIEsLightsOff();
 

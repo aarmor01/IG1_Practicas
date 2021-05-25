@@ -63,17 +63,12 @@ protected:
 	GLfloat exp = 0;
 
 public:
-	SpotLight(glm::fvec3 pos = { 0, 0, 0 }) : PosLight() {
-		posDir = glm::fvec4(pos, 1.0);
-	};
+	SpotLight(glm::fvec3 pos = { 0, 0, 0 }) : PosLight() { posDir = glm::fvec4(pos, 1.0); };
 
 	virtual void upload(glm::dmat4 const& modelViewMat) const;
 
-	void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e) {
-		direction = glm::fvec4(dir, 0.0);
-		cutoff = cf;
-		exp = e;
-	};
+	void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e) { direction = glm::fvec4(dir, 0.0);
+		cutoff = cf; exp = e; };
 };
 //-------------------------------------------------------------------------
 
