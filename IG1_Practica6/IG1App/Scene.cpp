@@ -67,7 +67,8 @@ void Scene::init(int mId)
 	{
 		gObjectsOpaque.push_back(new EjesRGB(6000.0));
 		glm::dmat4 modelMat;
-		Esfera* esfera = new Esfera(5000, 80, 200);
+		GLdouble radioEsfera = 2500;
+		Esfera* esfera = new Esfera(radioEsfera, 80, 200);
 		esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
 		modelMat = esfera->modelMat();
 		esfera->setModelMat(modelMat);
@@ -119,7 +120,7 @@ void Scene::init(int mId)
 
 
 		modelMat = tieFormation->modelMat();
-		tieFormation->setModelMat(translate(modelMat, dvec3(0, 5500, 0)));
+		tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera + 500, 0)));
 		gObjectsOpaque.push_back(tieFormation);
 	}
 }
