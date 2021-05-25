@@ -276,8 +276,10 @@ public:
 	explicit TIE(std::vector<Texture*> gTextures);
 	virtual ~TIE() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void setSpotLight(SpotLight* light) { this->light = light; }
 private:
 	std::vector<Abs_Entity*> gObjectsTrans;
+	SpotLight* light;
 };
 //-------------------------------------------------------------------------
 
