@@ -189,10 +189,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		getScene(mCoord.x)->darkScene();
 		break;
 	case 'b':
-		getScene(mCoord.x)->rota();
+		if (mScene->getId() == 6) getScene(mCoord.x)->rota();
 		break;
 	case 'y':
-		getScene(mCoord.x)->orbita();
+		if (mScene->getId() == 6) getScene(mCoord.x)->orbita();
 		break;
 	case 't':
 		getScene(mCoord.x)->TIEsLightsOn();
