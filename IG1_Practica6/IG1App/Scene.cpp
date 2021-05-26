@@ -98,11 +98,11 @@ void Scene::update() {
 
 void Scene::render(Camera const& cam) const
 {
+	cam.upload();
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
 	spotLight->upload(cam.viewMat());
 
-	cam.upload();
 
 	for (Abs_Entity* el : gObjectsOpaque) {
 		el->render(cam.viewMat());
@@ -248,14 +248,15 @@ void Scene::dosEsferas()
 	glm::dmat4 mAux = sphere->modelMat();
 	mAux = translate(mAux, dvec3(200, 0, 0));
 	sphere->setModelMat(mAux);
-	gObjectsOpaque.push_back(sphere);
 
 	Esfera* esfera = new Esfera(150, 50, 50);
 	mAux = esfera->modelMat();
 	mAux = translate(mAux, dvec3(-200, 0, 0));
 	esfera->setModelMat(mAux);
-	gObjectsOpaque.push_back(esfera);
 	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
+	
+	gObjectsOpaque.push_back(esfera);
+	gObjectsOpaque.push_back(sphere);
 }
 //-------------------------------------------------------------------------
 
