@@ -36,9 +36,9 @@ public:
 	PosLight* getPosLight() { return posLight; }
 	SpotLight* getSpotLight() { return spotLight; }
 
-	SpotLight* tie1 = nullptr,
-			 * tie2 = nullptr,
-			 * tie3 = nullptr;
+	CompoundEntity* tieGroup;
+	GLdouble tieLocalAngle;
+	GLdouble tieGlobalAngle;
 
 	void defaultLighting();
 	void darkScene();

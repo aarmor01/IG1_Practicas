@@ -102,13 +102,6 @@ void Scene::render(Camera const& cam) const
 	posLight->upload(cam.viewMat());
 	spotLight->upload(cam.viewMat());
 
-	if (mId == 6)
-	{
-		tie1->upload(cam.viewMat());
-		tie2->upload(cam.viewMat());
-		tie3->upload(cam.viewMat());
-	}
-
 	cam.upload();
 
 	for (Abs_Entity* el : gObjectsOpaque) {
@@ -129,10 +122,6 @@ void Scene::render(Camera const& cam) const
 //-------------------------------------------------------------------------
 
 void Scene::changeScene(int const id) {
-	tie1->disable();
-	tie2->disable();
-	tie3->disable();
-	
 	if (id != mId) {
 		free();
 		resetGL();
@@ -297,58 +286,32 @@ void Scene::tiesEsfera()
 	esfera->setModelMat(modelMat);
 	gObjectsOpaque.push_back(esfera);
 
-	tie1->enable();
-	tie2->enable();
-	tie3->enable();
-
-	tie1->setDiff({ 1, 1, 1, 1 });
-	tie1->setAmb({ 0, 0, 0, 1 });
-	tie1->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie1->setPosDir({ -radioEsfera / 5, radioEsfera * 1.2, 0 });
-	tie1->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
-
-	tie2->setAmb({ 0, 0, 0, 1 });
-	tie2->setDiff({ 1, 1, 1, 1 });
-	tie2->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie2->setPosDir({ 0, radioEsfera * 1.2, -radioEsfera / 5 });
-	tie2->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
-
-	tie3->setAmb({ 0, 0, 0, 1 });
-	tie3->setDiff({ 1, 1, 1, 1 });
-	tie3->setSpec({ 0.5, 0.5, 0.5, 1 });
-	tie3->setPosDir({ radioEsfera / 5, radioEsfera * 1.2, 0 });
-	tie3->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
-
-	CompoundEntity* tieFormation = new CompoundEntity();
+	tieGroup = new CompoundEntity();
 
 	TIE* tie = new TIE(gTextures, radioEsfera / 8.0);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(-radioEsfera / 5, -radioEsfera / 20, 0));
 	modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
-	tieFormation->addEntity(tie);
-	tie->setSpotLight(tie1);
+	tieGroup->addEntity(tie);
 
 	tie = new TIE(gTextures, radioEsfera / 8.0);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(0, 0, -radioEsfera / 5));
 	modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 	tie->setModelMat(modelMat);
-	tieFormation->addEntity(tie);
-	tie->setSpotLight(tie2);
-
+	tieGroup->addEntity(tie);
 
 	tie = new TIE(gTextures, radioEsfera / 8.0);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(radioEsfera / 5, -radioEsfera / 20, 0));
 	modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
-	tieFormation->addEntity(tie);
-	tie->setSpotLight(tie3);
+	tieGroup->addEntity(tie);
 
-	modelMat = tieFormation->modelMat();
-	tieFormation->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
-	gObjectsOpaque.push_back(tieFormation);
+	modelMat = tieGroup->modelMat();
+	tieGroup->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
+	gObjectsOpaque.push_back(tieGroup);
 }
 //-------------------------------------------------------------------------
 
@@ -374,14 +337,6 @@ void Scene::createLights()
 	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 80, 0);
 
 	lightsAreOn = true;
-
-	tie1 = new SpotLight();
-	tie2 = new SpotLight();
-	tie3 = new SpotLight();
-
-	tie1->disable();
-	tie2->disable();
-	tie3->disable();
 }
 //-------------------------------------------------------------------------
 
@@ -414,28 +369,37 @@ void Scene::defaultLighting()
 void Scene::TIEsLightsOn()
 {
 	if (mId != 6) return;
-	tie1->enable();
-	tie2->enable();
-	tie3->enable();
+	for (Abs_Entity* tie : tieGroup->gObjects)
+		static_cast<TIE*>(tie)->getSpotLight()->enable();
 }
 
 void Scene::TIEsLightsOff()
 {
 	if (mId != 6) return;
-	tie1->disable();
-	tie2->disable();
-	tie3->disable();
+	for (Abs_Entity* tie : tieGroup->gObjects)
+		static_cast<TIE*>(tie)->getSpotLight()->disable();
 }
 
 void Scene::orbita()
 {
 	if (mId != 6) return;
+	dmat4 mat = tieGroup->modelMat();
+	mat = translate(mat, dvec3(1.0, 0.0, 1.0));
+	mat = rotate(mat, radians(tieLocalAngle), dvec3(1.0, 0.0, 1.0));
+
+	tieGlobalAngle += 0.01;
+	tieGroup->setModelMat(mat);
 }
 //-------------------------------------------------------------------------
 
 void Scene::rota()
 {
 	if (mId != 6) return;
+	dmat4 mat = tieGroup->modelMat();
+	mat = rotate(mat, radians(tieLocalAngle), dvec3(0.0, 1.0, 0.0));
+
+	tieLocalAngle += 0.1;
+	tieGroup->setModelMat(mat);
 }
 //-------------------------------------------------------------------------
 
