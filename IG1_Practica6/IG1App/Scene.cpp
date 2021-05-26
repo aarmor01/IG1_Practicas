@@ -288,21 +288,21 @@ void Scene::tiesEsfera()
 
 	tieGroup = new CompoundEntity();
 
-	TIE* tie = new TIE(gTextures, radioEsfera / 8.0);
+	TIE* tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(-radioEsfera / 5, -radioEsfera / 20, 0));
 	modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
-	tie = new TIE(gTextures, radioEsfera / 8.0);
+	tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(0, 0, -radioEsfera / 5));
 	modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
-	tie = new TIE(gTextures, radioEsfera / 8.0);
+	tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(radioEsfera / 5, -radioEsfera / 20, 0));
 	modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
