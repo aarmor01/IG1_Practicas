@@ -184,9 +184,11 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'e':
 		getScene(mCoord.x)->defaultLighting();
+		if (mScene->getId() == 6) getScene(mCoord.x)->TIEsLightsOn();
 		break;
 	case 'r':
 		getScene(mCoord.x)->darkScene();
+		if (mScene->getId() == 6) getScene(mCoord.x)->TIEsLightsOff();
 		break;
 	case 'b':
 		if (mScene->getId() == 6) getScene(mCoord.x)->rota();
@@ -195,10 +197,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		if (mScene->getId() == 6) getScene(mCoord.x)->orbita();
 		break;
 	case 't':
-		getScene(mCoord.x)->TIEsLightsOn();
+		if (mScene->getId() == 6) getScene(mCoord.x)->TIEsLightsOn();
 		break;
 	case 'g':
-		getScene(mCoord.x)->TIEsLightsOff();
+		if (mScene->getId() == 6) getScene(mCoord.x)->TIEsLightsOff();
 		break;
 	default:
 		need_redisplay = false;
