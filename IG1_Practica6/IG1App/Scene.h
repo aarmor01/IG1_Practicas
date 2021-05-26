@@ -29,6 +29,8 @@ public:
 	void render(Camera const& cam) const;
 	void changeScene(int const id);
 
+	int getId() { return mId; };
+
 	// boolean to only create lights once
 	static bool lightsAreOn;					
 
