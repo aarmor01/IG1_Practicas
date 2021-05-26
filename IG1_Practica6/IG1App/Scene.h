@@ -38,7 +38,6 @@ public:
 
 	CompoundEntity* tieGroup;
 	GLdouble tieLocalAngle;
-	GLdouble tieGlobalAngle;
 
 	void defaultLighting();
 	void darkScene();
