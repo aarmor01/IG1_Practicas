@@ -368,21 +368,20 @@ void Scene::defaultLighting()
 
 void Scene::TIEsLightsOn()
 {
-	if (mId != 6) return;
 	for (Abs_Entity* tie : tieGroup->gObjects)
 		static_cast<TIE*>(tie)->getSpotLight()->enable();
 }
+//-------------------------------------------------------------------------
 
 void Scene::TIEsLightsOff()
 {
-	if (mId != 6) return;
 	for (Abs_Entity* tie : tieGroup->gObjects)
 		static_cast<TIE*>(tie)->getSpotLight()->disable();
 }
+//-------------------------------------------------------------------------
 
 void Scene::orbita()
 {
-	if (mId != 6) return;
 	dmat4 mat = tieGroup->modelMat();
 	mat = translate(mat, dvec3(0.0, -350.0, 0.0));
 	mat = rotate(mat, radians(1.0), dvec3(1, 0.0, 0));
@@ -394,7 +393,6 @@ void Scene::orbita()
 
 void Scene::rota()
 {
-	if (mId != 6) return;
 	dmat4 mat = tieGroup->modelMat();
 	mat = rotate(mat, radians(tieLocalAngle), dvec3(0.0, 1.0, 0.0));
 
