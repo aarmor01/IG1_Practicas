@@ -384,10 +384,10 @@ void Scene::orbita()
 {
 	if (mId != 6) return;
 	dmat4 mat = tieGroup->modelMat();
-	mat = translate(mat, dvec3(1.0, 0.0, 1.0));
-	mat = rotate(mat, radians(tieLocalAngle), dvec3(1.0, 0.0, 1.0));
+	mat = translate(mat, dvec3(0.0, -350.0, 0.0));
+	mat = rotate(mat, radians(1.0), dvec3(1, 0.0, 0));
+	mat = translate(mat, dvec3(0.0, 350.0, 0.0));
 
-	tieGlobalAngle += 0.01;
 	tieGroup->setModelMat(mat);
 }
 //-------------------------------------------------------------------------
