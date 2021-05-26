@@ -335,7 +335,7 @@ void Scene::createLights()
 	spotLight->setAmb({ 0, 0, 0, 1 });
 	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
 	spotLight->setPosDir({ 0, 0, 400 });
-	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 80, 0);
+	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 60, 0);
 
 	lightsAreOn = true;
 }

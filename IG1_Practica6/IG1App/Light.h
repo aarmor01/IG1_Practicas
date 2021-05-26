@@ -17,7 +17,7 @@ protected:
 
 public:
 	Light();
-	virtual ~Light() { disable(); }
+	virtual ~Light() { disable(); --cont; }
 
 	void uploadL() const;
 
