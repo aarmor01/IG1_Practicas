@@ -384,9 +384,9 @@ void Scene::TIEsLightsOff()
 void Scene::orbita()
 {
 	dmat4 mat = tieGroup->modelMat();
-	mat = translate(mat, dvec3(0.0, -350.0, 0.0));
+	mat = translate(mat, dvec3(0.0, -370.0, 0.0));
 	mat = rotate(mat, radians(1.0), dvec3(1, 0.0, 0));
-	mat = translate(mat, dvec3(0.0, 350.0, 0.0));
+	mat = translate(mat, dvec3(0.0, 370.0, 0.0));
 
 	tieGroup->setModelMat(mat);
 }
