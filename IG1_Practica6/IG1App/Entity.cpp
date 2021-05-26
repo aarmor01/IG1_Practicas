@@ -516,14 +516,16 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 }
 //------------------------------------------------------------------------
 
-TIE::TIE(std::vector<Texture*> gTextures, GLfloat size)
+TIE::TIE(std::vector<Texture*> gTextures, GLfloat size, bool turnLight)
 {
-	light = new SpotLight();
-	light->setDiff({ 1, 1, 1, 1 });
-	light->setAmb({ 0, 0, 0, 1 });
-	light->setSpec({ 0.5, 0.5, 0.5, 1 });
-	light->setPosDir({ 0, -30, 0 });
-	light->setSpot(glm::fvec3(0.0, -1.0, 0.0), 10, 100);
+	if (turnLight) {
+		light = new SpotLight();
+		light->setDiff({ 1, 1, 1, 1 });
+		light->setAmb({ 0, 0, 0, 1 });
+		light->setSpec({ 0.5, 0.5, 0.5, 1 });
+		light->setPosDir({ 0, -30, 0 });
+		light->setSpot(glm::fvec3(0.0, -1.0, 0.0), 50, 80);
+	}
 
 	Hexagono* wingL = new Hexagono(size);
 	wingL->setTexture(gTextures[5]);
@@ -587,7 +589,7 @@ void TIE::render(glm::dmat4 const& modelViewMat) const
 {
 	CompoundEntity::render(modelViewMat);
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-	light->upload(aMat);
+	if(light != nullptr) light->upload(aMat);
 	upload(aMat);
 
 	for (Abs_Entity* el : gObjectsTrans) {
