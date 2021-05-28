@@ -20,8 +20,8 @@ public:
 	Scene() {};
 	~Scene() { free(); resetGL(); 	
 	//if (dirLight != nullptr) { delete dirLight; dirLight = nullptr; }
-	//if (dirLight != nullptr) { delete spotLight; spotLight = nullptr; }
-	//if (dirLight != nullptr) { delete posLight; posLight = nullptr; }
+	//if (spotLight != nullptr) { delete spotLight; spotLight = nullptr; }
+	//if (posLight != nullptr) { delete posLight; posLight = nullptr; }
 	};
 
 	Scene(const Scene& s) = delete;				// no copy constructor
