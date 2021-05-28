@@ -18,11 +18,7 @@ class Scene
 {
 public:
 	Scene() {};
-	~Scene() { free(); resetGL(); 	
-	//if (dirLight != nullptr) { delete dirLight; dirLight = nullptr; }
-	//if (spotLight != nullptr) { delete spotLight; spotLight = nullptr; }
-	//if (posLight != nullptr) { delete posLight; posLight = nullptr; }
-	};
+	~Scene() { free(); resetGL(); clearLights(); };
 
 	Scene(const Scene& s) = delete;				// no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
@@ -68,6 +64,7 @@ protected:
 
 	void createLights();				   // generates lights
 	void disableAllLights();			   // disables all lights
+	void clearLights();					   // clears all lights
 
 	static const int NUM_TEXTURES = 8;
 	static const pair<std::string, int> bmps[NUM_TEXTURES];

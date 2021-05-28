@@ -349,6 +349,16 @@ void Scene::disableAllLights()
 }
 //-------------------------------------------------------------------------
 
+void Scene::clearLights()
+{
+	if (dirLight != nullptr) { delete dirLight; dirLight = nullptr; }
+	if (spotLight != nullptr) { delete spotLight; spotLight = nullptr; }
+	if (posLight != nullptr) { delete posLight; posLight = nullptr; }
+
+	lightsAreOn = false;
+}
+//-------------------------------------------------------------------------
+
 void Scene::darkScene()
 {
 	disableAllLights();
