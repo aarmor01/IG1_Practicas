@@ -502,7 +502,7 @@ CompoundEntity::~CompoundEntity()
 	for (Abs_Entity* el : gObjects) {
 		delete el;  el = nullptr;
 	}
-
+	
 	gObjects.clear();
 }
 //------------------------------------------------------------------------
@@ -582,6 +582,11 @@ TIE::TIE(std::vector<Texture*> gTextures, GLfloat size, bool turnLight)
 	front->gObjects.push_back(disk);
 
 	gObjects.push_back(front);
+}
+TIE::~TIE()
+{
+	if (light != nullptr) { light->disable(); delete light; }
+	for (Abs_Entity* el : gObjectsTrans) delete el;
 }
 //------------------------------------------------------------------------
 

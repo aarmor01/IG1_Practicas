@@ -8,7 +8,6 @@
 #include "Camera.h"
 #include "Entity.h"
 #include "Texture.h"
-
 #include <vector>
 
 using namespace std;
@@ -19,7 +18,11 @@ class Scene
 {
 public:
 	Scene() {};
-	~Scene() { free(); resetGL(); };
+	~Scene() { free(); resetGL(); 	
+	//if (dirLight != nullptr) { delete dirLight; dirLight = nullptr; }
+	//if (dirLight != nullptr) { delete spotLight; spotLight = nullptr; }
+	//if (dirLight != nullptr) { delete posLight; posLight = nullptr; }
+	};
 
 	Scene(const Scene& s) = delete;				// no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
