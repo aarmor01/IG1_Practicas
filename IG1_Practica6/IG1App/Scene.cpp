@@ -267,7 +267,7 @@ void Scene::gridCube()
 	grid->setTexture(gTextures[0]);
 	gObjectsOpaque.push_back(grid);*/
 
-	GridCube* gridCube = new GridCube(600, 300, gTextures);
+	GridCube* gridCube = new GridCube(500, 150, gTextures);
 	gObjectsOpaque.push_back(gridCube);
 }
 //-------------------------------------------------------------------------
@@ -292,7 +292,7 @@ void Scene::tiesEsfera()
 	TIE* tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(-radioEsfera / 5, -radioEsfera / 20, 0));
-	modelMat = rotate(modelMat, radians(-5.0), dvec3(1.0, 0.0, 1.0));
+	modelMat = rotate(modelMat, radians(5.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
@@ -306,7 +306,7 @@ void Scene::tiesEsfera()
 	tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
 	modelMat = translate(modelMat, dvec3(radioEsfera / 5, -radioEsfera / 20, 0));
-	modelMat = rotate(modelMat, radians(7.0), dvec3(1.0, 0.0, 1.0));
+	modelMat = rotate(modelMat, radians(-7.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
@@ -335,7 +335,7 @@ void Scene::createLights()
 	spotLight->setAmb({ 0, 0, 0, 1 });
 	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
 	spotLight->setPosDir({ 0, 0, 400 });
-	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 60, 0);
+	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 55, 0);
 
 	lightsAreOn = true;
 }
@@ -411,4 +411,3 @@ void Scene::rota()
 	tieGroup->setModelMat(mat);
 }
 //-------------------------------------------------------------------------
-
