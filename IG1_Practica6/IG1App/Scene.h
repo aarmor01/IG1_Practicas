@@ -17,7 +17,7 @@ using namespace std;
 class Scene
 {
 public:
-	Scene() {};
+	Scene() : dirLight(nullptr), posLight(nullptr), spotLight(nullptr) {};
 	~Scene() { free(); resetGL(); clearLights(); };
 
 	Scene(const Scene& s) = delete;				// no copy constructor
