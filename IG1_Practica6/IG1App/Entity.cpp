@@ -727,9 +727,9 @@ GridCube::GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gT
 	grid = new Grid(lado, numDivisiones);
 	mat = grid->modelMat();
 	mat = translate(mat, dvec3(0, 0, lado / 2));
-	mat = rotate(mat, radians(180.0), dvec3(0.0, 1.0, 0.0));
+	//mat = rotate(mat, radians(180.0), dvec3(0.0, 1.0, 0.0));
 	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
-	mat = rotate(mat, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+	mat = rotate(mat, radians(90.0), dvec3(1.0, 0.0, 0.0));
 	grid->setModelMat(mat);
 	grid->setTexture(gTextures[7]);
 	gObjects.push_back(grid);
