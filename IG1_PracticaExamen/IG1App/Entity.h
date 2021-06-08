@@ -197,36 +197,6 @@ public:
 };
 //-------------------------------------------------------------------------
 
-class CompoundEntity : public Abs_Entity {
-public:
-	explicit CompoundEntity() {};
-	virtual ~CompoundEntity();
-	std::vector<Abs_Entity*> gObjects;
-	void addEntity(Abs_Entity* ae) { gObjects.emplace_back(ae); }
-	virtual void render(glm::dmat4 const& modelViewMat) const;
-	virtual void update() {};
-};
-//-------------------------------------------------------------------------
-
-class TIE : public CompoundEntity {
-public:
-	explicit TIE(std::vector<Texture*> gTextures, GLfloat size = 300, bool turnLight = false);
-	virtual ~TIE();
-	virtual void render(glm::dmat4 const& modelViewMat) const;
-	SpotLight* getSpotLight() { return light; }
-private:
-	std::vector<Abs_Entity*> gObjectsTrans;
-	SpotLight* light = nullptr;
-};
-//-------------------------------------------------------------------------
-
-class GridCube : public CompoundEntity {
-public:
-	explicit GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gTextures);
-	virtual ~GridCube() {};
-};
-//-------------------------------------------------------------------------
-
 class Grid : public Abs_Entity {
 public:
 	Grid(GLdouble lado, GLuint numDivisiones);
@@ -236,7 +206,6 @@ public:
 //-------------------------------------------------------------------------
 
 // Entidades por revolucion (Mbr)
-
 class Cono : public Abs_Entity {
 public:
 	explicit Cono(GLdouble height, GLdouble radius, GLuint n);

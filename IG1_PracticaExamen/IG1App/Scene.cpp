@@ -263,7 +263,8 @@ void Scene::dosEsferas()
 // Practica 2 cubo por grids
 void Scene::gridCube()
 {
-	/*Grid* grid = new Grid(400, 10);
+	/*Grid* 
+	= new Grid(400, 10);
 	grid->setTexture(gTextures[0]);
 	gObjectsOpaque.push_back(grid);*/
 
