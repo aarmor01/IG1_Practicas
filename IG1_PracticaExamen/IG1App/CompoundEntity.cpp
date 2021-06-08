@@ -3,6 +3,7 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include <gtc/matrix_access.hpp>
+#include "QuadricEntity.h"
 
 //------------------------------------------------------------------------
 
@@ -118,3 +119,63 @@ void TIE::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 //------------------------------------------------------------------------
+
+GridCube::GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gTextures)
+{
+	dmat4 mat;
+	//Laterales
+	Grid* grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(lado / 2, 0, 0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(-lado / 2, 0, 0));
+	mat = rotate(mat, radians(180.0), dvec3(0.0, 1.0, 0.0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	//Frontal y trasera
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, 0, lado / 2));
+	mat = rotate(mat, radians(180.0), dvec3(0.0, 1.0, 0.0));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+	mat = rotate(mat, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, 0, -lado / 2));
+	mat = rotate(mat, radians(-90.0), dvec3(0.0, 0.0, 1.0));
+	mat = rotate(mat, radians(-90.0), dvec3(1.0, 0.0, 0.0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[7]);
+	gObjects.push_back(grid);
+
+	//Superior e inferior
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, lado / 2, 0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[6]);
+	gObjects.push_back(grid);
+
+	grid = new Grid(lado, numDivisiones);
+	mat = grid->modelMat();
+	mat = translate(mat, dvec3(0, -lado / 2, 0));
+	mat = rotate(mat, radians(180.0), dvec3(1.0, 0.0, 0));
+	grid->setModelMat(mat);
+	grid->setTexture(gTextures[6]);
+	gObjects.push_back(grid);
+}
