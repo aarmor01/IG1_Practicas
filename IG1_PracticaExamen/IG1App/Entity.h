@@ -10,6 +10,7 @@
 #include "Light.h"
 #include "Texture.h"
 #include "CheckML.h"
+#include "Material.h"
 
 using namespace glm;
 //-------------------------------------------------------------------------
