@@ -291,27 +291,25 @@ void Scene::tiesEsfera()
 
 	TIE* tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
-	modelMat = translate(modelMat, dvec3(-radioEsfera / 5, -radioEsfera / 20, 0));
+	modelMat = translate(modelMat, dvec3(-radioEsfera / 5, -radioEsfera / 20 + radioEsfera * 1.2, 0));
 	modelMat = rotate(modelMat, radians(5.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
 	tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
-	modelMat = translate(modelMat, dvec3(0, 0, -radioEsfera / 5));
+	modelMat = translate(modelMat, dvec3(0, radioEsfera * 1.2, -radioEsfera / 5));
 	modelMat = rotate(modelMat, radians(15.0), dvec3(1.0, 1.0, 0.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
 	tie = new TIE(gTextures, radioEsfera / 8.0, true);
 	modelMat = tie->modelMat();
-	modelMat = translate(modelMat, dvec3(radioEsfera / 5, -radioEsfera / 20, 0));
+	modelMat = translate(modelMat, dvec3(radioEsfera / 5, -radioEsfera / 20 + radioEsfera * 1.2, 0));
 	modelMat = rotate(modelMat, radians(-7.0), dvec3(1.0, 0.0, 1.0));
 	tie->setModelMat(modelMat);
 	tieGroup->addEntity(tie);
 
-	modelMat = tieGroup->modelMat();
-	tieGroup->setModelMat(translate(modelMat, dvec3(0, radioEsfera * 1.2, 0)));
 	gObjectsOpaque.push_back(tieGroup);
 }
 //-------------------------------------------------------------------------
@@ -394,9 +392,7 @@ void Scene::TIEsLightsOff()
 void Scene::orbita()
 {
 	dmat4 mat = tieGroup->modelMat();
-	mat = translate(mat, dvec3(0.0, -370.0, 0.0));
 	mat = rotate(mat, radians(1.0), dvec3(1, 0.0, 0));
-	mat = translate(mat, dvec3(0.0, 370.0, 0.0));
 
 	tieGroup->setModelMat(mat);
 }
