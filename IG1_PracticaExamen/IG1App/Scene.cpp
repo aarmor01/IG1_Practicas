@@ -1,12 +1,12 @@
 #include "Scene.h"
-#include "CheckML.h"
-#include <gtc/matrix_transform.hpp>  
-#include <gtc/type_ptr.hpp>
 
-using namespace glm;
+#include <gtc/matrix_transform.hpp>  // rotate, translate, frustrum, etc.
+#include <gtc/type_ptr.hpp>			 // dvec3, dmat4, etc.
+#include "CheckML.h"
+
+//-------------------------------------------------------------------------
 
 bool Scene::lightsAreOn = false;
-//-------------------------------------------------------------------------
 
 const pair<std::string, int> Scene::bmps[NUM_TEXTURES] = {
 		{"..\\Bmps\\baldosaP.bmp", 255}, {"..\\Bmps\\container.bmp", 255 }, {"..\\Bmps\\papelC.bmp", 255},
@@ -127,7 +127,6 @@ void Scene::changeScene(int const id) {
 		resetGL();
 		init(id);
 	}
-
 }
 //-------------------------------------------------------------------------
 
@@ -143,6 +142,100 @@ void Scene::loadTexture()
 	Texture* t = new Texture();
 	t->load("..\\Bmps\\grass.bmp", u8vec3(0, 0, 0));
 	gTextures.push_back(t);
+}
+//-------------------------------------------------------------------------
+
+void Scene::createLights()
+{
+	dirLight = new DirLight();
+	dirLight->setDiff({ 1, 1, 1, 1 });
+	dirLight->setAmb({ 0, 0, 0, 1 });
+	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	dirLight->setPosDir({ 1, 1, 1 });
+
+	posLight = new PosLight();
+	posLight->setDiff({ 1, 1, 0, 1 });
+	posLight->setAmb({ 0.2, 0.2, 0, 1 });
+	posLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	posLight->setPosDir({ 600, 200, 0 });
+
+	spotLight = new SpotLight();
+	spotLight->setDiff({ 1, 1, 1, 1 });
+	spotLight->setAmb({ 0, 0, 0, 1 });
+	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
+	spotLight->setPosDir({ 0, 0, 400 });
+	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 55, 0);
+
+	lightsAreOn = true;
+}
+//-------------------------------------------------------------------------
+
+void Scene::disableAllLights()
+{
+	dirLight->disable();
+	posLight->disable();
+	spotLight->disable();
+}
+//-------------------------------------------------------------------------
+
+void Scene::clearLights()
+{
+	if (dirLight != nullptr) { delete dirLight; dirLight = nullptr; }
+	if (spotLight != nullptr) { delete spotLight; spotLight = nullptr; }
+	if (posLight != nullptr) { delete posLight; posLight = nullptr; }
+
+	lightsAreOn = false;
+}
+//-------------------------------------------------------------------------
+
+void Scene::darkScene()
+{
+	disableAllLights();
+
+	GLfloat amb[] = { 0.0, 0.0, 0.0, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+}
+//-------------------------------------------------------------------------
+
+void Scene::defaultLighting()
+{
+	disableAllLights();
+
+	GLfloat amb[] = { 0.2, 0.2, 0.2, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+}
+//-------------------------------------------------------------------------
+
+void Scene::TIEsLightsOn()
+{
+	for (Abs_Entity* tie : tieGroup->gObjects)
+		static_cast<TIE*>(tie)->getSpotLight()->enable();
+}
+//-------------------------------------------------------------------------
+
+void Scene::TIEsLightsOff()
+{
+	for (Abs_Entity* tie : tieGroup->gObjects)
+		static_cast<TIE*>(tie)->getSpotLight()->disable();
+}
+//-------------------------------------------------------------------------
+
+void Scene::orbita()
+{
+	dmat4 mat = tieGroup->modelMat();
+	mat = rotate(mat, radians(1.0), dvec3(1, 0.0, 0));
+
+	tieGroup->setModelMat(mat);
+}
+//-------------------------------------------------------------------------
+
+void Scene::rota()
+{
+	dmat4 mat = tieGroup->modelMat();
+	mat = rotate(mat, radians(tieLocalAngle), dvec3(0.0, 1.0, 0.0));
+
+	tieLocalAngle += 0.1;
+	tieGroup->setModelMat(mat);
 }
 //-------------------------------------------------------------------------
 
@@ -263,8 +356,7 @@ void Scene::dosEsferas()
 // Practica 2 cubo por grids
 void Scene::gridCube()
 {
-	/*Grid* 
-	= new Grid(400, 10);
+	/*Grid* = new Grid(400, 10);
 	grid->setTexture(gTextures[0]);
 	gObjectsOpaque.push_back(grid);*/
 
@@ -312,99 +404,5 @@ void Scene::tiesEsfera()
 	tieGroup->addEntity(tie);
 
 	gObjectsOpaque.push_back(tieGroup);
-}
-//-------------------------------------------------------------------------
-
-void Scene::createLights()
-{
-	dirLight = new DirLight();
-	dirLight->setDiff({ 1, 1, 1, 1 });
-	dirLight->setAmb({ 0, 0, 0, 1 });
-	dirLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	dirLight->setPosDir({ 1, 1, 1 });
-
-	posLight = new PosLight();
-	posLight->setDiff({ 1, 1, 0, 1 });
-	posLight->setAmb({ 0.2, 0.2, 0, 1 });
-	posLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	posLight->setPosDir({ 600, 200, 0 });
-
-	spotLight = new SpotLight();
-	spotLight->setDiff({ 1, 1, 1, 1 });
-	spotLight->setAmb({ 0, 0, 0, 1 });
-	spotLight->setSpec({ 0.5, 0.5, 0.5, 1 });
-	spotLight->setPosDir({ 0, 0, 400 });
-	spotLight->setSpot(glm::fvec3(0.0, 0.0, -1.0), 55, 0);
-
-	lightsAreOn = true;
-}
-//-------------------------------------------------------------------------
-
-void Scene::disableAllLights()
-{
-	dirLight->disable();
-	posLight->disable();
-	spotLight->disable();
-}
-//-------------------------------------------------------------------------
-
-void Scene::clearLights()
-{
-	if (dirLight != nullptr) { delete dirLight; dirLight = nullptr; }
-	if (spotLight != nullptr) { delete spotLight; spotLight = nullptr; }
-	if (posLight != nullptr) { delete posLight; posLight = nullptr; }
-
-	lightsAreOn = false;
-}
-//-------------------------------------------------------------------------
-
-void Scene::darkScene()
-{
-	disableAllLights();
-
-	GLfloat amb[] = { 0.0, 0.0, 0.0, 1.0 };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
-}
-//-------------------------------------------------------------------------
-
-void Scene::defaultLighting()
-{
-	disableAllLights();
-
-	GLfloat amb[] = { 0.2, 0.2, 0.2, 1.0 };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
-}
-//-------------------------------------------------------------------------
-
-void Scene::TIEsLightsOn()
-{
-	for (Abs_Entity* tie : tieGroup->gObjects)
-		static_cast<TIE*>(tie)->getSpotLight()->enable();
-}
-//-------------------------------------------------------------------------
-
-void Scene::TIEsLightsOff()
-{
-	for (Abs_Entity* tie : tieGroup->gObjects)
-		static_cast<TIE*>(tie)->getSpotLight()->disable();
-}
-//-------------------------------------------------------------------------
-
-void Scene::orbita()
-{
-	dmat4 mat = tieGroup->modelMat();
-	mat = rotate(mat, radians(1.0), dvec3(1, 0.0, 0));
-
-	tieGroup->setModelMat(mat);
-}
-//-------------------------------------------------------------------------
-
-void Scene::rota()
-{
-	dmat4 mat = tieGroup->modelMat();
-	mat = rotate(mat, radians(tieLocalAngle), dvec3(0.0, 1.0, 0.0));
-
-	tieLocalAngle += 0.1;
-	tieGroup->setModelMat(mat);
 }
 //-------------------------------------------------------------------------

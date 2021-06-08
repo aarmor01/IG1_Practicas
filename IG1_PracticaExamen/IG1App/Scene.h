@@ -4,6 +4,7 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
+#include <vector>
 
 #include "Camera.h"
 #include "Entity.h"
@@ -11,10 +12,9 @@
 #include "CompoundEntity.h"
 #include "EntityWithMaterial.h"
 #include "Texture.h"
-#include <vector>
 
 using namespace std;
-
+using namespace glm;
 //-------------------------------------------------------------------------
 
 class Scene
@@ -29,19 +29,14 @@ public:
 	void init(int mId = 0);
 	void update();
 	void render(Camera const& cam) const;
+
 	void changeScene(int const id);
 
 	int getId() { return mId; };
 
-	// boolean to only create lights once
-	static bool lightsAreOn;					
-
 	DirLight* getDirLight() { return dirLight; }
 	PosLight* getPosLight() { return posLight; }
 	SpotLight* getSpotLight() { return spotLight; }
-
-	CompoundEntity* tieGroup;
-	GLdouble tieLocalAngle;
 
 	void defaultLighting();
 	void darkScene();
@@ -61,18 +56,26 @@ protected:
 	vector<Abs_Entity*> gObjectsTrans;	   // Entities (graphic objects) translucents of the scene
 	vector<Texture*> gTextures;			   // Textures for the gObjs
 
+	int mId = 1;						   // id de la escena
+
+	// boolean to only create lights once
+	static bool lightsAreOn;					
+
 	DirLight* dirLight;					   // luz direccional
 	PosLight* posLight;					   // luz posicional
-	SpotLight* spotLight;
+	SpotLight* spotLight;				   // luz de foco
+
+	static const int NUM_TEXTURES = 8;
+	static const pair<std::string, int> bmps[NUM_TEXTURES];
+
+	CompoundEntity* tieGroup;
+	GLdouble tieLocalAngle;
+
+	void loadTexture();
 
 	void createLights();				   // generates lights
 	void disableAllLights();			   // disables all lights
 	void clearLights();					   // clears all lights
-
-	static const int NUM_TEXTURES = 8;
-	static const pair<std::string, int> bmps[NUM_TEXTURES];
-	void loadTexture();
-	int mId = 1;
 
 	void primeraEscena2D();
 	void primeraEscena3D();
@@ -86,4 +89,3 @@ protected:
 //-------------------------------------------------------------------------
 
 #endif //_H_Scene_H_
-

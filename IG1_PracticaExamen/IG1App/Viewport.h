@@ -28,7 +28,6 @@ protected:
 	GLint xLeft = 0, yBot = 0;   // viewport's position: left and bottom
 	GLsizei xWidth, yHeight;     // viewport's size: width and height
 };
-
 //-------------------------------------------------------------------------
 
 #endif //_H_Viewport_H_

@@ -7,6 +7,8 @@
 
 #include <vector>
 
+using namespace std;
+using namespace glm;
 //-------------------------------------------------------------------------
 
 class Mesh 
@@ -51,4 +53,4 @@ protected:
 };
 //-------------------------------------------------------------------------
 
-#endif //_H_Scene_H_
+#endif //_H_Mesh_H_

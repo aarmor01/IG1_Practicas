@@ -21,5 +21,3 @@ void Viewport::upload() const
 	glViewport(xLeft, yBot, xWidth, yHeight); // transfers viewport to the GPU
 }
 //-------------------------------------------------------------------------
-
-

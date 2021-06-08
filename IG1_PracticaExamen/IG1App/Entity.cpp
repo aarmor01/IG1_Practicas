@@ -3,7 +3,6 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 #include <gtc/matrix_access.hpp>
-#include "../IG1App/Scene.h"
 #include "IG1App.h"
 
 //-------------------------------------------------------------------------
@@ -348,7 +347,6 @@ void Planta::render(glm::dmat4 const& modelViewMat) const
 }
 //-------------------------------------------------------------------------
 
-
 Hexagono::Hexagono(GLdouble radio)
 {
 	mMesh = Mesh::generaHexagonoTexCor(radio);
@@ -401,35 +399,12 @@ void CuboIndexado::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
+
 		glEnable(GL_COLOR_MATERIAL);
 		glColor3d(0.0, 1.0, 0.0);
 		mMesh->render();
 		glColor3d(1.0, 1.0, 1.0);
 		glDisable(GL_COLOR_MATERIAL);
-	}
-}
-//------------------------------------------------------------------------
-
-Cono::Cono(GLdouble height, GLdouble radius, GLuint n)
-{
-	// h=altura del cono, r=radio de la base
-	// n=número de muestras, m=número de puntos del perfil
-	int m = 3;
-	dvec3* perfil = new dvec3[m];
-	perfil[0] = dvec3(0.5, 0.0, 0.0);
-	perfil[1] = dvec3(radius, 0.0, 0.0);
-	perfil[2] = dvec3(0.5, height, 0.0);
-	this->mMesh = new MbR(m, n, perfil);
-	mMesh = MbR::generaIndexMeshByRevolution(m, n, perfil);
-}
-//------------------------------------------------------------------------
-
-void Cono::render(glm::dmat4 const& modelViewMat) const
-{
-	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);
-		mMesh->render();
 	}
 }
 //------------------------------------------------------------------------
@@ -462,6 +437,30 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 		}
 		else
 			mTexture->unbind();
+	}
+}
+//------------------------------------------------------------------------
+
+Cono::Cono(GLdouble height, GLdouble radius, GLuint n)
+{
+	// h=altura del cono, r=radio de la base
+	// n=número de muestras, m=número de puntos del perfil
+	int m = 3;
+	dvec3* perfil = new dvec3[m];
+	perfil[0] = dvec3(0.5, 0.0, 0.0);
+	perfil[1] = dvec3(radius, 0.0, 0.0);
+	perfil[2] = dvec3(0.5, height, 0.0);
+	this->mMesh = new MbR(m, n, perfil);
+	mMesh = MbR::generaIndexMeshByRevolution(m, n, perfil);
+}
+//------------------------------------------------------------------------
+
+void Cono::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		mMesh->render();
 	}
 }
 //------------------------------------------------------------------------

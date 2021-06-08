@@ -5,10 +5,9 @@
 #include "Entity.h"
 
 #include "Mesh.h"
-#include "Light.h"
+#include "Material.h"
 #include "Texture.h"
 #include "CheckML.h"
-#include "Material.h"
 
 using namespace glm;
 //-------------------------------------------------------------------------
@@ -23,6 +22,7 @@ protected:
 };
 //-------------------------------------------------------------------------
 
+// Entidad por revolucion (Mbr)
 class Esfera : public EntityWithMaterial {
 public:
 	explicit Esfera(GLdouble radius, GLuint puntosPerfil, GLdouble rev);

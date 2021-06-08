@@ -1,8 +1,11 @@
+//#pragma once
 #ifndef _H_Light_H_
 #define _H_Light_H_
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
+
+//-------------------------------------------------------------------------
 
 class Light {
 protected:
@@ -74,4 +77,4 @@ public:
 };
 //-------------------------------------------------------------------------
 
-#endif
+#endif //_H_Light_H_

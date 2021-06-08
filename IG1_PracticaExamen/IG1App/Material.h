@@ -1,8 +1,11 @@
+//#pragma once
 #ifndef _H_Material_H_
 #define _H_Material_H_
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
+
+//-------------------------------------------------------------------------
 
 class Material {
 protected:
@@ -22,4 +25,4 @@ public:
 };
 //-------------------------------------------------------------------------
 
-#endif
+#endif //_H_Material_H_

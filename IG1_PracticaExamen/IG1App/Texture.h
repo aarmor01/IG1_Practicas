@@ -4,13 +4,14 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
-#include "Pixmap32RGBA.h"
 #include <string>
+
+#include "Pixmap32RGBA.h"
 #include "CheckML.h"
 
-
-//-------------------------------------------------------------------------
 class IG1App;
+//-------------------------------------------------------------------------
+
 class Texture
 {
 public:
@@ -41,7 +42,6 @@ protected:
 	GLuint mHeight = 0;
 	GLuint mId = 0;
 };
-
 //-------------------------------------------------------------------------
 
 #endif //_H_Texture_H_

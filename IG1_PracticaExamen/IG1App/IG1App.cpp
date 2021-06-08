@@ -331,6 +331,7 @@ void IG1App::display2Escenas() const {
 
 	*mViewPort = auxVP;  // restaurar el puerto de vista
 }
+//-------------------------------------------------------------------------
 
 void IG1App::display2Vistas() const
 {

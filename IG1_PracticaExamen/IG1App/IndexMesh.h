@@ -7,7 +7,11 @@
 
 #include <vector>
 #include "Mesh.h"
+
+using namespace std;
+using namespace glm;
 //-------------------------------------------------------------------------
+
 class IndexMesh : public Mesh {
 public:
 
@@ -26,6 +30,7 @@ protected:
 	virtual void draw() const;
 	void buildNormalVectors();
 };
+//-------------------------------------------------------------------------
 
 class MbR : public IndexMesh {
 public:
@@ -39,5 +44,6 @@ protected:
 	int m;
 	glm::dvec3* perfil;
 };
+//-------------------------------------------------------------------------
 
-#endif //_H_Scene_H_
+#endif //_H_IndexMesh_H_
