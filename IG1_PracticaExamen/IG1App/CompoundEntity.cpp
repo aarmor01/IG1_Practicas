@@ -2,7 +2,6 @@
 
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
-#include <gtc/matrix_access.hpp>
 #include "QuadricEntity.h"
 
 //------------------------------------------------------------------------
@@ -179,3 +178,4 @@ GridCube::GridCube(GLdouble lado, GLuint numDivisiones, std::vector<Texture*> gT
 	grid->setTexture(gTextures[6]);
 	gObjects.push_back(grid);
 }
+//------------------------------------------------------------------------

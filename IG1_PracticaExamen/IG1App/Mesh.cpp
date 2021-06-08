@@ -1,8 +1,6 @@
 #include "Mesh.h"
 #include "CheckML.h"
 #include <fstream>
-using namespace std;
-using namespace glm;
 
 //-------------------------------------------------------------------------
 

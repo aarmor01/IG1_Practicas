@@ -2,6 +2,8 @@
 
 #include <gtc/type_ptr.hpp>
 
+//-------------------------------------------------------------------------
+
 void Material::upload()
 {
 	glMaterialfv(face, GL_AMBIENT, value_ptr(ambient));
@@ -20,4 +22,3 @@ void Material::setCopper()
 	expF = 12.8;
 }
 //-------------------------------------------------------------------------
-

@@ -4,9 +4,6 @@
 
 #include "Entity.h"
 
-#include "Mesh.h"
-#include "Light.h"
-#include "Texture.h"
 #include "CheckML.h"
 
 using namespace glm;

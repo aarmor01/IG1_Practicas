@@ -9,8 +9,9 @@
 
 #include "Mesh.h"
 #include "Light.h"
-#include "Texture.h"
 #include "CheckML.h"
+
+class Texture;
 
 using namespace glm;
 //-------------------------------------------------------------------------

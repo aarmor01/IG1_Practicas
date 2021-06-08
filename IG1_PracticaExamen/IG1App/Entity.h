@@ -53,6 +53,7 @@ public:
 };
 //-------------------------------------------------------------------------
 
+// Practica 1
 class Poligono : public Abs_Entity {
 public:
 	explicit Poligono(GLuint numL, GLdouble rd);
@@ -158,6 +159,7 @@ public:
 };
 //-------------------------------------------------------------------------
 
+//Practica 2
 class Hexagono : public Abs_Entity {
 public:
 	explicit Hexagono(GLdouble radio);
@@ -204,7 +206,7 @@ public:
 };
 //-------------------------------------------------------------------------
 
-// Entidades por revolucion (Mbr)
+// Entidad por revolucion (Mbr)
 class Cono : public Abs_Entity {
 public:
 	explicit Cono(GLdouble height, GLdouble radius, GLuint n);
