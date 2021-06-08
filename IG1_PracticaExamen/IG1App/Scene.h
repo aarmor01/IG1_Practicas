@@ -7,6 +7,8 @@
 
 #include "Camera.h"
 #include "Entity.h"
+#include "QuadricEntity.h"
+#include "EntityWithMaterial.h"
 #include "Texture.h"
 #include <vector>
 
