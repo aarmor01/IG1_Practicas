@@ -6,6 +6,7 @@
 #include <glm.hpp>
 
 #include "Mesh.h"
+#include "IndexMesh.h"
 #include "Light.h"
 #include "Texture.h"
 #include "CheckML.h"
