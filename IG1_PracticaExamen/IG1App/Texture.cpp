@@ -58,7 +58,7 @@ void Texture::load(const std::string& BMP_Name, GLubyte alpha)
 
 void Texture::load(const std::string& BMP_Name, u8vec3 color, GLubyte alpha)
 {
-	if (mId == 0) init();
+	if (mId == 0) init(); // si no esta subida la textura
 
 	PixMap32RGBA pixMap;
 
@@ -82,7 +82,7 @@ void Texture::load(const std::string& BMP_Name, u8vec3 color, GLubyte alpha)
 
 void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
 {
-	if (mId == 0) init();
+	if (mId == 0) init(); // si no esta subida la textura
 
 	glReadBuffer(buffer);
 
@@ -93,7 +93,7 @@ void Texture::loadColorBuffer(GLuint width, GLuint height, GLuint buffer)
 	GLint border = 0;  //No border
 
 	glBindTexture(GL_TEXTURE_2D, mId);
-	//target         level  intForm  x  y  width   height   border
+					 //target       level  intForm  x  y  width   height   border
 	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, 0, 0, mWidth, mHeight, border);
 	
 	glReadBuffer(GL_BACK);

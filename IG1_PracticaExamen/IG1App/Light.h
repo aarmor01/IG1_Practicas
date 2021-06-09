@@ -13,10 +13,10 @@ protected:
 	GLuint id = GL_LIGHT0 + GL_MAX_LIGHTS;  // Primer id no válido
 
 	// Atributos lumínicos y geométrico de la fuente de luz
-	glm::fvec4 ambient = { 0.1, 0.1, 0.1, 1 };
-	glm::fvec4 diffuse = { 0.5, 0.5, 0.5, 1 };
-	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
-	glm::fvec4 posDir = { 0, 0, 1, 0 };
+	glm::fvec4 ambient = { 0.1, 0.1, 0.1, 1 };   //Luz que alcanza una superficie aunque no esté expuesta a la fuente de luz
+	glm::fvec4 diffuse = { 0.5, 0.5, 0.5, 1 };   //Responsable del color de la superficie
+	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };  //Luz que refleja la superficie
+	glm::fvec4 posDir = { 0, 0, 1, 0 };          //Posicion de la luz
 
 public:
 	Light();
@@ -29,7 +29,7 @@ public:
 	void enable();
 	void disable();
 
-	void setAmb(glm::fvec4 amb) { ambient = amb; uploadL(); };
+	void setAmb(glm::fvec4 amb)   { ambient = amb; uploadL(); };
 	void setDiff(glm::fvec4 diff) { diffuse = diff; uploadL(); };
 	void setSpec(glm::fvec4 spec) { specular = spec; uploadL(); };
 };
@@ -61,18 +61,18 @@ public:
 class SpotLight : public PosLight {
 protected:
 	// Atributos del foco
-	glm::fvec4 direction = { 0, 0, -1, 0 };
-	GLfloat cutoff = 180;
-	GLfloat exp = 0;
+	glm::fvec4 direction = { 0, 0, -1, 0 }; //Direccion del foco
+	GLfloat cutoff = 180; // Semiamplitud, radio del foco
+	GLfloat exp = 0;	  // Cantida de luz que se ve respecto de la distancia
 
 public:
 	SpotLight(glm::fvec3 pos = { 0, 0, 0 }) : PosLight() { posDir = glm::fvec4(pos, 1.0); };
 
 	virtual void upload(glm::dmat4 const& modelViewMat) const;
 
-	void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e) { 
+	void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e) {
 		direction = glm::fvec4(dir, 0.0);
-		cutoff = cf; exp = e; 
+		cutoff = cf; exp = e;	  
 	};
 };
 //-------------------------------------------------------------------------

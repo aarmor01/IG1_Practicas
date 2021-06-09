@@ -31,8 +31,8 @@ public:
 	void moveLR(GLdouble cs);	// Left / Right
 	void moveFB(GLdouble cs);	// Forward / Backward
 	void moveUD(GLdouble cs);	// Up / Down
-	void lookLR(GLdouble cs);
-	void lookUD(GLdouble cs);
+	void lookLR(GLdouble cs);	//Cambia el punto al que mira la cámara pero sin mover la camra
+	void lookUD(GLdouble cs);	//Cambia el punto al que mira la cámara pero sin mover la camra
 
 	void changePrj();		    //Toggles between orto and perspective
 	void orbit(GLdouble incAng, GLdouble incY = 0);
@@ -71,9 +71,11 @@ protected:
 	bool bOrto = true;						 // orthogonal or perspective projection
 
 	Viewport* mViewPort;					 // the viewport
-
-	void setVM();
-	void setPM();
+	
+    //Establece la matriz de vista (view mat)
+	void setVM(); 
+	//Establece la proyeccion (ortogonal o perspectiva)
+	void setPM(); 
 	void setAxes();
 };
 //-------------------------------------------------------------------------
