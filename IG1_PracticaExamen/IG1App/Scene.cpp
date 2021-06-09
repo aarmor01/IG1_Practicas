@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include <gtc/matrix_transform.hpp>  // rotate, translate, frustrum, etc.
+#include <gtc/matrix_transform.hpp>  // rotate, translate, frustrum, etc. (m = mT * mR * mS)
 #include <gtc/type_ptr.hpp>			 // dvec3, dmat4, etc.
 #include "CheckML.h"
 
