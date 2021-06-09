@@ -42,6 +42,10 @@ void Scene::init(int mId)
 		gridCube();
 	else if (this->mId == 6)
 		tiesEsfera();
+	else if (this->mId == 9)
+		primeraEscena2D();
+	else if (this->mId == 0)
+		primeraEscena3D();
 }
 //-------------------------------------------------------------------------
 
@@ -72,7 +76,7 @@ void Scene::setGL()
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_TEXTURE_2D);  // enable Texture 
-	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);	  // Desactiva esto para que funcionen las escenas 9 y 0
 }
 //-------------------------------------------------------------------------
 
@@ -295,7 +299,7 @@ void Scene::primeraEscena3D()
 	// Planta
 	Planta* planta = new Planta(150, 150);
 	gObjectsOpaque.push_back(planta);
-	planta->setTexture(gTextures[6]);
+	planta->setTexture(gTextures[NUM_TEXTURES]);
 	planta->setModelMat(translate(planta->modelMat(), dvec3(150, 75, -150)));
 
 	/* Objetos con transparencia */
