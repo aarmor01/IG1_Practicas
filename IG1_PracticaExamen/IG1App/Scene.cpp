@@ -99,9 +99,9 @@ void Scene::update() {
 void Scene::render(Camera const& cam) const
 {
 	cam.upload();
-	dirLight->upload(cam.viewMat());
-	posLight->upload(cam.viewMat());
-	spotLight->upload(cam.viewMat());
+	if (dirLight != nullptr) dirLight->upload(cam.viewMat());
+	if (posLight != nullptr) posLight->upload(cam.viewMat());
+	if (spotLight != nullptr)spotLight->upload(cam.viewMat());
 
 
 	for (Abs_Entity* el : gObjectsOpaque) {
@@ -347,7 +347,7 @@ void Scene::dosEsferas()
 	mAux = translate(mAux, dvec3(-200, 0, 0));
 	esfera->setModelMat(mAux);
 	esfera->setColor(dvec4(0.431372f, 0.86274f, 0.8588, 1.0f));
-	
+
 	gObjectsOpaque.push_back(esfera);
 	gObjectsOpaque.push_back(sphere);
 }
