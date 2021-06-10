@@ -76,6 +76,7 @@ void Scene::setGL()
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_TEXTURE_2D);  // enable Texture 
+	glEnable(GL_NORMALIZE);   // enable this to improve normals when object scaling
 	glEnable(GL_LIGHTING);	  // Desactiva esto para que funcionen las escenas 9 y 0
 }
 //-------------------------------------------------------------------------
@@ -85,6 +86,7 @@ void Scene::resetGL()
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
 	glDisable(GL_TEXTURE_2D);  // disable Texture 	
+	glDisable(GL_NORMALIZE);
 	glDisable(GL_LIGHTING);
 }
 //-------------------------------------------------------------------------
